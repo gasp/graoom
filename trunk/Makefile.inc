@@ -5,7 +5,7 @@
 ## Login   <rannou_s@epitech.net>
 ## 
 ## Started on  Wed Jul  1 22:33:22 2009 Sebastien Rannou
-## Last update Wed Jul  1 22:52:00 2009 Sebastien Rannou
+## Last update Wed Jul  1 23:36:50 2009 Sebastien Rannou
 ##
 
 # Binary settings
@@ -23,6 +23,10 @@ FIND	=	find
 CFLAGS	+=	-W -Wall -pedantic -ansi -Wstrict-prototypes -Wno-error
 
 # Common rules
+
+# First rule is default's one, let's all be that one
+
+all:
 
 # Flymake for emacs
 

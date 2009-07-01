@@ -5,7 +5,7 @@
 ## Login   <rannou_s@epitech.net>
 ## 
 ## Started on  Mon Jun 29 23:05:50 2009 Sebastien Rannou
-## Last update Wed Jul  1 22:37:47 2009 Sebastien Rannou
+## Last update Wed Jul  1 23:35:11 2009 Sebastien Rannou
 ##
 
 include		../../Makefile.inc
@@ -15,17 +15,28 @@ NAMELIB		=	libtools_`uname -m`-`uname -s`.a
 SOURCES		= 	lists.c
 OBJECTS		=	$(SOURCES:.c=.o)
 
+# associated test files
+
+SOURCES_TEST	=	$(SOURCES:.c=.test.c)
+SOURCES_TEST	+=	main.test.c
+
+OBJECTS_TEST	=	$(SOURCES_TEST:.c=.o)
+BIN_TEST	=	test_libtools
+
 CFLAGS		+=	-I../../includes/
 
-all:			$(OBJECTS)
-			$(AR) r $(NAMELIB) $(OBJ)
-			$(RANLIB) $(NAMELIB)
-			$(MV) $(NAMELIB) ../
+all:	$(OBJECTS)
+	$(AR) r $(NAMELIB) $(OBJECTS)
+	$(RANLIB) $(NAMELIB)
+	$(MV) $(NAMELIB) ../
 
 clean:
-			$(RM) $(OBJECTS)
+	$(RM) $(OBJECTS) $(OBJECTS_TEST)
 
-fclean:			clean
-			$(RM) $(NAMELIB) ../$(NAMELIB)
+fclean:	clean
+	$(RM) $(NAMELIB) ../$(NAMELIB) $(BIN_TEST)
 
-re:			fclean all
+re:	fclean all
+
+test:	all $(OBJECTS_TEST)
+	$(CC) -o $(BIN_TEST) $(OBJECTS_TEST) -ltools_`uname -m`-`uname -s` -L../
