@@ -5,14 +5,16 @@
 ## Login   <rannou_s@epitech.net>
 ## 
 ## Started on  Mon Jun 29 23:05:50 2009 Sebastien Rannou
-## Last update Wed Jul  1 23:35:11 2009 Sebastien Rannou
+## Last update Thu Jul  2 23:52:59 2009 Sebastien Rannou
 ##
 
 include		../../Makefile.inc
 
 NAMELIB		=	libtools_`uname -m`-`uname -s`.a
 
-SOURCES		= 	lists.c
+SOURCES		= 	lists.c				\
+			ini.c
+
 OBJECTS		=	$(SOURCES:.c=.o)
 
 # associated test files
