@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jun 29 18:11:11 2009 Sebastien Rannou
-** Last update Wed Jul  1 22:22:05 2009 Sebastien Rannou
+** Last update Thu Jul  2 14:35:43 2009 Sebastien Rannou
 */
 
 #include "shortcuts.h"
@@ -17,6 +17,42 @@
 
 /**!
  * @author	rannou_s
+ * Free a list, allowing to call a specific function for inside void* data
+ * @todo        + free li_info
+ */
+
+int		list_free(list_t **li_start, void (*f)(void *))
+{
+  list_t	*cur;
+  list_t	*prev;
+
+  if (li_start == NULL || *li_start == NULL)
+    {
+      return (SUCCESS);
+    }
+  prev = NULL;
+  for (cur = *li_start; cur != NULL; cur = cur->li_next)
+    {
+      if (cur->data != NULL && f != NULL)
+	{
+	  f(cur->data);
+	}
+      if (cur->li_prev != NULL)
+	{
+	  free(cur->li_prev);
+	}
+      prev = cur;
+    }
+  if (prev != NULL)
+    {
+      free(prev);
+    }
+  *li_start = NULL;
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
  * Let's pop an element from the list
  * Returns error when invalid parameters given
  */
@@ -24,17 +60,24 @@
 int		list_pop(list_t **li_start, list_t *li_element)
 {
   if (li_element == NULL || li_start == NULL || *li_start == NULL)
-    return (ERROR);
+    {
+      return (ERROR);
+    }
   if (li_element->li_prev != NULL)
     {
       li_element->li_prev->li_next = li_element->li_next;
     }
   else
     {
-      /* it means this the first element in the list */
       *li_start = li_element->li_next;
+      (*li_start)->li_prev = NULL;
     }
-  if (li_element->li_info != NULL)
+  if (*li_start == NULL)
+    {
+      free(li_element->li_info);
+      li_element->li_info = NULL;
+    }
+  else if (li_element->li_info != NULL)
     {
       li_element->li_info->nb_elements--;
     }
@@ -131,31 +174,30 @@ int		list_push(list_t **li_start, void *data)
   list_t	*new_elem;
 
   if (li_start == NULL)
-    return (ERROR);
-  if ((new_elem = malloc(sizeof(new_elem))) != NULL)
+    {
+      return (ERROR);
+    }
+  if ((new_elem = malloc(sizeof(*new_elem))) != NULL)
     {
       memset(new_elem, 0, sizeof(*new_elem));
       if (*li_start == NULL)
 	{
-	  /* First element in the list */
-	  if ((list_info = list_create_info()) != NULL)
+	  if ((list_info = list_create_info()) == NULL)
 	    {
 	      free(new_elem);
 	      return (ERROR);
 	    }
+	  new_elem->li_info = list_info;
 	  *li_start = new_elem;
 	}
       else
 	{
-	  /* List is not empty */
+	  (*li_start)->li_prev = new_elem;
 	  new_elem->li_next = *li_start;
 	  new_elem->li_info = (*li_start)->li_info;
 	  *li_start = new_elem;
 	}
-      if (new_elem->li_info != NULL)
-	{
-	  new_elem->li_info->nb_elements++;
-	}
+      new_elem->li_info->nb_elements++;
       new_elem->data = data;
       return (SUCCESS);
     }

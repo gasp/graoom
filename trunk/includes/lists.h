@@ -5,11 +5,11 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jun 29 18:21:27 2009 Sebastien Rannou
-** Last update Wed Jul  1 22:22:12 2009 Sebastien Rannou
+** Last update Thu Jul  2 14:32:03 2009 Sebastien Rannou
 */
 
-#ifndef	_XOOSH_LIST_H
-#define	_XOOSH_LIST_H
+#ifndef	_GRAOOM_LIST_H
+#define	_GRAOOM_LIST_H
 
 typedef struct		listi		/* list informations */
 {
@@ -24,9 +24,10 @@ typedef struct		list
   void			*data;		/* allocated pointer */
 }			list_t;
 
+int			list_free(list_t **li_start, void (*f)(void *));
 int			list_pop(list_t **li_start, list_t *li_element);
 int			list_push(list_t **li_start, void *data);
 int			list_dump(list_t *li_start);
 int			list_display(list_t *li_start, int (*f)(void *));
 
-#endif /* _XOOSH_LIST_H */
+#endif /* _GRAOOM_LIST_H */

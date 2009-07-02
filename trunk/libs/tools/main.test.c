@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  1 23:18:52 2009 Sebastien Rannou
-** Last update Wed Jul  1 23:27:23 2009 Sebastien Rannou
+** Last update Wed Jul  1 23:46:07 2009 Sebastien Rannou
 */
 
 #include "shortcuts.h"
@@ -20,10 +20,8 @@
 
 int		main(void)
 {
-  int		i;
-
   printf("Starting to test libtools\n");
   test_lists();
-  printf("End of test");
+  printf("End of test\n");
   return (SUCCESS);
 }

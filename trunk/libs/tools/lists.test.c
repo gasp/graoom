@@ -5,13 +5,17 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  1 22:59:20 2009 Sebastien Rannou
-** Last update Wed Jul  1 23:35:38 2009 Sebastien Rannou
+** Last update Thu Jul  2 14:33:48 2009 Sebastien Rannou
 */
 
 #include "lists.h"
 #include "shortcuts.h"
 
 #include <stdio.h>
+#include <string.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <time.h>
 
 /**!
  * @author	rannou_s
@@ -26,22 +30,58 @@
 # define	_BSD_SOURCE
 #endif
 
-int			test_lists(void)
+int			test_lists_pop(list_t **start)
 {
-  FILE			*file;
+  int			back = (*start)->li_info->nb_elements;
+  int			count = 0;
+  list_t		*cur;
+
+  srandom(time(NULL));
+  for (cur = *start; cur != NULL; cur = cur->li_next)
+    {
+      if ((random() % 5) == 0)
+	{
+	  list_pop(start, cur);
+	  count++;
+	}
+    }
+  printf("\tlen : %d == %d ?\n", back - count, (*start)->li_info->nb_elements);  
+  return (SUCCESS);
+}
+
+int			test_lists_push(list_t **start)
+{
+  int			count;
   char			line[BUFF_SIZE];
-  list_t		*start = NULL;
+  FILE			*file;
 
   file = fopen(FP, FOP_R);
   if (file != NULL)
     {
+      count = 0;
       while (fgets(line, BUFF_SIZE, file) != NULL)
 	{
-	  list_push(&start, strdup(line));
+	  list_push(start, strdup(line));
+	  count++;
 	}
-      list_dump(line);
+      printf("\tlen : %d == %d ?\n", count, (*start)->li_info->nb_elements);
       fclose(file);
     }
+  else
+    {
+      printf("\terror: %s\n", strerror(errno));
+    }
+  return (ERROR);
+}
+
+int			test_lists(void)
+{
+  list_t		*start = NULL;
+
+  test_lists_push(&start);
+  test_lists_pop(&start);
+  list_free(&start, &free);
+  printf("\tmust be NULL: %p\n", (void *) start);
   return (SUCCESS);
 }
 
