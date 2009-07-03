@@ -5,7 +5,7 @@
 ## Login   <rannou_s@epitech.net>
 ## 
 ## Started on  Wed Jul  1 22:33:22 2009 Sebastien Rannou
-## Last update Fri Jul  3 18:15:43 2009 Sebastien Rannou
+## Last update Fri Jul  3 22:26:43 2009 Sebastien Rannou
 ##
 
 # Binary settings
@@ -25,6 +25,10 @@ CFLAGS	+=	-W -Wall -pedantic -ansi -Wstrict-prototypes -Wno-error
 # Compilation settings (dev)
 
 CFLAGS	+=	 -ggdb3
+
+# Shortcut
+
+OBJECTS	=	$(SOURCES:.c=.o)
 
 # Common rules
 

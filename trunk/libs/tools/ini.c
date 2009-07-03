@@ -5,16 +5,47 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul  2 22:20:45 2009 Sebastien Rannou
-** Last update Fri Jul  3 08:03:18 2009 Sebastien Rannou
+** Last update Fri Jul  3 22:13:18 2009 Sebastien Rannou
 */
 
 #include "shortcuts.h"
 #include "lists.h"
 #include "ini.h"
+#include "tools.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
+/**!
+ * @author	rannou_s
+ *
+ * A simple .ini file parser
+ *
+ * As there is no RFC or references about .ini files, this parser is limited
+ * to some basic features that are used by graoom:
+ * -	comments start with ;
+ * -	sections are on the form [name]
+ * -	key/values are defined by key = value
+ *
+ * A quick note about key/values, they are trimmed from any 
+ * out-bordering spaces or tabulations, that means that:
+ *
+ * key = here is a value			| Are exactly
+ * key     =		here is a value		| the same
+ *
+ * key = here is    a value			| Are not
+ * key = here is a value			| the same
+ *
+ * The same goes for section's declarations
+ *
+ * key/values without sections are allowed but they must be placed before any
+ * section declaration as they'll inherit of it
+ *
+ * You can use it elsewhere but take care of its evolution, 
+ * it'll be modified according to graoom's needs and 
+ * can broke compatibility at any time.
+ */
 
 #ifndef			_BSD_SOURCE
 # define		_BSD_SOURCE	/* for strdup() on linux */
@@ -22,12 +53,27 @@
 
 #define			BUFF_READ_SIZE	1024
 
+static __inline void
+ini_free_content(void *ptr)
+{
+  ini_content_t		*content;
+
+  if (ptr != NULL)
+    {
+      content = (ini_content_t *) ptr;
+      free(content->name);
+      free(content->value);
+      free(content);
+    }
+}
+
 /**!
  * @author	rannou_s
  * Frees an allocated section structure
  */
 
-void			ini_free_section(void *ptr)
+static __inline void
+ini_free_section(void *ptr)
 {
   ini_section_t		*section;
 
@@ -45,7 +91,8 @@ void			ini_free_section(void *ptr)
  * Frees an allocated ini structure
  */
 
-void			ini_free_main(void *ptr)
+void
+ini_free_main(void *ptr)
 {
   ini_t			*ini;
 
@@ -62,12 +109,12 @@ void			ini_free_main(void *ptr)
  * Returns success if it's a new section declaration
  */
 
-static __inline
-int			ini_is_section(char *line, int len)
+static __inline	int
+ini_is_section(char *line, int len)
 {
   if (*line == '[')
     {
-      if (line[len] == ']')
+      if (line[len - 1] == ']')
 	{
 	  return (SUCCESS);
 	}
@@ -80,8 +127,8 @@ int			ini_is_section(char *line, int len)
  * Creates a new section and push it into ini
  */
 
-static __inline
-ini_section_t		*ini_create_section(ini_t *ini, char *line, int len)
+static __inline ini_section_t *
+ini_create_section(ini_t *ini, char *line, int len)
 {
   ini_section_t		*section;
 
@@ -107,11 +154,51 @@ ini_section_t		*ini_create_section(ini_t *ini, char *line, int len)
 
 /**!
  * @author	rannou_s
+ * Creates a new content and push it into ini
+ * Do not accept a line full of blanks or an invalid one (missing key
+ * or missing value)
+ */
+
+static __inline	int
+ini_create_content(ini_t *ini, char *line, ini_section_t *section)
+{
+  char			*key;
+  char			*value;
+  char			*tmp;
+  ini_content_t		*content;
+
+  if (ini == NULL || line == NULL)
+    return (ERROR);
+  if ((tmp = strchr(line, '=')) == NULL)
+    return (ERROR);
+  *tmp = '\0';
+  if ((key = trim(line)) != NULL && (value = trim(tmp + sizeof(*tmp))) != NULL)
+    {
+      if ((content = malloc(sizeof(*content))) != NULL)
+	{
+	  memset(content, 0, sizeof(*content));
+	  if ((content->name = strdup(key)) != NULL)
+	    {
+	      if ((content->value = strdup(key)) == NULL)
+		{
+		  ini_free_content((void *) content);
+		  return (ERROR);
+		}
+	      content->section_is = section;
+	    }
+	  ini_free_content((void *) content);
+	}
+    }
+  return (ERROR);
+}
+
+/**!
+ * @author	rannou_s
  * Parses an ini line keeping a static reference to the current section
  */
 
-static __inline
-int			ini_parse_line(ini_t *ini, char *line)
+static __inline	int
+ini_parse_line(ini_t *ini, char *line)
 {
   int			line_len;
   static ini_section_t	*current_ct = NULL;
@@ -131,6 +218,10 @@ int			ini_parse_line(ini_t *ini, char *line)
 	      current_ct = ini_create_section(ini, line, line_len);
 	      return (SUCCESS);
 	    }
+	  else
+	    {
+	      return (ini_create_content(ini, line, current_ct));
+	    }
 	}
     }
   return (SUCCESS);
@@ -141,7 +232,8 @@ int			ini_parse_line(ini_t *ini, char *line)
  * Parses an ini file and returns a structure describing its content
  */
 
-ini_t			*ini_parse_file(char *name)
+ini_t *
+ini_parse_file(char *name)
 {
   char			buffer[BUFF_READ_SIZE];
   ini_t			*ini;
@@ -166,6 +258,7 @@ ini_t			*ini_parse_file(char *name)
 	    }
 	}
       fclose(file);
+      return (ini);
     }
   return (NULL);
 }

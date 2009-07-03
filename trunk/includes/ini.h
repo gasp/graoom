@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul  2 22:21:41 2009 Sebastien Rannou
-** Last update Fri Jul  3 00:20:03 2009 Sebastien Rannou
+** Last update Fri Jul  3 21:38:08 2009 Sebastien Rannou
 */
 
 #ifndef _GRAOOM_INI_H
@@ -15,6 +15,7 @@ typedef struct		ini_section_s	/* content of a section */
 {
   char			*name;		/* section's name */
   list_t		*content_li;	/* list of content (ini_content_t *) */
+  int			content_num;	/* number of contents */
 }			ini_section_t;
 
 typedef struct		ini_content_s	/* content of a parameter */
@@ -22,7 +23,6 @@ typedef struct		ini_content_s	/* content of a parameter */
   char			*name;		/* parameter's name */
   char			*value;		/* parameter's value */
   ini_section_t		*section_is;	/* hash on section's content */
-  int			content_num;	/* number of contents */
 }			ini_content_t;
 
 typedef struct		ini_s		/* content of a .ini file */
