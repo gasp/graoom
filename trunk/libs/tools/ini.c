@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul  2 22:20:45 2009 Sebastien Rannou
-** Last update Fri Jul  3 00:19:08 2009 Sebastien Rannou
+** Last update Fri Jul  3 08:03:18 2009 Sebastien Rannou
 */
 
 #include "shortcuts.h"
@@ -21,10 +21,6 @@
 #endif
 
 #define			BUFF_READ_SIZE	1024
-
-#define			INI_COMMENT	';'
-#define			INI_SEC_START	'['
-#define			INI_SEC_END	']'
 
 /**!
  * @author	rannou_s
@@ -69,9 +65,9 @@ void			ini_free_main(void *ptr)
 static __inline
 int			ini_is_section(char *line, int len)
 {
-  if (*line == INI_SEC_START)
+  if (*line == '[')
     {
-      if (line[len] == INI_SEC_END)
+      if (line[len] == ']')
 	{
 	  return (SUCCESS);
 	}
@@ -126,7 +122,7 @@ int			ini_parse_line(ini_t *ini, char *line)
       if (line_len > 1)
 	{
 	  line[--line_len] = '\0';
-	  if (*line == INI_COMMENT)
+	  if (*line == ';')
 	    {
 	      return (SUCCESS);
 	    }

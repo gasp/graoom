@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  1 22:59:20 2009 Sebastien Rannou
-** Last update Thu Jul  2 14:33:48 2009 Sebastien Rannou
+** Last update Fri Jul  3 20:23:45 2009 Sebastien Rannou
 */
 
 #include "lists.h"
@@ -32,20 +32,21 @@
 
 int			test_lists_pop(list_t **start)
 {
-  int			back = (*start)->li_info->nb_elements;
   int			count = 0;
   list_t		*cur;
+  list_t		*backup;
 
   srandom(time(NULL));
   for (cur = *start; cur != NULL; cur = cur->li_next)
     {
       if ((random() % 5) == 0)
 	{
+	  backup = cur->li_prev;
 	  list_pop(start, cur);
+	  cur = backup;
 	  count++;
 	}
     }
-  printf("\tlen : %d == %d ?\n", back - count, (*start)->li_info->nb_elements);  
   return (SUCCESS);
 }
 

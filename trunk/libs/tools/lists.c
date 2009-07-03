@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jun 29 18:11:11 2009 Sebastien Rannou
-** Last update Thu Jul  2 14:35:43 2009 Sebastien Rannou
+** Last update Fri Jul  3 19:20:38 2009 Sebastien Rannou
 */
 
 #include "shortcuts.h"
@@ -31,6 +31,10 @@ int		list_free(list_t **li_start, void (*f)(void *))
       return (SUCCESS);
     }
   prev = NULL;
+  if ((*li_start)->li_info != NULL)
+    {
+      free((*li_start)->li_info);
+    }
   for (cur = *li_start; cur != NULL; cur = cur->li_next)
     {
       if (cur->data != NULL && f != NULL)
@@ -67,19 +71,21 @@ int		list_pop(list_t **li_start, list_t *li_element)
     {
       li_element->li_prev->li_next = li_element->li_next;
     }
-  else
+  if (li_element->li_next != NULL)
+    {
+      li_element->li_next->li_prev = li_element->li_prev;
+    }
+  if (*li_start == li_element)
     {
       *li_start = li_element->li_next;
-      (*li_start)->li_prev = NULL;
+    }
+  if (li_element->li_info != NULL)
+    {
+      li_element->li_info->nb_elements--;
     }
   if (*li_start == NULL)
     {
       free(li_element->li_info);
-      li_element->li_info = NULL;
-    }
-  else if (li_element->li_info != NULL)
-    {
-      li_element->li_info->nb_elements--;
     }
   free(li_element);
   return (SUCCESS);
