@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul  2 22:20:45 2009 Sebastien Rannou
-** Last update Sat Jul  4 17:06:45 2009 Sebastien Rannou
+** Last update Sat Jul  4 17:14:06 2009 Sebastien Rannou
 */
 
 /**!
@@ -123,7 +123,6 @@ ini_is_section(char *line, int len)
 /**!
  * @author	rannou_s
  * Creates a new section and push it into ini
- * @todo	do not create if already exists and return the existing one
  */
 
 static __inline ini_section_t *
@@ -137,6 +136,10 @@ ini_create_section(ini_t *ini, char *line, int len)
       line++;
       if (*line != '\0')
 	{
+	  if ((section = ini_retrieve_section(ini, line)) != NULL)
+	    {
+	      return (section);
+	    }
 	  memset(section, 0, sizeof(*section));
 	  section->name = strdup(line);
 	  if (list_push(&ini->sections_is, section) == ERROR)
@@ -291,25 +294,27 @@ ini_retrieve_section(ini_t *ini, char *name)
 /**!
  * @author	rannou_s
  * returns the first occurence of name found in section
- * @todo        if section == NULL, let's look for it in primary list
+ * if section == NULL, let's look for it in primary list
  */
 
 char *
 ini_retrieve_entry(ini_t *ini, char *section, char *key)
 {
   ini_section_t	*sec;
+  list_t	*start;
   list_t	*cur;
 
   if (ini != NULL && key != NULL && section != NULL)
     {
       if ((sec = ini_retrieve_section(ini, section)) != NULL)
+	start = sec->content_li;
+      else
+	start = ini->content_ic;
+      for (cur = start; cur != NULL; cur = cur->li_next)
 	{
-	  for (cur = sec->content_li; cur != NULL; cur = cur->li_next)
+	  if (strcmp(key, ((ini_content_t *) cur->data)->name) == 0)
 	    {
-	      if (strcmp(key, ((ini_content_t *) cur->data)->name) == 0)
-		{
-		  return (((ini_content_t *) cur->data)->value);
-		}
+	      return (((ini_content_t *) cur->data)->value);
 	    }
 	}
     }
