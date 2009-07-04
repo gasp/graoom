@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul  3 22:30:39 2009 Sebastien Rannou
-** Last update Fri Jul  3 23:26:54 2009 Sebastien Rannou
+** Last update Sat Jul  4 17:00:05 2009 Sebastien Rannou
 */
 
 #include "shortcuts.h"
@@ -13,6 +13,7 @@
 #include "ini.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #ifndef		_BSD_SOURCE
 # define	_BSD_SOURCE	/* strdup on linux */
@@ -22,6 +23,7 @@ int
 main(int ac, char **av)
 {
   ini_t		*file;
+  char		*value;
 
   if (ac == 2)
     {
@@ -29,6 +31,11 @@ main(int ac, char **av)
 	{
 	  return (ERROR);
 	}
+      value = ini_retrieve_entry(file, "SQL", "sql.safe_mode");
+      printf("Existing value (sql safe mode): [%s]\n", value);
+      value = ini_retrieve_entry(file, "??", "UNKNOWN");
+      printf("Non existing value: [%s]\n", value);
+      ini_free_main(file);
     }
   return (SUCCESS);
 }

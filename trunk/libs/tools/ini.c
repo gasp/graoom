@@ -5,17 +5,8 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul  2 22:20:45 2009 Sebastien Rannou
-** Last update Sat Jul  4 13:22:24 2009 Sebastien Rannou
+** Last update Sat Jul  4 17:06:45 2009 Sebastien Rannou
 */
-
-#include "shortcuts.h"
-#include "lists.h"
-#include "ini.h"
-#include "tools.h"
-
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 
 /**!
  * @author	rannou_s
@@ -46,6 +37,15 @@
  * it'll be modified according to graoom's needs and 
  * can broke compatibility at any time.
  */
+
+#include "shortcuts.h"
+#include "lists.h"
+#include "ini.h"
+#include "tools.h"
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 #ifndef			_BSD_SOURCE
 # define		_BSD_SOURCE	/* for strdup() on linux */
@@ -100,6 +100,8 @@ ini_free_main(void *ptr)
     {
       ini = (ini_t *) ptr;
       free(ini->name);
+      list_free(&ini->sections_is, ini_free_section);
+      list_free(&ini->content_ic, ini_free_content);
       free(ini);
     }
 }
@@ -119,8 +121,9 @@ ini_is_section(char *line, int len)
 }
 
 /**!
- * @author		rannou_s
+ * @author	rannou_s
  * Creates a new section and push it into ini
+ * @todo	do not create if already exists and return the existing one
  */
 
 static __inline ini_section_t *
@@ -180,6 +183,11 @@ ini_create_content(ini_t *ini, char *line, ini_section_t *section)
 	      if (value != NULL && strlen(value) > 0)
 		content->value = strdup(key);
 	      content->section_is = section;
+	      if (list_push(&section->content_li, content) == ERROR)
+		{
+		  ini_free_content((void *) content);
+		  return (ERROR);
+		}
 	      return (SUCCESS);
 	    }
 	  ini_free_content((void *) content);
@@ -244,17 +252,66 @@ ini_parse_file(char *name)
       ini->name = strdup(name);
       while (fgets(buffer, BUFF_READ_SIZE, file) != NULL)
 	{
-	  printf("Trying to parse [%s]\n", buffer);
 	  if (ini_parse_line(ini, buffer) == ERROR)
 	    {
 	      ini_free_main(ini);
 	      fclose(file);
 	      return (NULL);
 	    }
-	  printf("Ok\n");
 	}
       fclose(file);
       return (ini);
+    }
+  return (NULL);
+}
+
+/**!
+ * @author	rannou_s
+ * returns the section according to its name
+ */
+
+ini_section_t *
+ini_retrieve_section(ini_t *ini, char *name)
+{
+  list_t	*cur;
+
+  if (ini != NULL && name != NULL)
+    {
+      for (cur = ini->sections_is; cur != NULL; cur = cur->li_next)
+	{	  
+	  if (strcmp(name, ((ini_section_t *) cur->data)->name) == 0)
+	    {
+	      return ((ini_section_t *) cur->data);
+	    }
+	}
+    }
+  return (NULL);
+}
+
+/**!
+ * @author	rannou_s
+ * returns the first occurence of name found in section
+ * @todo        if section == NULL, let's look for it in primary list
+ */
+
+char *
+ini_retrieve_entry(ini_t *ini, char *section, char *key)
+{
+  ini_section_t	*sec;
+  list_t	*cur;
+
+  if (ini != NULL && key != NULL && section != NULL)
+    {
+      if ((sec = ini_retrieve_section(ini, section)) != NULL)
+	{
+	  for (cur = sec->content_li; cur != NULL; cur = cur->li_next)
+	    {
+	      if (strcmp(key, ((ini_content_t *) cur->data)->name) == 0)
+		{
+		  return (((ini_content_t *) cur->data)->value);
+		}
+	    }
+	}
     }
   return (NULL);
 }

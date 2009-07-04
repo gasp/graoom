@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul  2 22:21:41 2009 Sebastien Rannou
-** Last update Fri Jul  3 21:38:08 2009 Sebastien Rannou
+** Last update Sat Jul  4 17:03:56 2009 Sebastien Rannou
 */
 
 #ifndef _GRAOOM_INI_H
@@ -34,7 +34,9 @@ typedef struct		ini_s		/* content of a .ini file */
   int			content_num;	/* number of contents */
 }			ini_t;
 
+ini_section_t		*ini_retrieve_section(ini_t *ini, char *name);
 ini_t			*ini_parse_file(char *name);
+char			*ini_retrieve_entry(ini_t *ini, char *section, char *key);
 void			ini_free_main(void *ini);
 
 #endif /* _GRAOOM_INI_H */
