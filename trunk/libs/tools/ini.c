@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul  2 22:20:45 2009 Sebastien Rannou
-** Last update Fri Jul  3 22:13:18 2009 Sebastien Rannou
+** Last update Sat Jul  4 13:22:24 2009 Sebastien Rannou
 */
 
 #include "shortcuts.h"
@@ -113,12 +113,8 @@ static __inline	int
 ini_is_section(char *line, int len)
 {
   if (*line == '[')
-    {
-      if (line[len - 1] == ']')
-	{
-	  return (SUCCESS);
-	}
-    }
+    if (line[len - 1] == ']')
+      return (SUCCESS);
   return (ERROR);
 }
 
@@ -172,19 +168,19 @@ ini_create_content(ini_t *ini, char *line, ini_section_t *section)
   if ((tmp = strchr(line, '=')) == NULL)
     return (ERROR);
   *tmp = '\0';
-  if ((key = trim(line)) != NULL && (value = trim(tmp + sizeof(*tmp))) != NULL)
+  if ((key = trim(line)) != NULL)
     {
       if ((content = malloc(sizeof(*content))) != NULL)
 	{
 	  memset(content, 0, sizeof(*content));
 	  if ((content->name = strdup(key)) != NULL)
 	    {
-	      if ((content->value = strdup(key)) == NULL)
-		{
-		  ini_free_content((void *) content);
-		  return (ERROR);
-		}
+	      value = trim(tmp + sizeof(*tmp));
+	      /* We allow a value to be NULL (memset is default then) */
+	      if (value != NULL && strlen(value) > 0)
+		content->value = strdup(key);
 	      content->section_is = section;
+	      return (SUCCESS);
 	    }
 	  ini_free_content((void *) content);
 	}
@@ -210,18 +206,16 @@ ini_parse_line(ini_t *ini, char *line)
 	{
 	  line[--line_len] = '\0';
 	  if (*line == ';')
-	    {
-	      return (SUCCESS);
-	    }
+	    return (SUCCESS);
 	  if (ini_is_section(line, line_len) == SUCCESS)
 	    {
-	      current_ct = ini_create_section(ini, line, line_len);
+	      if ((current_ct = ini_create_section(ini, line, line_len)) == NULL)
+		return (ERROR);
 	      return (SUCCESS);
 	    }
 	  else
-	    {
-	      return (ini_create_content(ini, line, current_ct));
-	    }
+	    return (ini_create_content(ini, line, current_ct));
+
 	}
     }
   return (SUCCESS);
@@ -250,12 +244,14 @@ ini_parse_file(char *name)
       ini->name = strdup(name);
       while (fgets(buffer, BUFF_READ_SIZE, file) != NULL)
 	{
+	  printf("Trying to parse [%s]\n", buffer);
 	  if (ini_parse_line(ini, buffer) == ERROR)
 	    {
 	      ini_free_main(ini);
 	      fclose(file);
 	      return (NULL);
 	    }
+	  printf("Ok\n");
 	}
       fclose(file);
       return (ini);

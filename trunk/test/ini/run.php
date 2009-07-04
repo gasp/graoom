@@ -6,29 +6,24 @@
 // Login   <rannou_s@epitech.net>
 // 
 // Started on  Fri Jul  3 22:53:08 2009 Sebastien Rannou
-// Last update Fri Jul  3 23:27:22 2009 Sebastien Rannou
+// Last update Sat Jul  4 12:54:05 2009 Sebastien Rannou
 //
 
-define(TMP_FILE, "/tmp/graoom_test");
-
-passthru("locate php.ini > " . TMP_FILE);
-
-if (($handle = fopen(TMP_FILE, "r")))
+if (($handle = opendir("examples")))
   {
-    while (($path = fgets($handle)))
+    while (($path = readdir($handle)))
       {
-	passthru("./ini " . trim($path), $result);
-	if ($result !== 0)
+	if ($path[0] != ".")
 	  {
-	    echo "Test NOK\n";
-	  }
-	else
-	  {
-	    echo "Test OK\n";
+	    passthru("./test examples/" . $path, $result);
+	    if ($result !== 0)
+	      {
+		echo "Test NOK\n";
+	      }
+	    else
+	      {
+		echo "Test OK\n";
+	      }
 	  }
       }
-  }
-else
-  {
-    echo "Unable to fopen " . TMP_FILE . "\n";
   }

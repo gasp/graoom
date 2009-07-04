@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jun 29 18:11:11 2009 Sebastien Rannou
-** Last update Fri Jul  3 19:20:38 2009 Sebastien Rannou
+** Last update Fri Jul  3 23:31:24 2009 Sebastien Rannou
 */
 
 #include "shortcuts.h"
@@ -21,36 +21,27 @@
  * @todo        + free li_info
  */
 
-int		list_free(list_t **li_start, void (*f)(void *))
+int
+list_free(list_t **li_start, void (*f)(void *))
 {
   list_t	*cur;
   list_t	*prev;
 
   if (li_start == NULL || *li_start == NULL)
-    {
-      return (SUCCESS);
-    }
+    return (SUCCESS);
   prev = NULL;
   if ((*li_start)->li_info != NULL)
-    {
-      free((*li_start)->li_info);
-    }
+    free((*li_start)->li_info);
   for (cur = *li_start; cur != NULL; cur = cur->li_next)
     {
       if (cur->data != NULL && f != NULL)
-	{
-	  f(cur->data);
-	}
+	f(cur->data);
       if (cur->li_prev != NULL)
-	{
-	  free(cur->li_prev);
-	}
+	free(cur->li_prev);
       prev = cur;
     }
   if (prev != NULL)
-    {
-      free(prev);
-    }
+    free(prev);
   *li_start = NULL;
   return (SUCCESS);
 }
@@ -61,32 +52,21 @@ int		list_free(list_t **li_start, void (*f)(void *))
  * Returns error when invalid parameters given
  */
 
-int		list_pop(list_t **li_start, list_t *li_element)
+int
+list_pop(list_t **li_start, list_t *li_element)
 {
   if (li_element == NULL || li_start == NULL || *li_start == NULL)
-    {
-      return (ERROR);
-    }
+    return (ERROR);
   if (li_element->li_prev != NULL)
-    {
-      li_element->li_prev->li_next = li_element->li_next;
-    }
+    li_element->li_prev->li_next = li_element->li_next;
   if (li_element->li_next != NULL)
-    {
-      li_element->li_next->li_prev = li_element->li_prev;
-    }
+    li_element->li_next->li_prev = li_element->li_prev;
   if (*li_start == li_element)
-    {
-      *li_start = li_element->li_next;
-    }
+    *li_start = li_element->li_next;
   if (li_element->li_info != NULL)
-    {
-      li_element->li_info->nb_elements--;
-    }
+    li_element->li_info->nb_elements--;
   if (*li_start == NULL)
-    {
-      free(li_element->li_info);
-    }
+    free(li_element->li_info);
   free(li_element);
   return (SUCCESS);
 }
@@ -96,8 +76,8 @@ int		list_pop(list_t **li_start, list_t *li_element)
  * Creates a new listinfo element
  */
 
-static __inline
-listi_t		*list_create_info(void)
+static __inline listi_t	*
+list_create_info(void)
 {
   listi_t	*list_info;
 
@@ -116,7 +96,8 @@ listi_t		*list_create_info(void)
  * Can be usefull to debug
  */
 
-int		list_display(list_t *li_start, int (*f)(void *))
+int
+list_display(list_t *li_start, int (*f)(void *))
 {
   int		i;
   list_t	*li_cur;
@@ -146,7 +127,8 @@ int		list_display(list_t *li_start, int (*f)(void *))
  * Prints informations about a list
  */
 
-int		list_dump(list_t *li_start)
+int
+list_dump(list_t *li_start)
 {
   int		i;
   list_t	*li_cur;
@@ -174,15 +156,14 @@ int		list_dump(list_t *li_start)
  * or when invalid parameters given
  */
 
-int		list_push(list_t **li_start, void *data)
+int
+list_push(list_t **li_start, void *data)
 {
   listi_t	*list_info;
   list_t	*new_elem;
 
   if (li_start == NULL)
-    {
-      return (ERROR);
-    }
+    return (ERROR);
   if ((new_elem = malloc(sizeof(*new_elem))) != NULL)
     {
       memset(new_elem, 0, sizeof(*new_elem));
