@@ -5,7 +5,6 @@
 ## Login   <rannou_s@epitech.net>
 ## 
 ## Started on  Wed Jul  1 22:33:22 2009 Sebastien Rannou
-## Last update Fri Jul  3 22:26:43 2009 Sebastien Rannou
 ##
 
 # Binary settings
