@@ -1,3 +1,4 @@
+#!/usr/local/bin/php
 <?php
 // run.php for graoom in /home/rannou_s/Work/graoom/test/lists
 // 
@@ -5,19 +6,12 @@
 // Login   <rannou_s@epitech.net>
 // 
 // Started on  Fri Jul  3 22:53:08 2009 Sebastien Rannou
-// Last update Sat Sep  5 15:17:34 2009 Sebastien Rannou
+// Last update Sat Sep  5 14:53:59 2009 Sebastien Rannou
 //
 
 require_once('../common.php');
 
-$handle = opendir("/bin/");
-
-$exec = "./lists ";
-
-while (($item = readdir($handle)))
-  {
-    $exec .= $item . " ";
-  }
+$exec = './test';
 
 passthru($exec, $result);
 

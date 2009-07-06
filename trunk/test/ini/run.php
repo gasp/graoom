@@ -1,4 +1,3 @@
-#!/usr/local/bin/php
 <?php
 // run.php for graoom in /home/rannou_s/Work/graoom/test/lists
 // 
@@ -6,8 +5,10 @@
 // Login   <rannou_s@epitech.net>
 // 
 // Started on  Fri Jul  3 22:53:08 2009 Sebastien Rannou
-// Last update Sat Jul  4 12:54:05 2009 Sebastien Rannou
+// Last update Sat Sep  5 18:19:27 2009 Sebastien Rannou
 //
+
+require_once('../common.php');
 
 if (($handle = opendir("examples")))
   {
@@ -15,14 +16,15 @@ if (($handle = opendir("examples")))
       {
 	if ($path[0] != ".")
 	  {
-	    passthru("./test examples/" . $path, $result);
-	    if ($result !== 0)
+	    $fp = "./examples/" . $path;
+	    $array = parse_ini_file($fp);
+	    foreach ($array as $key => $value)
 	      {
-		echo "Test NOK\n";
-	      }
-	    else
-	      {
-		echo "Test OK\n";
+		passthru("./test " . $fp . " " . $key . " " . $value, $result);
+		if ($result !== 0)
+		  nok();
+		else
+		  ok();
 	      }
 	  }
       }

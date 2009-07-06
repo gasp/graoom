@@ -5,19 +5,19 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul  3 22:30:39 2009 Sebastien Rannou
-** Last update Fri Jul  3 23:08:23 2009 Sebastien Rannou
+** Last update Mon Jul  6 19:09:41 2009 aimxhaisse
 */
 
 #include "shortcuts.h"
 #include "lists.h"
 
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-
 #ifndef		_BSD_SOURCE
 # define	_BSD_SOURCE	/* strdup on linux */
 #endif
+
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 int
 main(int ac, char **av)

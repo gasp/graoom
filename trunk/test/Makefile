@@ -5,7 +5,7 @@
 ## Login   <rannou_s@epitech.net>
 ## 
 ## Started on  Wed Jul  1 22:38:14 2009 Sebastien Rannou
-## Last update Fri Jul  3 23:08:41 2009 Sebastien Rannou
+## Last update Sat Sep  5 14:56:45 2009 Sebastien Rannou
 ##
 
 include ../Makefile.inc
@@ -14,17 +14,20 @@ include ../Makefile.inc
 
 all:
 	$(MAKE) -C lists $@
+	$(MAKE) -C ini $@
+	$(MAKE) -C tools $@
 
 clean:
 	$(MAKE) -C lists $@
+	$(MAKE) -C ini $@
+	$(MAKE) -C tools $@
 
 fclean:
 	$(MAKE) -C lists $@
+	$(MAKE) -C ini $@
+	$(MAKE) -C tools $@
 
 re:	fclean all
-
-test:
-	$(MAKE) -C lists $@
 
 mr-proper:	fclean
 	$(RM)	`$(FIND) . -name "*~"`

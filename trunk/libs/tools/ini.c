@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul  2 22:20:45 2009 Sebastien Rannou
-** Last update Sat Jul  4 17:14:06 2009 Sebastien Rannou
+** Last update Mon Jul  6 19:10:19 2009 aimxhaisse
 */
 
 /**!
@@ -43,13 +43,13 @@
 #include "ini.h"
 #include "tools.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-
 #ifndef			_BSD_SOURCE
 # define		_BSD_SOURCE	/* for strdup() on linux */
 #endif
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 #define			BUFF_READ_SIZE	1024
 
@@ -130,16 +130,14 @@ ini_create_section(ini_t *ini, char *line, int len)
 {
   ini_section_t		*section;
 
+  if ((section = ini_retrieve_section(ini, line)) != NULL)
+    return (section);
   if ((section = malloc(sizeof(*section))) != NULL)
     {
       line[len - 1] = '\0';
       line++;
       if (*line != '\0')
 	{
-	  if ((section = ini_retrieve_section(ini, line)) != NULL)
-	    {
-	      return (section);
-	    }
 	  memset(section, 0, sizeof(*section));
 	  section->name = strdup(line);
 	  if (list_push(&ini->sections_is, section) == ERROR)
@@ -157,8 +155,8 @@ ini_create_section(ini_t *ini, char *line, int len)
 /**!
  * @author	rannou_s
  * Creates a new content and push it into ini
- * Do not accept a line full of blanks or an invalid one (missing key
- * or missing value)
+ * Do not accept a line full of blanks or an invalid one (missing key)
+ * but accept missing values (set to NULL then)
  */
 
 static __inline	int
@@ -176,25 +174,29 @@ ini_create_content(ini_t *ini, char *line, ini_section_t *section)
   *tmp = '\0';
   if ((key = trim(line)) != NULL)
     {
-      if ((content = malloc(sizeof(*content))) != NULL)
+      if ((content = malloc(sizeof(*content))) == NULL)
+	return (ERROR);
+      memset(content, 0, sizeof(*content));
+      if ((content->name = strdup(key)) != NULL)
 	{
-	  memset(content, 0, sizeof(*content));
-	  if ((content->name = strdup(key)) != NULL)
+	  value = trim(tmp + sizeof(*tmp));
+	  if (value != NULL && strlen(value) > 0)
+	    content->value = strdup(value);
+	  content->section_is = section;
+	  if (list_push(&section->content_li, content) == ERROR)
 	    {
-	      value = trim(tmp + sizeof(*tmp));
-	      /* We allow a value to be NULL (memset is default then) */
-	      if (value != NULL && strlen(value) > 0)
-		content->value = strdup(key);
-	      content->section_is = section;
-	      if (list_push(&section->content_li, content) == ERROR)
-		{
-		  ini_free_content((void *) content);
-		  return (ERROR);
-		}
-	      return (SUCCESS);
+	      ini_free_content((void *) content);
+	      return (ERROR);
 	    }
-	  ini_free_content((void *) content);
+	  if (list_push(&ini->content_ic, content) == ERROR)
+	    {
+	      list_pop_data(&section->content_li, content);
+	      ini_free_content((void *) content);
+	      return (ERROR);
+	    }
+	  return (SUCCESS);
 	}
+      ini_free_content((void *) content);
     }
   return (ERROR);
 }
@@ -304,7 +306,7 @@ ini_retrieve_entry(ini_t *ini, char *section, char *key)
   list_t	*start;
   list_t	*cur;
 
-  if (ini != NULL && key != NULL && section != NULL)
+  if (ini != NULL && key != NULL)
     {
       if ((sec = ini_retrieve_section(ini, section)) != NULL)
 	start = sec->content_li;

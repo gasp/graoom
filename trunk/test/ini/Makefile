@@ -5,7 +5,7 @@
 ## Login   <rannou_s@epitech.net>
 ## 
 ## Started on  Fri Jul  3 22:26:00 2009 Sebastien Rannou
-## Last update Sat Jul  4 12:45:34 2009 Sebastien Rannou
+## Last update Sat Sep  5 14:56:55 2009 Sebastien Rannou
 ##
 
 include ../../Makefile.inc
@@ -26,7 +26,3 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
-
-test:
-	$(MAKE) all
-	php run.php

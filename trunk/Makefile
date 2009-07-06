@@ -5,7 +5,7 @@
 ## Login   <rannou_s@epitech.net>
 ## 
 ## Started on  Wed Jul  1 22:38:14 2009 Sebastien Rannou
-## Last update Fri Jul  3 23:07:28 2009 Sebastien Rannou
+## Last update Sat Sep  5 15:58:25 2009 Sebastien Rannou
 ##
 
 include Makefile.inc
@@ -16,21 +16,21 @@ all:
 	$(MAKE) -C libs $@
 	$(MAKE) -C client $@
 	$(MAKE) -C server $@
+	$(MAKE) -C test $@
 
 clean:
 	$(MAKE) -C libs $@
 	$(MAKE) -C client $@
 	$(MAKE) -C server $@	
+	$(MAKE) -C test $@
 
 fclean:
 	$(MAKE) -C libs $@
 	$(MAKE) -C client $@
 	$(MAKE) -C server $@
+	$(MAKE) -C test $@
 
 re:	fclean all
 
 mr-proper:	fclean
 	$(RM)	`$(FIND) . -name "*~"`
-
-test:
-	$(MAKE) -C test $@

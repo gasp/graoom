@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jun 29 18:21:27 2009 Sebastien Rannou
-** Last update Thu Jul  2 22:23:42 2009 Sebastien Rannou
+** Last update Sat Sep  5 17:50:45 2009 Sebastien Rannou
 */
 
 #ifndef	_GRAOOM_LIST_H
@@ -26,8 +26,10 @@ typedef struct		list_s
 
 int			list_free(list_t **li_start, void (*f)(void *));
 int			list_pop(list_t **li_start, list_t *li_element);
+int			list_pop_data(list_t **li_start, void *data);
 int			list_push(list_t **li_start, void *data);
 int			list_dump(list_t *li_start);
 int			list_display(list_t *li_start, int (*f)(void *));
+list_t			*list_fetch(list_t *li_start, void *data);
 
 #endif /* _GRAOOM_LIST_H */

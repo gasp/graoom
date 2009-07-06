@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jun 29 18:11:11 2009 Sebastien Rannou
-** Last update Fri Jul  3 23:31:24 2009 Sebastien Rannou
+** Last update Sat Sep  5 17:50:52 2009 Sebastien Rannou
 */
 
 #include "shortcuts.h"
@@ -69,6 +69,43 @@ list_pop(list_t **li_start, list_t *li_element)
     free(li_element->li_info);
   free(li_element);
   return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
+ * Fetch a list_t element from it's data  reference
+ */
+
+list_t *
+list_fetch(list_t *start, void *data)
+{
+  list_t	*cur;
+
+  if (start && data)
+    {
+      for (cur = start; cur != NULL; cur = cur->li_next)
+	{
+	  if (data == cur->data)
+	    {
+	      return (data);
+	    }
+	}
+    }
+  return (NULL);
+}
+
+/**!
+ * @author	rannou_s
+ * Let's pop an element from the list from it's data reference
+ * Returns error when invalid parameters given
+ */
+
+int
+list_pop_data(list_t **li_start, void *data)
+{
+  if (data == NULL || li_start == NULL || *li_start == NULL)
+    return (ERROR);
+  return (list_pop(li_start, list_fetch(*li_start, data)));
 }
 
 /**!
