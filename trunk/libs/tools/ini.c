@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul  2 22:20:45 2009 Sebastien Rannou
-** Last update Mon Jul  6 19:10:19 2009 aimxhaisse
+** Last update Mon Jul  6 20:15:49 2009 aimxhaisse
 */
 
 /**!
@@ -154,6 +154,36 @@ ini_create_section(ini_t *ini, char *line, int len)
 
 /**!
  * @author	rannou_s
+ * Let's push the new allocated content in its associated lists
+ * If malloc fails in push's functions, we remove it
+ * /!\ section == NULL is not a bug /!\
+ */
+
+static __inline	int
+ini_create_content_push(ini_t *ini, ini_section_t *section, 
+			ini_content_t *content)
+{
+    if (ini == NULL || content == NULL)
+	return (ERROR);
+    if (section != NULL)
+    {
+	if (list_push(&section->content_li, content) == ERROR)
+	{
+	    ini_free_content((void *) content);
+	    return (ERROR);
+	}
+    }
+    if (list_push(&ini->content_ic, content) == ERROR)
+    {
+	list_pop_data(&section->content_li, content);
+	ini_free_content((void *) content);
+	return (ERROR);
+    }
+    return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
  * Creates a new content and push it into ini
  * Do not accept a line full of blanks or an invalid one (missing key)
  * but accept missing values (set to NULL then)
@@ -166,38 +196,27 @@ ini_create_content(ini_t *ini, char *line, ini_section_t *section)
   char			*value;
   char			*tmp;
   ini_content_t		*content;
-
+  
   if (ini == NULL || line == NULL)
-    return (ERROR);
+      return (ERROR);
   if ((tmp = strchr(line, '=')) == NULL)
-    return (ERROR);
+      return (ERROR);
   *tmp = '\0';
   if ((key = trim(line)) != NULL)
-    {
+  {
       if ((content = malloc(sizeof(*content))) == NULL)
-	return (ERROR);
+	  return (ERROR);
       memset(content, 0, sizeof(*content));
       if ((content->name = strdup(key)) != NULL)
-	{
+      {
 	  value = trim(tmp + sizeof(*tmp));
 	  if (value != NULL && strlen(value) > 0)
-	    content->value = strdup(value);
+	      content->value = strdup(value);
 	  content->section_is = section;
-	  if (list_push(&section->content_li, content) == ERROR)
-	    {
-	      ini_free_content((void *) content);
-	      return (ERROR);
-	    }
-	  if (list_push(&ini->content_ic, content) == ERROR)
-	    {
-	      list_pop_data(&section->content_li, content);
-	      ini_free_content((void *) content);
-	      return (ERROR);
-	    }
-	  return (SUCCESS);
-	}
+	  return (ini_create_content_push(ini, section, content));
+      }
       ini_free_content((void *) content);
-    }
+  }
   return (ERROR);
 }
 

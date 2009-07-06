@@ -6,12 +6,12 @@
 // Login   <rannou_s@epitech.net>
 // 
 // Started on  Sat Sep  5 14:57:37 2009 Sebastien Rannou
-// Last update Sat Sep  5 15:04:41 2009 Sebastien Rannou
+// Last update Mon Jul  6 19:46:14 2009 aimxhaisse
 //
 
 /**!
  * @author	rannou_s
- * Would probably be better in shell..
+ * Would probably be better in shell...
  */
 
 $dir = opendir(".");

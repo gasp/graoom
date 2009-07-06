@@ -5,7 +5,7 @@
 // Login   <rannou_s@epitech.net>
 // 
 // Started on  Sat Sep  5 14:47:54 2009 Sebastien Rannou
-// Last update Sat Sep  5 15:17:48 2009 Sebastien Rannou
+// Last update Mon Jul  6 19:41:49 2009 aimxhaisse
 //
 
 /**!
@@ -26,10 +26,10 @@ define('COLOR_BLUE'    		, "\033[01;34m");
 
 function	ok()
 {
-  echo COLOR_GREEN . "\t\tOk" . COLOR_END .  "\n";
+  echo COLOR_GREEN . "\tOk" . COLOR_END .  "\n";
 }
 
 function	nok()
 {
-  echo COLOR_RED . "\t\tNok" . COLOR_END .  "\n";
+  echo COLOR_RED . "\tNok" . COLOR_END .  "\n";
 }

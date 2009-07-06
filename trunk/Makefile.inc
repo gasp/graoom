@@ -19,7 +19,7 @@ FIND	=	find
 
 # Compilation settings
 
-CFLAGS	+=	-W -Wall -pedantic -ansi -Wstrict-prototypes -Wno-error
+CFLAGS	+=	-W -Wall -pedantic -ansi -Wstrict-prototypes
 
 # Compilation settings (dev)
 

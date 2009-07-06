@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul  3 22:30:39 2009 Sebastien Rannou
-** Last update Sat Sep  5 14:41:40 2009 Sebastien Rannou
+** Last update Mon Jul  6 20:27:51 2009 aimxhaisse
 */
 
 #include "shortcuts.h"
@@ -16,14 +16,10 @@
 #include <string.h>
 #include <stdio.h>
 
-#ifndef		_BSD_SOURCE
-# define	_BSD_SOURCE	/* strdup on linux */
-#endif
-
 typedef struct	test_s
 {
-  char		*input;
-  char		*output;
+    char	*input;		/* input to send */
+    char	*output;	/* waiting for this output */
 }		test_t;
 
 /**!
@@ -33,6 +29,9 @@ typedef struct	test_s
 
 test_t		tests[] =
   {
+    {"Hello world             ",	"Hello world"},
+    {"Hello world	",		"Hello world"},
+    {"	Hello world",			"Hello world"},
     {"Hello world",			"Hello world"},
     {" Hello world",			"Hello world"},
     {"Hello world ",			"Hello world"},
@@ -55,24 +54,16 @@ main(void)
       strcpy(buffer, tests[i].input);
       buffer[strlen(tests[i].input)] = '\0';
       str = trim(buffer);
+      printf("trim [%s]\noutput [%s]\nexpected [%s]\n\n", 
+	     tests[i].input, str, tests[i].output);
       if (str == NULL || tests[i].output == NULL)
-	{
+      {
 	  if (tests[i].output != str)
-	    {
-	      printf("failed on trim of [%s] - output [%s] (expected [%s])\n", 
-		     tests[i].input, str, tests[i].output);
 	      return (ERROR);
-	    }
-	}
+      }
       else
-	{
 	  if (strcmp(tests[i].output, str) != 0)
-	    {
-	      printf("failed on trim of [%s] - output [%s] (expected [%s])\n", 
-		     tests[i].input, str, tests[i].output);
 	      return (ERROR);
-	    }
-	}
     }
   return (SUCCESS);
 }
