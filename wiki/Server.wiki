@@ -1,0 +1,26 @@
+#summary This page describes some specificities of the server
+#labels Phase-Design,Phase-Implementation
+
+= Introduction =
+
+This is a place where anyone can share its ideas concerning the server side. Don't be shy, you are welcome!
+
+= Main steps =
+
+Here are the different steps which happen when the server is launched:
+
+  * loading (see [Loader] for more informations), consisting of a primary load of ini files which contains configurations for each module, then we load one by one each module, if something goes wrong, we jump to the last step without running the server. This part is not crucial but requires a good organisation, so we won't focus on optimisation here, but on factoring.
+
+  * execution (see [Heart]) where the main job is made. This is the crucial part of the program, if something is slow here, everything will be, so it requires a minimum of optimisations and good design.
+
+  * cleaning up (see [Cleaner]) which cleans up memory, fds, sockets, ... before leaving the program.
+
+= Loader =
+
+= Heart =
+
+= Cleaner =
+
+= Error =
+
+The current design for error handling consists of a 
