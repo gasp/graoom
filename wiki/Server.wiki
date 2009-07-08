@@ -11,7 +11,7 @@ Here are the different steps which happen when the server is launched:
 
   * loading (see [Loader] for more informations), consisting of a primary load of ini files which contains configurations for each module, then we load one by one each module, if something goes wrong, we jump to the last step without running the server. This part is not crucial but requires a good organisation, so we won't focus on optimisation here, but on factoring.
 
-  * execution (see [Heart]) where the main job is made. This is the crucial part of the program, if something is slow here, everything will be, so it requires a minimum of optimisations and good design.
+  * execution (see [Heart]) where the main job is made. This is the crucial part of the program, if something is slow here, everything will be, so it requires a minimum of optimisations and good design. In this part of the program, we treat demands and call the appropriated module (a new connection, a player is moving, ...), this part must not bug whatever happen: no memory left, someone has crashed, fd is invalid, ..., nevermind.
 
   * cleaning up (see [Cleaner]) which cleans up memory, fds, sockets, ... before leaving the program.
 
