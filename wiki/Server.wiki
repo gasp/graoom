@@ -8,7 +8,7 @@ This is a place where anyone can share its ideas concerning the server side. Don
 = The tree =
 
 The server has two subdirectories which are both dedicated to different purposes:
-  * the *public/* directory contains informations that can be customised, most of server's configuration will go here (network port, number of players, ...). Every node in this directory can be altered, the server will try to run anyway. Note that it can also contains data which integrity will be checked anyway (this is the case of maps for instance, which have a checksum in their header).
+  * the *public/* directory contains informations that can be customised, most of server's configuration will go here (network port, number of players, ...). Every node in this directory can be altered, the server will try to run anyway. Note that it can also contains data which integrity will be checked (this is the case of maps for instance, which have a checksum in their header).
   * the *private/* directory, which contains data that *shall not be changed* (a checksum is performed on each item from these directory). Checksum is performed with constant pre-defined in the binary, these are build before creating a tarball. Typically, it will contains data required by the server to perform internal operations such as loading of ini files, default settings, checks, ... 
 
 = Main steps =
