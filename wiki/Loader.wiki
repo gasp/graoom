@@ -9,8 +9,8 @@ The server's loader is the first step in the execution of the program. Its goals
 
 The loader is composed of three parts:
 
-  # Loading of configuration files, these files are all present under loader directory. They are managed by a primary file called loader.ini, which contain the list of secondary ini files to load.
-  # Checking of data integrity, this checks all that was previously parsed from ini files, so as to be sure that we'll be able to correctly launch the server. To make easier that task, we use another .ini file that must not be changed by the user, which is present in internals directory. A good idea would be to perform a checksum on each files from that directory to be sure it has not been changed.
+  # Loading of configuration files, these files are all present under *public/loader/* directory. They are managed by a primary file called loader.ini, which contain the list of secondary ini files to load.
+  # Checking of data integrity, this checks all that was previously parsed from ini files, so as to be sure that we'll be able to correctly launch the server. To make easier that task, we use another .ini file that must not be changed by the user, which is present in *private/internals/* directory. A good idea would be to perform a checksum on each files from that directory to be sure it has not been changed.
   # Initialization of each modules (network, game, ...).
 
 If the loader fails in any of these parts, the server doesn't try to host a game, and directly jumps to the cleaner so as to destroy all was previously set before the error raised.
