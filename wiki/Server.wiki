@@ -19,13 +19,10 @@ Here are the different steps which happen when the server is launched:
 
 The current error handler works with a list of error codes (defined in error.h) with an associated message. Why not a simple message? It will be easier for someone having an error to get is code to see on a future wiki how to fix it, than having to remember a full sentence.
 
-When in DEV mode, we also trace the file where the error happened, and the line so as to be able to fix it quickly if it's related to a coding error.
+When we are in DEV mode, we also trace the file where the error happened, and the line so as to be able to fix it quickly if it's related to a coding error.
 
 There are two kinds of error:
 
-  * Expected error: this is something that might happen depending on the current configuration of the system or of the user (a port is already used, a .ini file is missing ...), these errors are printed on stderr and are not really important unless we are in development mode, and doing real shit.
+  * Expected error: this is something that might happen depending on the current configuration of the system or of the user (a port is already used, a .ini file is missing ...), these errors are printed on stderr and are not really important unless we are in development mode, and doing real shit. *Expected error codes are > 0*.
 
-  * Unexpected error: this should not happen, but Murphy decided that it (a pointer is NULL, a FD is invalid, ...). These are usefull to the developpers and will be traced in a log file.
-
-  * Expected error codes are > 0
-  * Unexpected error codes are < 0
+  * Unexpected error: this should not happen, but Murphy decided that it (a pointer is NULL, a FD is invalid, ...). These are usefull to the developpers and will be traced in a log file.* Unexpected error codes are < 0 *.
