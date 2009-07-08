@@ -5,11 +5,11 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jun 29 18:21:27 2009 Sebastien Rannou
-** Last update Sat Sep  5 17:50:45 2009 Sebastien Rannou
+** Last update Wed Jul  8 23:25:48 2009 sebastien rannou
 */
 
-#ifndef	_GRAOOM_LIST_H
-#define	_GRAOOM_LIST_H
+#ifndef	GRAOOM_LIST_H
+#define	GRAOOM_LIST_H
 
 typedef struct		listi_s		/* list informations */
 {
@@ -32,4 +32,4 @@ int			list_dump(list_t *li_start);
 int			list_display(list_t *li_start, int (*f)(void *));
 list_t			*list_fetch(list_t *li_start, void *data);
 
-#endif /* _GRAOOM_LIST_H */
+#endif /* GRAOOM_LIST_H */

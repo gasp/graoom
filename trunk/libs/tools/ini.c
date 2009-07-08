@@ -57,7 +57,7 @@ static __inline void
 ini_free_content(void *ptr)
 {
   ini_content_t		*content;
-
+  
   if (ptr != NULL)
     {
       content = (ini_content_t *) ptr;
@@ -164,21 +164,21 @@ ini_create_content_push(ini_t *ini, ini_section_t *section,
 			ini_content_t *content)
 {
     if (ini == NULL || content == NULL)
-	return (ERROR);
+      return (ERROR);
     if (section != NULL)
-    {
+      {
 	if (list_push(&section->content_li, content) == ERROR)
-	{
+	  {
 	    ini_free_content((void *) content);
 	    return (ERROR);
-	}
-    }
+	  }
+      }
     if (list_push(&ini->content_ic, content) == ERROR)
-    {
+      {
 	list_pop_data(&section->content_li, content);
 	ini_free_content((void *) content);
 	return (ERROR);
-    }
+      }
     return (SUCCESS);
 }
 
@@ -198,25 +198,25 @@ ini_create_content(ini_t *ini, char *line, ini_section_t *section)
   ini_content_t		*content;
   
   if (ini == NULL || line == NULL)
-      return (ERROR);
+    return (ERROR);
   if ((tmp = strchr(line, '=')) == NULL)
-      return (ERROR);
+    return (ERROR);
   *tmp = '\0';
   if ((key = trim(line)) != NULL)
-  {
+    {
       if ((content = malloc(sizeof(*content))) == NULL)
-	  return (ERROR);
+	return (ERROR);
       memset(content, 0, sizeof(*content));
       if ((content->name = strdup(key)) != NULL)
-      {
+	{
 	  value = trim(tmp + sizeof(*tmp));
 	  if (value != NULL && strlen(value) > 0)
-	      content->value = strdup(value);
+	    content->value = strdup(value);
 	  content->section_is = section;
 	  return (ini_create_content_push(ini, section, content));
-      }
+	}
       ini_free_content((void *) content);
-  }
+    }
   return (ERROR);
 }
 
@@ -230,7 +230,7 @@ ini_parse_line(ini_t *ini, char *line)
 {
   int			line_len;
   static ini_section_t	*current_ct = NULL;
-
+  
   if (ini != NULL && line != NULL)
     {
       line_len = strlen(line);
@@ -241,7 +241,7 @@ ini_parse_line(ini_t *ini, char *line)
 	    return (SUCCESS);
 	  if (ini_is_section(line, line_len) == SUCCESS)
 	    {
-	      if ((current_ct = ini_create_section(ini, line, line_len)) == NULL)
+	      if (!(current_ct = ini_create_section(ini, line, line_len)))
 		return (ERROR);
 	      return (SUCCESS);
 	    }

@@ -11,6 +11,7 @@
 /**!
  * Someone cool would say it's better to get them though termcaps
  * Unfortunately, I'm NOT cool.
+ * EDIT: It's shitty in emacs with shell-mode
  */
 
 define('COLOR_END'     		, "\033[00m");

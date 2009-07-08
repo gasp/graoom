@@ -5,17 +5,27 @@
 ## Login   <rannou_s@epitech.net>
 ## 
 ## Started on  Wed Jul  1 22:38:14 2009 Sebastien Rannou
-## Last update Wed Jul  1 22:47:06 2009 Sebastien Rannou
 ##
 
 include ../Makefile.inc
 
-# There's probably a cleaner way to do this
+NAME	=	gserv
 
-all:
+SOURCES	=	server.c		\
+		loader.c		\
+		errors.c		\
+
+CFLAGS	+=	-I../includes
+LIBS	=	-ltools_`uname -m`-`uname -s` -L../libs/
+
+all:	$(OBJECTS)
+	$(CC) $(OBJECTS) -o $(NAME) $(LIBS)
+	$(MV) $(NAME) ../$(BINDIR)/graoom-server/
 
 clean:
+	$(RM) $(OBJECTS)
 
-fclean:
+fclean:	clean
+	$(RM) $(NAME)
 
 re:	fclean all

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul  3 21:57:07 2009 Sebastien Rannou
-** Last update Mon Jul  6 20:39:00 2009 aimxhaisse
+** Last update Wed Jul  8 23:27:02 2009 sebastien rannou
 */
 
 #include <stdlib.h>
@@ -26,7 +26,7 @@ trim(char *source)
   int		i;
   char		*start;
   char		*end;
-
+  
   if (source != NULL && *source != '\0')
     {
       i = 0;
@@ -39,7 +39,7 @@ trim(char *source)
 	{
 	  if (end == NULL && (start[i] == ' ' || start[i] == '\t'))
 	    end = &start[i];
-	  else
+	  else if (start[i] != ' ' && start[i] != '\t')
 	    end = NULL;
 	}
       if (end != NULL && *end != '\0')
