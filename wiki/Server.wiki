@@ -15,12 +15,4 @@ Here are the different steps which happen when the server is launched:
 
   * cleaning up (see [Cleaner]) which cleans up memory, fds, sockets, ... before leaving the program.
 
-= Loader =
-
-= Heart =
-
-= Cleaner =
-
-= Error =
-
 The current design for error handling consists of a 
