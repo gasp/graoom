@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Thu Jul  9 23:46:07 2009 sebastien rannou
+** Last update Fri Jul 10 00:30:29 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
@@ -52,7 +52,15 @@ loader_parser(server_t *server)
 int
 loader(server_t *server)
 {
-  if (loader_parser(server) == ERROR)
-    return (ERROR);
+  if (server != NULL)
+    {
+      if (loader_parser(server) == ERROR)
+	return (ERROR);
+    }
+  else
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
   return (SUCCESS);
 }

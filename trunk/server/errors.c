@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Thu Jul  9 23:56:13 2009 sebastien rannou
+** Last update Fri Jul 10 00:09:46 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -30,6 +30,20 @@
 
 error_t		global_errors[] =
   {
+
+    /* NULL pointer found (expected) */
+    {
+      .code	=	EC_NULL_PTR,
+      .fmt	=	"NULL pointer",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
+    /* NULL pointer found (unexpected) */
+    {
+      .code	=	EC_NULL_PTR_DIE,
+      .fmt	=	"NULL pointer (critical)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG | ERR_T_DIE
+    },
 
     /* Unable to load primary ini file */
     {
