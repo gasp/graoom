@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Wed Jul  8 23:39:50 2009 sebastien rannou
+** Last update Thu Jul  9 23:46:07 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
@@ -13,24 +13,19 @@
 #include "tools.h"
 #include "ini.h"
 #include "errors.h"
+#include "server.h"
 
 #include <stdio.h>
 
 #define	LOADER_INI_FILE		"loader/loader.ini"
 #define	LOADER_AUTOLOAD_S	"autoload"
 
-/**!
- * @author	rannou_s
- * Main entry of the loader
- * Just load a primary file containing sub ini files to load
- */
-
 int
-loader(void)
+loader_parser(server_t *server)
 {
-  ini_t		*primary;
-  section_t	*toload;
+  ini_section_t	*toload;
   list_t	*cur;
+  ini_t		*primary;
 
   if ((primary = ini_parse_file(LOADER_INI_FILE)) != NULL)
     {
@@ -45,5 +40,19 @@ loader(void)
 	}
     }
   ini_free_main(primary);
-  return (ERROR);
+  return (ERROR);  
+}
+
+/**!
+ * @author	rannou_s
+ * Main entry of the loader
+ * Just load a primary file containing sub ini files to load
+ */
+
+int
+loader(server_t *server)
+{
+  if (loader_parser(server) == ERROR)
+    return (ERROR);
+  return (SUCCESS);
 }

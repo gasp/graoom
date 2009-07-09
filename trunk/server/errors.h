@@ -5,16 +5,23 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Wed Jul  8 23:26:08 2009 sebastien rannou
+** Last update Thu Jul  9 23:19:08 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_ERRORS_H
 #define	GRAOOM_ERRORS_H
 
+/**!
+ * @author	rannou_s
+ * error file where logs are writtent
+ */
+
+#define	ERR_LOG_FILE	"error.log"
+
 typedef struct		error_s		/* structure describing an error */
 {
   int			code;		/* associated code */
-  char			*msg;		/* associated message */
+  char			*fmt;		/* associated message */
   char			behavior;	/* bytes to know what to do when raised */
 }			error_t;
 

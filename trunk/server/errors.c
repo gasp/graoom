@@ -5,12 +5,17 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Wed Jul  8 23:02:54 2009 sebastien rannou
+** Last update Thu Jul  9 23:56:13 2009 sebastien rannou
 */
 
 #include "errors.h"
+#include "shortcuts.h"
 
+#include <string.h>
+#include <stdio.h>
+#include <stdarg.h>
 #include <stdlib.h>
+#include <time.h>
 
 /**!
  * @author	rannou_s
@@ -29,15 +34,126 @@ error_t		global_errors[] =
     /* Unable to load primary ini file */
     {
       .code	=	EC_PRIM_INI_FILE,
-      .msg	=	"unable to load primary ini file (%s)", 
+      .fmt	=	"unable to load primary ini file (%s)", 
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
     },
 
     /* End of array */
     {
       .code	=	0x0,
-      .msg	=	NULL,
+      .fmt	=	NULL,
       .behavior	=	0
     }
 
   };
+
+FILE	*global_error_log = NULL;
+
+void
+error_handler_log_close(void)
+{
+  fclose(global_error_log);
+}
+
+/**!
+ * @author	rannou_s
+ * called when an error is raised and when ERR_T_LOG flag is set
+ * We assume ap contains list of arguments to vfprintf and we use it
+ * to generate a nice log
+ * First time a log is executed, we open a error.log file with a feed
+ * that is registered to be closed when leaving the soft
+ */
+
+#define	ERROR_BUFF_SIZE	512
+#define	ERROR_FMT_LOG	"error raised in [%s] on line %d: "
+
+static __inline void
+error_handler_log(error_t *err, int line, char *file, va_list ap)
+{
+  static int	initialized = 0;
+  char		*date;
+  char		buffer[ERROR_BUFF_SIZE];
+  time_t	timer;
+
+  if (err == NULL)
+    return;
+  if (initialized == 0)
+    {
+      initialized++;
+      global_error_log = fopen(FOP_AP, ERR_LOG_FILE);
+      if (global_error_log != NULL)
+	{
+	  if (atexit(&error_handler_log_close) != 0)
+	    {
+	      fclose(global_error_log);
+	    }
+	}
+    }
+  if (global_error_log != NULL)
+    {
+      if ((timer = time(NULL)) > 0)
+	{
+	  date = ctime(&timer);
+	  snprintf(buffer, ERROR_BUFF_SIZE, "[%s] ", date);
+	  fwrite(buffer, strlen(buffer), 1, global_error_log);
+	}
+      snprintf(buffer, ERROR_BUFF_SIZE, ERROR_FMT_LOG, file, line);
+      fwrite(buffer, strlen(buffer), 1, global_error_log);
+      snprintf(buffer, ERROR_BUFF_SIZE, err->fmt, ap);
+      fwrite(buffer, strlen(buffer), 1, global_error_log);
+      fwrite("\n", 1, 1, global_error_log);
+    }
+}
+
+/**!
+ * @author	rannou_s
+ * called when an error is raised and when ERR_T_DISPLAY flag is set
+ * We assume ap contains list of arguments to vfprintf
+ */
+
+static __inline void
+error_handler_display(error_t *err, int line, char *file, va_list ap)
+{
+  if (err != NULL)
+    {
+      fprintf(stderr, ERROR_FMT_LOG, file, line);
+      vfprintf(stderr, err->fmt, ap);
+      fprintf(stderr, "\n");
+      fflush(stderr);
+    }
+}
+
+/**!
+ * @author	rannou_s
+ * Main entry on errors, this is called through and overloading
+ * macro so as to get line and file where error occurs
+ * @todo	in non-dev mode, it would be great to disable that macros, or to
+ * change their behavior so as to have something comprehensible to users
+ */
+
+void
+error_handler(int code, int line, char *file, ...)
+{
+  error_t	*err;
+  va_list	ap;
+  int		i;
+
+  va_start(ap, file);
+  for (i = 0; global_errors[i].code != 0x0; i++)
+    {
+      if (global_errors[i].code == code)
+	{
+	  err = &global_errors[i];
+	  if (err->behavior | ERR_T_DISPLAY)
+	    error_handler_display(err, line, file, ap);
+	  if (err->behavior | ERR_T_LOG)
+	    error_handler_log(err, line, file, ap);
+	  if (err->behavior | ERR_T_DIE)
+	    {
+	      va_end(ap);
+	      exit(ERROR);
+	    }	  
+	}
+    }
+  va_end(ap);
+}

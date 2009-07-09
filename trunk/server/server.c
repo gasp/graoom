@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 14:15:51 2009 sebastien rannou
-** Last update Wed Jul  8 23:29:15 2009 sebastien rannou
+** Last update Thu Jul  9 10:30:05 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
@@ -28,10 +28,10 @@
 int
 main(void)
 {
-  if (loader() == SUCCESS)
-    {
-      printf("Here we launch the server\n");
-    }
+  server_t	server;
+
+  if (loader(&server) == SUCCESS)
+    printf("Here we launch the server\n");
   printf("We clean everything\n");
   return (SUCCESS);
 }
