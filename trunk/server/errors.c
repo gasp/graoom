@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Fri Jul 10 08:53:01 2009 sebastien rannou
+** Last update Fri Jul 10 09:22:14 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -127,7 +127,7 @@ error_handler_log(error_t *err, int line, char *file, va_list ap)
 	}
       snprintf(buffer, ERROR_BUFF_SIZE, ERROR_FMT_LOG, file, line);
       fwrite(buffer, strlen(buffer), 1, global_error_log);
-      snprintf(buffer, ERROR_BUFF_SIZE, err->fmt, ap);
+      vsnprintf(buffer, ERROR_BUFF_SIZE, err->fmt, ap);
       fwrite(buffer, strlen(buffer), 1, global_error_log);
       fwrite("\n", 1, 1, global_error_log);
     }
@@ -155,33 +155,37 @@ error_handler_display(error_t *err, int line, char *file, va_list ap)
  * @author	rannou_s
  * Main entry on errors, this is called through and overloading
  * macro so as to get line and file where error occurs
- * @todo	in non-dev mode, it would be great to disable that macros, or to
- * change their behavior so as to have something comprehensible to users
+ * @todo	- in non-dev mode, it would be great to disable that macros
+ *		- do not va_copy when log is not set
  */
 
 void
 error_handler(int line, char *file, int code, ...)
 {
   error_t	*err;
+  va_list	aplog;
   va_list	ap;
   int		i;
 
   va_start(ap, code);
+  va_copy(aplog, ap);
   for (i = 0; global_errors[i].code != 0x0; i++)
     {
       if (global_errors[i].code == code)
 	{
 	  err = &global_errors[i];
+	  if (err->behavior | ERR_T_LOG)
+	    error_handler_log(err, line, file, aplog);
 	  if (err->behavior | ERR_T_DISPLAY)
 	    error_handler_display(err, line, file, ap);
-	  if (err->behavior | ERR_T_LOG)
-	    error_handler_log(err, line, file, ap);
 	  if (err->behavior | ERR_T_DIE)
 	    {
 	      va_end(ap);
+	      va_end(aplog);
 	      exit(ERROR);
 	    }	  
 	}
     }
+  va_end(aplog);
   va_end(ap);
 }

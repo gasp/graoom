@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Fri Jul 10 08:54:14 2009 sebastien rannou
+** Last update Fri Jul 10 09:07:22 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
@@ -19,6 +19,12 @@
 
 #define	LOADER_INI_FILE		"loader/loader.ini"
 #define	LOADER_AUTOLOAD_S	"autoload"
+
+static __inline int
+loader_parser_network(server_t *server, char *file)
+{
+  return (SUCCESS);
+}
 
 static __inline int
 loader_parser(server_t *server)
@@ -44,6 +50,7 @@ loader_parser(server_t *server)
 	  return (SUCCESS);
 	}
     }
+  ERR_RAISE(EC_PRIM_INI_FILE, LOADER_INI_FILE);
   ini_free_main(primary);
   return (ERROR);  
 }
@@ -60,7 +67,9 @@ loader(server_t *server)
   if (server != NULL)
     {
       if (loader_parser(server) == ERROR)
-	return (ERROR);
+	{
+	  return (ERROR);
+	}
     }
   else
     {
