@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Fri Jul 10 08:45:40 2009 sebastien rannou
+** Last update Fri Jul 10 10:59:19 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_ERRORS_H
@@ -17,13 +17,6 @@
  */
 
 #define	ERR_LOG_FILE	"error.log"
-
-typedef struct		error_s		/* structure describing an error */
-{
-  int			code;		/* associated code */
-  char			*fmt;		/* associated message */
-  char			behavior;	/* bytes to know what to do when raised */
-}			error_t;
 
 /**!
  * @author	rannou_s
@@ -41,7 +34,9 @@ typedef struct		error_s		/* structure describing an error */
 
 #define			EC_NULL_PTR		0x01
 #define			EC_NULL_PTR_DIE		0x02
-#define			EC_PRIM_INI_FILE	0x03
+#define			EC_INI_FILE		0x03
+#define			EC_INI_SEC		0x04
+#define			EC_INI_UNKNOWN_ENTRY	0x05
 
 void			error_handler(int line, char *file, int code, ...);
 

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Fri Jul 10 09:22:14 2009 sebastien rannou
+** Last update Fri Jul 10 10:58:58 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -28,6 +28,14 @@
  *	- ERR_T_DIE	: leave the program
  */
 
+typedef struct	error_s		/* structure describing an error */
+{
+  int		code;		/* associated code */
+  char		*fmt;		/* associated message */
+  char		behavior;	/* bytes to know what to do when raised */
+}		error_t;
+
+static
 error_t		global_errors[] =
   {
 
@@ -47,8 +55,22 @@ error_t		global_errors[] =
 
     /* Unable to load primary ini file */
     {
-      .code	=	EC_PRIM_INI_FILE,
-      .fmt	=	"unable to load primary ini file (%s)", 
+      .code	=	EC_INI_FILE,
+      .fmt	=	"unable to load ini file (%s)", 
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
+    /* Unable to load primary ini file */
+    {
+      .code	=	EC_INI_SEC,
+      .fmt	=	"unable to find section (%s) in ini file (%s)", 
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
+    /* Unknown entry in ini file */
+    {
+      .code	=	EC_INI_UNKNOWN_ENTRY,
+      .fmt	=	"unknown entry (%s) in ini file (%s)", 
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
     },
 
@@ -61,7 +83,8 @@ error_t		global_errors[] =
 
   };
 
-FILE	*global_error_log = NULL;
+static
+FILE		*global_error_log = NULL;
 
 /**!
  * @author	rannou_s
@@ -85,8 +108,12 @@ error_handler_log_init(void)
 {
   global_error_log = fopen(ERR_LOG_FILE, FOP_AP);
   if (global_error_log != NULL)
-    if (atexit(&error_handler_log_close) != 0)
-      fclose(global_error_log);  
+    {
+      if (atexit(&error_handler_log_close) != 0)
+	{
+	  fclose(global_error_log);  
+	}
+    }
 }
 
 /**!
