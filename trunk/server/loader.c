@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Fri Jul 10 00:30:29 2009 sebastien rannou
+** Last update Fri Jul 10 08:54:14 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
@@ -20,13 +20,18 @@
 #define	LOADER_INI_FILE		"loader/loader.ini"
 #define	LOADER_AUTOLOAD_S	"autoload"
 
-int
+static __inline int
 loader_parser(server_t *server)
 {
   ini_section_t	*toload;
   list_t	*cur;
   ini_t		*primary;
 
+  if (server == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
   if ((primary = ini_parse_file(LOADER_INI_FILE)) != NULL)
     {
       if ((toload = ini_retrieve_section(primary, LOADER_AUTOLOAD_S)) != NULL)

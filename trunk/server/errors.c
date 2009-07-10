@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Fri Jul 10 00:09:46 2009 sebastien rannou
+** Last update Fri Jul 10 08:53:01 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -63,6 +63,11 @@ error_t		global_errors[] =
 
 FILE	*global_error_log = NULL;
 
+/**!
+ * @author	rannou_s
+ * called at exit to close global_error_log
+ */
+
 void
 error_handler_log_close(void)
 {
@@ -71,11 +76,25 @@ error_handler_log_close(void)
 
 /**!
  * @author	rannou_s
+ * Initialize error log file by creating it, do not
+ * log if we can't clean it at exit
+ */
+
+static __inline void
+error_handler_log_init(void)
+{
+  global_error_log = fopen(ERR_LOG_FILE, FOP_AP);
+  if (global_error_log != NULL)
+    if (atexit(&error_handler_log_close) != 0)
+      fclose(global_error_log);  
+}
+
+/**!
+ * @author	rannou_s
  * called when an error is raised and when ERR_T_LOG flag is set
  * We assume ap contains list of arguments to vfprintf and we use it
  * to generate a nice log
- * First time a log is executed, we open a error.log file with a feed
- * that is registered to be closed when leaving the soft
+ * First time a log is executed, initialize the error log file
  */
 
 #define	ERROR_BUFF_SIZE	512
@@ -88,28 +107,23 @@ error_handler_log(error_t *err, int line, char *file, va_list ap)
   char		*date;
   char		buffer[ERROR_BUFF_SIZE];
   time_t	timer;
+  int		len;
 
   if (err == NULL)
     return;
-  if (initialized == 0)
-    {
-      initialized++;
-      global_error_log = fopen(FOP_AP, ERR_LOG_FILE);
-      if (global_error_log != NULL)
-	{
-	  if (atexit(&error_handler_log_close) != 0)
-	    {
-	      fclose(global_error_log);
-	    }
-	}
-    }
+  if (initialized++ == 0)
+    error_handler_log_init();
   if (global_error_log != NULL)
     {
       if ((timer = time(NULL)) > 0)
 	{
 	  date = ctime(&timer);
-	  snprintf(buffer, ERROR_BUFF_SIZE, "[%s] ", date);
-	  fwrite(buffer, strlen(buffer), 1, global_error_log);
+	  if (date != NULL && (len = strlen(date)) > 0)
+	    {
+	      date[len - 1] = '\0';
+	      snprintf(buffer, ERROR_BUFF_SIZE, "[%s] ", date);
+	      fwrite(buffer, strlen(buffer), 1, global_error_log);
+	    }
 	}
       snprintf(buffer, ERROR_BUFF_SIZE, ERROR_FMT_LOG, file, line);
       fwrite(buffer, strlen(buffer), 1, global_error_log);
@@ -146,13 +160,13 @@ error_handler_display(error_t *err, int line, char *file, va_list ap)
  */
 
 void
-error_handler(int code, int line, char *file, ...)
+error_handler(int line, char *file, int code, ...)
 {
   error_t	*err;
   va_list	ap;
   int		i;
 
-  va_start(ap, file);
+  va_start(ap, code);
   for (i = 0; global_errors[i].code != 0x0; i++)
     {
       if (global_errors[i].code == code)

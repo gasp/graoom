@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Fri Jul 10 00:29:04 2009 sebastien rannou
+** Last update Fri Jul 10 08:45:40 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_ERRORS_H
@@ -43,7 +43,7 @@ typedef struct		error_s		/* structure describing an error */
 #define			EC_NULL_PTR_DIE		0x02
 #define			EC_PRIM_INI_FILE	0x03
 
-void			error_handler(int code, int line, char *file, ...);
+void			error_handler(int line, char *file, int code, ...);
 
 /**!
  * @author	rannou_s
@@ -51,6 +51,6 @@ void			error_handler(int code, int line, char *file, ...);
  * oh my god we can do varargs inside maccros
  */
 
-#define	ERR_RAISE(c, ...) error_handler(c, __LINE__, __FILE__, ##__VA_ARGS__)
+#define	ERR_RAISE(...)	error_handler(__LINE__, __FILE__, __VA_ARGS__)
 
 #endif /* GRAOOM_ERRORS_H */
