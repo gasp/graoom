@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Sun Jul 12 20:58:55 2009 Sebastien Rannou
+** Last update Sun Jul 12 21:38:31 2009 Sebastien Rannou
 */
 
 #include "errors.h"
@@ -51,6 +51,13 @@ error_t		global_errors[] =
       .code	=	EC_NULL_PTR_DIE,
       .fmt	=	"NULL pointer (critical)",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG | ERR_T_DIE
+    },
+
+    /* NULL pointer found (unexpected) */
+    {
+      .code	=	EC_SYS_CLOSE,
+      .fmt	=	"was unable to close a file descriptor (%s)",
+      .behavior	=	ERR_T_LOG
     },
 
     /* Unable to load primary ini file */
@@ -99,6 +106,14 @@ error_t		global_errors[] =
     {
       .code	=	EC_LOADER_MAX,
       .fmt	=	"invalid max number of connection (%d) (must be > 0)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
+
+    /* Invalid max number of connection given in .ini configuration file */
+    {
+      .code	=	EC_NETWORK_SOCK,
+      .fmt	=	"unable to initialize primary connection (%s)",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
     },
 

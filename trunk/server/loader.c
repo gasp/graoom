@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Sun Jul 12 20:58:43 2009 Sebastien Rannou
+** Last update Sun Jul 12 21:04:20 2009 Sebastien Rannou
 */
 
 #include "shortcuts.h"
@@ -15,13 +15,11 @@
 #include "errors.h"
 #include "network.h"
 #include "server.h"
+#include "init.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <sys/time.h>
-#include <sys/resource.h>
 #include <sys/select.h>
 
 #define	LOADER_INI_FILE		"public/settings.ini"
@@ -50,6 +48,11 @@ loader_parser_network_max_con(server_t *server, ini_section_t *conf)
   char		*value;
   int		max;
 
+  if (server == NULL || conf == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
   max = FD_SETSIZE;
   if ((value = ini_retrieve_entry_from_section(conf, LOADER_NET_MAX)) != NULL)
     {
@@ -118,7 +121,7 @@ typedef struct	loader_asso_s /* associates an entry with a loader */
 static
 loader_asso_t global_asso[] =
   {
-    {LOADER_NETWORK_S, &loader_parser_network, NULL, 0},
+    {LOADER_NETWORK_S, &loader_parser_network, &network_initialize, 0},
     {NULL, NULL, NULL, 0}
   };
 
@@ -227,16 +230,26 @@ loader_parser(server_t *server)
  * When an error is raised, we leave properly the loader to jump
  * to the cleaner
  * We also check that everything has been correctly loaded
+ * Then we initialize each module one by one
  */
 
 int
 loader(server_t *server)
 {
+  int		i;
+
   if (server != NULL)
     {
       memset(server, 0, sizeof(*server));
       if (loader_parser(server) == ERROR)
 	return (ERROR);
+      for (i = 0; global_asso[i].name != NULL; i++)
+	{
+	  if (global_asso[i].init(server) == ERROR)
+	    {
+	      return (ERROR);
+	    }
+	}
     }
   else
     {
