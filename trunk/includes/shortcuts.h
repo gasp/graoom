@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jun 29 18:24:28 2009 Sebastien Rannou
-** Last update Thu Jul  9 23:17:59 2009 sebastien rannou
+** Last update Sun Jul 12 20:51:58 2009 Sebastien Rannou
 */
 
 #ifndef	GRAOOM_SHORTCUTS_H
@@ -17,6 +17,8 @@
 #define	FOP_R			"r"
 #define	FOP_AP			"a+"
 
+#define	MAX(x, y)		(((x) > (y)) ? (x) : (y))
+#define	MIN(x, y)		(((x) < (y)) ? (x) : (y))
 #define	X(val)			write(1, val, strlen(val))
 
 #endif	/* GRAOOM_SHORTCUTS_H */

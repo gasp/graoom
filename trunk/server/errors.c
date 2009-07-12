@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Fri Jul 10 10:58:58 2009 sebastien rannou
+** Last update Sun Jul 12 20:58:55 2009 Sebastien Rannou
 */
 
 #include "errors.h"
@@ -71,6 +71,34 @@ error_t		global_errors[] =
     {
       .code	=	EC_INI_UNKNOWN_ENTRY,
       .fmt	=	"unknown entry (%s) in ini file (%s)", 
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
+    /* Invalid port given in .ini configuration file */
+    {
+      .code	=	EC_LOADER_PORT,
+      .fmt	=	"invalid port (%d) range: must be between 1 and 65536",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
+    /* Loader has already loaded this module before */
+    {
+      .code	=	EC_LOADER_SEV,
+      .fmt	=	"module (%s) already loaded in (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
+    /* This module wasn't loaded */
+    {
+      .code	=	EC_LOADER_NULL,
+      .fmt	=	"unable to find section (%s) in file (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* Invalid max number of connection given in .ini configuration file */
+    {
+      .code	=	EC_LOADER_MAX,
+      .fmt	=	"invalid max number of connection (%d) (must be > 0)",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
     },
 

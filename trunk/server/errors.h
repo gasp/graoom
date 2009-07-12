@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Fri Jul 10 10:59:19 2009 sebastien rannou
+** Last update Sun Jul 12 20:57:33 2009 Sebastien Rannou
 */
 
 #ifndef GRAOOM_ERRORS_H
@@ -37,6 +37,10 @@
 #define			EC_INI_FILE		0x03
 #define			EC_INI_SEC		0x04
 #define			EC_INI_UNKNOWN_ENTRY	0x05
+#define			EC_LOADER_PORT		0x06
+#define			EC_LOADER_SEV		0x07
+#define			EC_LOADER_NULL		0x08
+#define			EC_LOADER_MAX		0x09
 
 void			error_handler(int line, char *file, int code, ...);
 

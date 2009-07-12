@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul  2 22:20:45 2009 Sebastien Rannou
-** Last update Thu Jul  9 20:13:10 2009 sebastien rannou
+** Last update Sun Jul 12 14:50:57 2009 Sebastien Rannou
 */
 
 /**!
@@ -334,6 +334,30 @@ ini_retrieve_entry(ini_t *ini, char *section, char *key)
       for (cur = start; cur != NULL; cur = cur->li_next)
 	{
 	  if (strcmp(key, ((ini_content_t *) cur->data)->name) == 0)
+	    {
+	      return (((ini_content_t *) cur->data)->value);
+	    }
+	}
+    }
+  return (NULL);
+}
+
+/**!
+ * @author	rannou_s
+ * Returns a value from a section according to its key
+ * it nothing was found, let's return NULL
+ */
+
+char *
+ini_retrieve_entry_from_section(ini_section_t *section, char *key)
+{
+  list_t	*cur;
+
+  if (section != NULL && key != NULL)
+    {
+      for (cur = section->content_li; cur != NULL; cur = cur->li_next)
+	{
+	  if (strcmp(((ini_content_t *) cur->data)->name, key) == 0)
 	    {
 	      return (((ini_content_t *) cur->data)->value);
 	    }
