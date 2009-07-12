@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Sun Jul 12 21:37:49 2009 Sebastien Rannou
+** Last update Sun Jul 12 22:20:17 2009 Sebastien Rannou
 */
 
 #ifndef GRAOOM_ERRORS_H
@@ -47,7 +47,8 @@
 
 #define			EC_NETWORK_SOCK		301
 
-void			error_handler(int line, char *file, int code, ...);
+void	/* logs a message, see errors.c for more information */
+error_handler(int line, char *file, int code, ...);
 
 /**!
  * @author	rannou_s

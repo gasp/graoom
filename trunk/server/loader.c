@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Sun Jul 12 21:04:20 2009 Sebastien Rannou
+** Last update Sun Jul 12 22:27:47 2009 Sebastien Rannou
 */
 
 #include "shortcuts.h"
@@ -16,6 +16,7 @@
 #include "network.h"
 #include "server.h"
 #include "init.h"
+#include "log.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -245,11 +246,13 @@ loader(server_t *server)
 	return (ERROR);
       for (i = 0; global_asso[i].name != NULL; i++)
 	{
+	  LOG("loading module %s", global_asso[i].name);
 	  if (global_asso[i].init(server) == ERROR)
 	    {
 	      return (ERROR);
 	    }
 	}
+      LOG("loading completed");
     }
   else
     {
