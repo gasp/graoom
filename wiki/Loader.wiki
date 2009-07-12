@@ -11,7 +11,7 @@ The loader is composed of three parts:
 
   # Checking of data integrity, this checks all internal files that must not be changed by the user (they are in private's directory)
 
-  # Loading of configuration files, these files are all present under *public/loader/* directory. They are managed by a primary file called loader.ini, which contain the list of secondary ini files to load. During this part, everything is checked, if there's an error, we raise it with an explicit message.
+  # Loading of configuration files, these files are all present under *public/* directory. They are managed by a primary file called loader.ini, which contain the list of secondary ini files to load. During this part, everything is checked, if there's an error, we raise it with an explicit message.
 
   # Initialization of each modules (network, game, ...).
 
