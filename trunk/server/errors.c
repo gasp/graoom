@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Mon Jul 13 16:05:08 2009 Sebastien Rannou
+** Last update Mon Jul 13 22:37:14 2009 Sebastien Rannou
 */
 
 #include "errors.h"
@@ -152,11 +152,18 @@ error_t		global_errors[] =
     },
 
 
-    /* Invalid max number of connection given in .ini configuration file */
+    /* Unable to initialize primary socket */
     {
       .code	=	EC_NETWORK_SOCK,
       .fmt	=	"unable to initialize primary connection (%s)",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
+    /* Too much simultaneous connections */
+    {
+      .code	=	EC_NETWORK_MAX,
+      .fmt	=	"maximum number of connection reached (%d)",
+      .behavior	=	ERR_T_DISPLAY
     },
 
     /* End of array */
@@ -286,11 +293,11 @@ error_handler(int line, char *file, int code, ...)
       if (global_errors[i].code == code)
 	{
 	  err = &global_errors[i];
-	  if (err->behavior | ERR_T_LOG)
+	  if (err->behavior & ERR_T_LOG)
 	    error_handler_log(err, line, file, aplog);
-	  if (err->behavior | ERR_T_DISPLAY)
+	  if (err->behavior & ERR_T_DISPLAY)
 	    error_handler_display(err, line, file, ap);
-	  if (err->behavior | ERR_T_DIE)
+	  if (err->behavior & ERR_T_DIE)
 	    {
 	      va_end(ap);
 	      va_end(aplog);

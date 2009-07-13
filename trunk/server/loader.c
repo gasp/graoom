@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Mon Jul 13 10:41:28 2009 Sebastien Rannou
+** Last update Mon Jul 13 20:52:55 2009 Sebastien Rannou
 */
 
 #include "lists.h"
@@ -164,7 +164,9 @@ loader_parser_dispatch(server_t *server, ini_t *ini, ini_section_t *section)
 	      ERR_RAISE(EC_LOADER_SEV, section->name, ini->name);
 	      return (ERROR);
 	    }
-	  return (global_asso[i].parser(server, section));
+	  if (global_asso[i].parser != NULL)
+	    return (global_asso[i].parser(server, section));
+	  return (SUCCESS);	      
 	}
     }
   ERR_RAISE(EC_INI_UNKNOWN_ENTRY, section->name, ini->name);
@@ -259,9 +261,12 @@ loader(server_t *server)
       for (i = 0; global_asso[i].name != NULL; i++)
 	{
 	  LOG("loading module [%s]", global_asso[i].name);
-	  if (global_asso[i].init(server) == ERROR)
+	  if (global_asso[i].init != NULL)
 	    {
-	      return (ERROR);
+	      if (global_asso[i].init(server) == ERROR)
+		{
+		  return (ERROR);
+		}
 	    }
 	}
       LOG("loading completed");
@@ -295,7 +300,8 @@ cleaner(server_t *server)
       if (global_asso[i].loaded > 0)
 	{
 	  LOG("cleaning module [%s]", global_asso[i].name);
-	  global_asso[i].clean(server);
+	  if (global_asso[i].clean != NULL)
+	    global_asso[i].clean(server);
 	}
     }
   return (SUCCESS);

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Mon Jul 13 16:04:48 2009 Sebastien Rannou
+** Last update Mon Jul 13 22:37:00 2009 Sebastien Rannou
 */
 
 #ifndef GRAOOM_ERRORS_H
@@ -25,7 +25,7 @@
 
 #define			ERR_T_DISPLAY		0x01	/* 0000 0001 */
 #define			ERR_T_LOG		0x02	/* 0000 0010 */
-#define			ERR_T_DIE		0x04	/* 0000 1000 */
+#define			ERR_T_DIE		0x04	/* 0000 0100 */
 
 /**!
  * @author	rannou_s
@@ -53,6 +53,7 @@
 #define			EC_LOADER_MAX		205
 
 #define			EC_NETWORK_SOCK		301
+#define			EC_NETWORK_MAX		302
 
 void	/* logs a message, see errors.c for more information */
 error_handler(int line, char *file, int code, ...);

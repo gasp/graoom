@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 12 17:08:02 2009 Sebastien Rannou
-** Last update Mon Jul 13 20:44:16 2009 Sebastien Rannou
+** Last update Mon Jul 13 22:36:34 2009 Sebastien Rannou
 */
 
 #include "lists.h"
@@ -41,6 +41,7 @@ network_accept_new_connection_limit(server_t *server, int sock)
     }
   if (sock >= NETWORK->configuration.num_max_connection)
     {
+      ERR_RAISE(EC_NETWORK_MAX, NETWORK->configuration.num_max_connection);
       if (close(sock) == ERROR)
 	{
 	  ERR_RAISE(EC_SYS_CLOSE);
@@ -108,7 +109,6 @@ network_accept_new_connection_push(server_t *server, int sock,
       free(new_client);
       return (ERROR);
     }
-  new_client->cli_socket = sock;
   if (list_push(&NETWORK->li_clients, new_client) == ERROR)
     {
       ERR_RAISE(EC_SYS_MALLOC);
@@ -117,6 +117,7 @@ network_accept_new_connection_push(server_t *server, int sock,
       free(new_client);
       return (ERROR);
     }
+  new_client->cli_socket = sock;
   LOG("new connection accepted from (%s)", new_client->cli_ip);
   return (SUCCESS);
 }
@@ -239,7 +240,6 @@ network_clean(server_t *server)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
-
     }
   network = &server->network;
   if (network->primary_socket > 0)
