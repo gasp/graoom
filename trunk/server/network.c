@@ -5,9 +5,10 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 12 17:08:02 2009 Sebastien Rannou
-** Last update Sun Jul 12 21:41:32 2009 Sebastien Rannou
+** Last update Mon Jul 13 10:40:32 2009 Sebastien Rannou
 */
 
+#include "lists.h"
 #include "shortcuts.h"
 #include "network.h"
 #include "server.h"
@@ -24,7 +25,7 @@
 
 /**!
  * @author	rannou_s
- * initialize the primary network socket
+ * initialize the primary network socket, which will accept new connections
  */
 
 static __inline int
@@ -55,12 +56,14 @@ network_initialize_primary_sock(network_t *network)
       return (ERROR);
     }
   network->primary_socket = sock;
+  network->current_fd_max = MAX(network->current_fd_max, sock);
   return (SUCCESS);
 }
 
 /**!
  * @author	rannou_s
- * initialization of the network
+ * initialization of the network:
+ * -> initialize the primary socket that will accept connections
  */
 
 int
@@ -73,6 +76,23 @@ network_initialize(server_t *server)
     }
   if (network_initialize_primary_sock(&server->network) == ERROR)
     {
+      return (ERROR);
+    }
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
+ * Called before leaving the program, clean everything that was
+ * loaded by network_initialize
+ */
+
+int
+network_clean(server_t *server)
+{
+  if (server == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
   return (SUCCESS);

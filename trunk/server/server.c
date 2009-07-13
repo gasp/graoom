@@ -5,9 +5,10 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 14:15:51 2009 sebastien rannou
-** Last update Sun Jul 12 16:58:12 2009 Sebastien Rannou
+** Last update Mon Jul 13 10:29:22 2009 Sebastien Rannou
 */
 
+#include "lists.h"
 #include "shortcuts.h"
 #include "tools.h"
 #include "network.h"
@@ -35,6 +36,6 @@ main(void)
     {
       printf("Here we launch the server\n");
     }
-  printf("We clean everything\n");
+  cleaner(&server);
   return (SUCCESS);
 }

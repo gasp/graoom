@@ -5,11 +5,11 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Sun Jul 12 22:27:47 2009 Sebastien Rannou
+** Last update Mon Jul 13 10:41:28 2009 Sebastien Rannou
 */
 
-#include "shortcuts.h"
 #include "lists.h"
+#include "shortcuts.h"
 #include "tools.h"
 #include "ini.h"
 #include "errors.h"
@@ -114,16 +114,28 @@ loader_parser_network(server_t *server, ini_section_t *conf)
 typedef struct	loader_asso_s /* associates an entry with a loader */
 {
   char		*name;					/* module's name */
-  int		(*f)(server_t *, ini_section_t *);	/* loader's pointer */
+  int		(*parser)(server_t *, ini_section_t *);	/* loader's pointer */
   int		(*init)(server_t *);			/* init's pointer */
-  int		has_been_loaded;			/* > 0 when true */
+  int		(*clean)(server_t *);			/* cleaner's pointer */
+  int		loaded;					/* > 0 when true */
 }		loader_asso_t;
 
 static
 loader_asso_t global_asso[] =
   {
-    {LOADER_NETWORK_S, &loader_parser_network, &network_initialize, 0},
-    {NULL, NULL, NULL, 0}
+
+    /* network's module */
+    {
+      .name	=	LOADER_NETWORK_S, 
+      .parser	=	&loader_parser_network, 
+      .init	=	&network_initialize, 
+      .clean	=	&network_clean,
+      .loaded	=	0
+    },
+
+    /* End of array */
+    {NULL, NULL, NULL, NULL, 0}
+
   };
 
 /**!
@@ -147,12 +159,12 @@ loader_parser_dispatch(server_t *server, ini_t *ini, ini_section_t *section)
     {
       if (strcmp(section->name, global_asso[i].name) == 0)
 	{
-	  if (global_asso[i].has_been_loaded++ > 0)
+	  if (global_asso[i].loaded++ > 0)
 	    {
 	      ERR_RAISE(EC_LOADER_SEV, section->name, ini->name);
 	      return (ERROR);
 	    }
-	  return (global_asso[i].f(server, section));
+	  return (global_asso[i].parser(server, section));
 	}
     }
   ERR_RAISE(EC_INI_UNKNOWN_ENTRY, section->name, ini->name);
@@ -176,7 +188,7 @@ loader_parser_check(ini_t *file)
     }
   for (i = 0; global_asso[i].name != NULL; i++)
     {
-      if (global_asso[i].has_been_loaded != 1)
+      if (global_asso[i].loaded != 1)
 	{
 	  ERR_RAISE(EC_LOADER_NULL, global_asso[i].name, file->name);
 	  return (ERROR);
@@ -246,7 +258,7 @@ loader(server_t *server)
 	return (ERROR);
       for (i = 0; global_asso[i].name != NULL; i++)
 	{
-	  LOG("loading module %s", global_asso[i].name);
+	  LOG("loading module [%s]", global_asso[i].name);
 	  if (global_asso[i].init(server) == ERROR)
 	    {
 	      return (ERROR);
@@ -258,6 +270,33 @@ loader(server_t *server)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
+    }
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
+ * Clean modules that were previously initialized
+ * Continue even if errors were raised
+ */
+
+int
+cleaner(server_t *server)
+{
+  int		i;
+
+  if (server == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  for (i = 0; global_asso[i].name != NULL; i++)
+    {
+      if (global_asso[i].loaded > 0)
+	{
+	  LOG("cleaning module [%s]", global_asso[i].name);
+	  global_asso[i].clean(server);
+	}
     }
   return (SUCCESS);
 }
