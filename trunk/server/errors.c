@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Sun Jul 12 21:38:31 2009 Sebastien Rannou
+** Last update Mon Jul 13 16:05:08 2009 Sebastien Rannou
 */
 
 #include "errors.h"
@@ -56,7 +56,49 @@ error_t		global_errors[] =
     /* NULL pointer found (unexpected) */
     {
       .code	=	EC_SYS_CLOSE,
-      .fmt	=	"was unable to close a file descriptor (%s)",
+      .fmt	=	"unable to close a file descriptor (%s)",
+      .behavior	=	ERR_T_LOG
+    },
+
+    /* NULL pointer found (unexpected) */
+    {
+      .code	=	EC_SYS_SELECT,
+      .fmt	=	"unable to perform select",
+      .behavior	=	ERR_T_LOG
+    },
+
+    /* Invalid FD's value */
+    {
+      .code	=	EC_SYS_FD,
+      .fmt	=	"invalid fd (%s)",
+      .behavior	=	ERR_T_LOG
+    },
+
+    /* Accept syscall failed */
+    {
+      .code	=	EC_SYS_ACCEPT,
+      .fmt	=	"unable to perform accept",
+      .behavior	=	ERR_T_LOG
+    },
+
+    /* fcntl syscall failed */
+    {
+      .code	=	EC_SYS_FCNTL,
+      .fmt	=	"unable to perform fnctl",
+      .behavior	=	ERR_T_LOG
+    },
+
+    /* inet_ntoa syscall failed */
+    {
+      .code	=	EC_SYS_INET_NTOA,
+      .fmt	=	"unable to perform inet_ntoa",
+      .behavior	=	ERR_T_LOG
+    },
+
+    /* malloc syscall failed */
+    {
+      .code	=	EC_SYS_MALLOC,
+      .fmt	=	"unable to perform malloc",
       .behavior	=	ERR_T_LOG
     },
 

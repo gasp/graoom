@@ -5,11 +5,13 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 12 14:11:29 2009 Sebastien Rannou
-** Last update Sun Jul 12 23:43:41 2009 Sebastien Rannou
+** Last update Mon Jul 13 16:01:10 2009 Sebastien Rannou
 */
 
 #ifndef	GRAOOM_NETWORK_H
 #define	GRAOOM_NETWORK_H
+
+#include <sys/select.h>	/* required for fd_set */
 
 typedef struct		network_pack_head_s	/* packet's header */
 {
@@ -43,11 +45,17 @@ typedef	struct		network_conf_s		/* network settings */
   int			num_max_connection;	/* maximum number of connections */
 }			network_conf_t;
 
+typedef struct		network_select_s	/* data related to select */
+{
+  int			current_fd_max;		/* current highest fd */
+  fd_set		readfs;			/* to know activity from openned sockets */
+}			network_select_t;
+
 typedef struct		network_s		/* main structure */
 {
   network_conf_t	configuration;		/* network's settings */
+  network_select_t	select;			/* select's configuration */
   int			primary_socket;		/* listening socket */
-  int			current_fd_max;		/* current highest fd */
   list_t		*li_clients;		/* list of connected clients */
 }			network_t;
 

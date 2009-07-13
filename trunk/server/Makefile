@@ -16,6 +16,7 @@ SOURCES	=	server.c		\
 		errors.c		\
 		network.c		\
 		log.c			\
+		loop.c			\
 
 CFLAGS	+=	-I../includes
 LIBS	=	-ltools_`uname -m`-`uname -s` -L../libs/

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Sun Jul 12 22:20:17 2009 Sebastien Rannou
+** Last update Mon Jul 13 16:04:48 2009 Sebastien Rannou
 */
 
 #ifndef GRAOOM_ERRORS_H
@@ -34,7 +34,14 @@
 
 #define			EC_NULL_PTR		1
 #define			EC_NULL_PTR_DIE		2
+
 #define			EC_SYS_CLOSE		3
+#define			EC_SYS_SELECT		4
+#define			EC_SYS_FD		5
+#define			EC_SYS_ACCEPT		6
+#define			EC_SYS_FCNTL		7
+#define			EC_SYS_MALLOC		8
+#define			EC_SYS_INET_NTOA	9
 
 #define			EC_INI_FILE		101
 #define			EC_INI_SEC		102

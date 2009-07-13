@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 14:15:51 2009 sebastien rannou
-** Last update Mon Jul 13 10:29:22 2009 Sebastien Rannou
+** Last update Mon Jul 13 14:09:39 2009 Sebastien Rannou
 */
 
 #include "lists.h"
@@ -13,10 +13,6 @@
 #include "tools.h"
 #include "network.h"
 #include "server.h"
-
-#ifndef		_BSD_SOURCE
-# define	_BSD_SOURCE
-#endif
 
 #include <stdio.h>
 
@@ -33,9 +29,7 @@ main(void)
   server_t	server;
 
   if (loader(&server) == SUCCESS)
-    {
-      printf("Here we launch the server\n");
-    }
+    loop(&server);
   cleaner(&server);
   return (SUCCESS);
 }
