@@ -24,4 +24,6 @@ clean:
 fclean:	clean
 	$(RM) $(NAME)
 
-re:	fclean all
+re:
+	$(RM) $(NAME)
+	$(MAKE) all

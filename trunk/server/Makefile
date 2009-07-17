@@ -9,30 +9,26 @@
 
 include ../Makefile.inc
 
-NAME	=	gserv
-
-SOURCES	=	server.c		\
-		loader.c		\
-		errors.c		\
-		log.c			\
-
-CFLAGS	+=	-I../includes -I./network/
-
-all:	$(OBJECTS)
-	$(MV) $(OBJECTS) $(OBJDIR)
+all:
 	$(MAKE) -C network $@
+	$(MAKE) -C base $@
+
 	$(MAKE) -C build $@
 
 clean:
-	$(RM) $(OBJECTS)
 	$(MAKE) -C network $@
+	$(MAKE) -C base $@
+
 	$(MAKE) -C build $@
 
 fclean:	clean
-	$(RM) $(NAME)
 	$(MAKE) -C network $@
+	$(MAKE) -C base $@
+
 	$(MAKE) -C build $@
 
 re:	fclean all
 	$(MAKE) -C network $@
+	$(MAKE) -C base $@
+
 	$(MAKE) -C build $@

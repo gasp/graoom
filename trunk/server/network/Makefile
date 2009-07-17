@@ -12,7 +12,7 @@ include ../../Makefile.inc
 SOURCES	=	network.c		\
 		network_parser.c	\
 
-CFLAGS	+=	-I../../includes -I../ -I.
+CFLAGS	+=	-I../../includes -I../includes/
 
 all:	$(OBJECTS)
 	$(MV) $(OBJECTS) ../$(OBJDIR)

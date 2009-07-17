@@ -12,6 +12,7 @@ include ../../Makefile.inc
 SOURCES	=	errors.c		\
 		log.c			\
 		server.c		\
+		loader.c		\
 
 CFLAGS	+=	-I../../includes -I../includes/
 
