@@ -1,11 +1,11 @@
 /*
-** network.c for graoom in /usr/home/rannou_s/work/graoom/server
+** connection.c for graoom in /home/rannou_s/Work/graoom/server/network
 ** 
-** Made by Sebastien Rannou
+** Made by sebastien rannou
 ** Login   <rannou_s@epitech.net>
 ** 
-** Started on  Sun Jul 12 17:08:02 2009 Sebastien Rannou
-** Last update Fri Jul 17 21:04:47 2009 sebastien rannou
+** Started on  Fri Jul 17 23:27:33 2009 sebastien rannou
+** Last update Fri Jul 17 23:28:38 2009 sebastien rannou
 */
 
 #include <sys/select.h>
@@ -18,15 +18,14 @@
 #include "log.h"
 
 #include <stdlib.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <errno.h>
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
 #include <arpa/inet.h>
+#include <netinet/in.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
 
 /**!
  * @author	rannou_s
@@ -164,91 +163,3 @@ network_accept_new_connection(server_t *server, network_t *network, int sock)
   return (SUCCESS);
 }
 
-/**!
- * @author	rannou_s
- * initialize the primary network socket, which will accept new connections
- */
-
-static __inline int
-network_initialize_primary_sock(network_t *network)
-{
-  struct sockaddr_in	iost;
-  int			sock;
-  
-  if (network == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);
-    }
-  sock = socket(PF_INET, SOCK_STREAM, 0);
-  if (sock == ERROR)
-    {
-      ERR_RAISE(EC_NETWORK_SOCK, strerror(errno));
-      return (ERROR);
-    }
-  iost.sin_family = AF_INET;
-  iost.sin_port = htons(network->configuration.port);
-  iost.sin_addr.s_addr= INADDR_ANY;
-  if (bind(sock, (struct sockaddr *) &iost, sizeof(struct sockaddr)) == ERROR)
-    {
-      ERR_RAISE(EC_NETWORK_SOCK, strerror(errno));
-      if (close(sock) == ERROR)
-	ERR_RAISE(EC_SYS_CLOSE, strerror(errno));
-      return (ERROR);
-    }
-  if (listen(sock, network->configuration.num_max_connection) == ERROR)
-    {
-      ERR_RAISE(EC_NETWORK_SOCK, strerror(errno));
-      if (close(sock) == ERROR)
-	ERR_RAISE(EC_SYS_CLOSE, strerror(errno));
-      return (ERROR);      
-    }
-  network->primary_socket = sock;
-  return (SUCCESS);
-}
-
-/**!
- * @author	rannou_s
- * initialization of the network:
- * -> initialize the primary socket that will accept connections
- */
-
-int
-network_initialize(server_t *server, network_t *network)
-{
-  if (server == NULL || network == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);
-    }
-  if (network_initialize_primary_sock(network) == ERROR)
-    {
-      return (ERROR);
-    }
-  return (SUCCESS);
-}
-
-/**!
- * @author	rannou_s
- * Called before leaving the program, clean everything that was
- * loaded by network_initialize
- * -> close primary socket
- */
-
-int
-network_clean(server_t *server, network_t *network)
-{
-  if (server == NULL || network == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);
-    }
-  if (network->primary_socket > 0)
-    {
-      if (close(network->primary_socket) == ERROR)
-	{
-	  ERR_RAISE(EC_SYS_CLOSE);
-	}
-    }
-  return (SUCCESS);
-}
