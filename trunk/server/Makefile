@@ -14,21 +14,25 @@ NAME	=	gserv
 SOURCES	=	server.c		\
 		loader.c		\
 		errors.c		\
-		network.c		\
 		log.c			\
-		loop.c			\
 
-CFLAGS	+=	-I../includes
-LIBS	=	-ltools_`uname -m`-`uname -s` -L../libs/
+CFLAGS	+=	-I../includes -I./network/
 
 all:	$(OBJECTS)
-	$(CC) $(OBJECTS) -o $(NAME) $(LIBS)
-	$(MV) $(NAME) ../$(BINDIR)/graoom-server/
+	$(MV) $(OBJECTS) $(OBJDIR)
+	$(MAKE) -C network $@
+	$(MAKE) -C build $@
 
 clean:
 	$(RM) $(OBJECTS)
+	$(MAKE) -C network $@
+	$(MAKE) -C build $@
 
 fclean:	clean
 	$(RM) $(NAME)
+	$(MAKE) -C network $@
+	$(MAKE) -C build $@
 
 re:	fclean all
+	$(MAKE) -C network $@
+	$(MAKE) -C build $@

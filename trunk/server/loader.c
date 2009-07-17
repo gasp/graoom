@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Mon Jul 13 20:52:55 2009 Sebastien Rannou
+** Last update Fri Jul 17 20:20:51 2009 sebastien rannou
 */
 
 #include "lists.h"
@@ -13,9 +13,8 @@
 #include "tools.h"
 #include "ini.h"
 #include "errors.h"
-#include "network.h"
 #include "server.h"
-#include "init.h"
+#include "network_prototypes.h"
 #include "log.h"
 
 #include <stdio.h>
@@ -27,85 +26,6 @@
 #define	LOADER_NETWORK_S	"network"
 
 /**!
- * These defines are related to key's value 
- * on configuration file
- */
-
-#define	LOADER_NET_PORT		"port"
-#define	LOADER_NET_MAX		"max_connection"
-
-/**!
- * @author	rannou_s
- * retrieve the maximum number of connection
- * according to three values:
- * ->	FD_SETSIZE
- * ->	user's config
- * We use the smallest of these two values
- */
-
-static __inline	int
-loader_parser_network_max_con(server_t *server, ini_section_t *conf)
-{
-  char		*value;
-  int		max;
-
-  if (server == NULL || conf == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);
-    }
-  max = FD_SETSIZE;
-  if ((value = ini_retrieve_entry_from_section(conf, LOADER_NET_MAX)) != NULL)
-    {
-      max = MIN(atoi(value), max);
-    }
-  if (!(max > 0))
-    {
-      ERR_RAISE(EC_LOADER_MAX);
-      return (ERROR);
-    }
-  server->network.configuration.num_max_connection = max;
-  return (SUCCESS);
-}
-
-/**!
- * @author	rannou_s
- * Loads network's related settings
- * Here we fetch the maximal number of connection the server can handle
- * with FD_SETSIZE or getrlimit
- */
-
-static __inline int
-loader_parser_network(server_t *server, ini_section_t *conf)
-{
-  char		*value;
-  int		num;
-
-  if (server == NULL || conf == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);
-    }
-  if (!(value = ini_retrieve_entry_from_section(conf, LOADER_NET_PORT)))
-    {
-      ERR_RAISE(EC_INI_UNKNOWN_ENTRY, LOADER_NET_PORT, conf->name);
-      return (ERROR);
-    }
-  num = atoi(value);
-  if (!(num > 0 && num < 65536))
-    {
-      ERR_RAISE(EC_LOADER_PORT, num);
-      return (ERROR);
-    }
-  server->network.configuration.port = num;  
-  if (loader_parser_network_max_con(server, conf) == ERROR)
-    {
-      return (ERROR);
-    }
-  return (SUCCESS);
-}
-
-/**!
  * @author	rannou_s
  * associates a .ini file with a specific loader as can be
  * related on global array
@@ -114,10 +34,11 @@ loader_parser_network(server_t *server, ini_section_t *conf)
 typedef struct	loader_asso_s /* associates an entry with a loader */
 {
   char		*name;					/* module's name */
-  int		(*parser)(server_t *, ini_section_t *);	/* loader's pointer */
-  int		(*init)(server_t *);			/* init's pointer */
-  int		(*clean)(server_t *);			/* cleaner's pointer */
+  void		*(*parser)(server_t*, ini_section_t*);	/* parsers's pointer */
+  int		(*init)(server_t *, void *);		/* init's pointer */
+  int		(*clean)(server_t *, void *);		/* cleaner's pointer */
   int		loaded;					/* > 0 when true */
+  void		*data;					/* module's data */
 }		loader_asso_t;
 
 static
@@ -127,14 +48,15 @@ loader_asso_t global_asso[] =
     /* network's module */
     {
       .name	=	LOADER_NETWORK_S, 
-      .parser	=	&loader_parser_network, 
+      .parser	=	&network_parser, 
       .init	=	&network_initialize, 
       .clean	=	&network_clean,
-      .loaded	=	0
+      .loaded	=	0,
+      .data	=	NULL
     },
 
     /* End of array */
-    {NULL, NULL, NULL, NULL, 0}
+    {NULL, NULL, NULL, NULL, 0, NULL}
 
   };
 
@@ -165,7 +87,11 @@ loader_parser_dispatch(server_t *server, ini_t *ini, ini_section_t *section)
 	      return (ERROR);
 	    }
 	  if (global_asso[i].parser != NULL)
-	    return (global_asso[i].parser(server, section));
+	    {
+	      global_asso[i].data = global_asso[i].parser(server, section);
+	      if (global_asso[i].data == NULL)
+		return (ERROR);
+	    }
 	  return (SUCCESS);	      
 	}
     }
@@ -263,7 +189,8 @@ loader(server_t *server)
 	  LOG("loading module [%s]", global_asso[i].name);
 	  if (global_asso[i].init != NULL)
 	    {
-	      if (global_asso[i].init(server) == ERROR)
+	      if (global_asso[i].init(server,
+				      global_asso[i].data) == ERROR)
 		{
 		  return (ERROR);
 		}
@@ -301,7 +228,7 @@ cleaner(server_t *server)
 	{
 	  LOG("cleaning module [%s]", global_asso[i].name);
 	  if (global_asso[i].clean != NULL)
-	    global_asso[i].clean(server);
+	    global_asso[i].clean(server, global_asso[i].data);
 	}
     }
   return (SUCCESS);

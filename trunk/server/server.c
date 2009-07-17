@@ -5,14 +5,14 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 14:15:51 2009 sebastien rannou
-** Last update Mon Jul 13 14:09:39 2009 Sebastien Rannou
+** Last update Fri Jul 17 19:27:08 2009 sebastien rannou
 */
 
 #include "lists.h"
 #include "shortcuts.h"
 #include "tools.h"
-#include "network.h"
 #include "server.h"
+#include "log.h"
 
 #include <stdio.h>
 
@@ -29,7 +29,7 @@ main(void)
   server_t	server;
 
   if (loader(&server) == SUCCESS)
-    loop(&server);
+    LOG("Let's launch the server");
   cleaner(&server);
   return (SUCCESS);
 }

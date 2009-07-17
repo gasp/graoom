@@ -5,38 +5,26 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 12 14:11:29 2009 Sebastien Rannou
-** Last update Mon Jul 13 16:01:10 2009 Sebastien Rannou
+** Last update Fri Jul 17 19:35:01 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_NETWORK_H
 #define	GRAOOM_NETWORK_H
 
-#include <sys/select.h>	/* required for fd_set */
-
-typedef struct		network_pack_head_s	/* packet's header */
-{
-  unsigned int		magic;			/* magic number */
-  unsigned int		action;			/* action to handle */
-  unsigned int		len;			/* size of the paquet */
-}			network_pack_head_t;
-
-#define	NET_MAX_QUEUE	10
-#define	NET_MAX_P_LEN	512
-#define	NET_MAX_BUF	NET_MAX_QUEUE * (NET_MAX_P_LEN + sizeof(network_pack_head_t))
+#define	IBUFF_SIZE	4096			/* input buffer max size */
 
 typedef struct		network_ibuff_s		/* input buffer */
 {
-  char			buffer[NET_MAX_BUF+1];	/* input buffer */
-  network_pack_head_t	packet;			/* memset to 0 when none */
+  char			buffer[IBUFF_SIZE+1];	/* input buffer */
   int			offset;			/* position on the buffer */
 }			network_ibuff_t;
 
 typedef struct		network_client_s	/* structure of a client */
 {
-  network_ibuff_t	net_ibuff;		/* input buffer */
-  void			*cli_data;		/* volontary a typeless ptr */
-  char			*cli_ip;		/* client's ip */
-  int			cli_socket;		/* client's socket */
+  network_ibuff_t	ibuff;			/* input buffer */
+  void			*data;			/* volontary a typeless ptr */
+  char			*ip;			/* client's ip */
+  int			sock;			/* client's socket */
 }			network_client_t;
 
 typedef	struct		network_conf_s		/* network settings */
@@ -56,7 +44,7 @@ typedef struct		network_s		/* main structure */
   network_conf_t	configuration;		/* network's settings */
   network_select_t	select;			/* select's configuration */
   int			primary_socket;		/* listening socket */
-  list_t		*li_clients;		/* list of connected clients */
+  list_t		*clients;		/* list of connected clients */
 }			network_t;
 
 #endif /* GRAOOM_NETWORK_H */
