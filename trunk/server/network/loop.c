@@ -5,10 +5,9 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sat Jul 18 18:24:41 2009 sebastien rannou
-** Last update Sun Jul 19 01:17:00 2009 sebastien rannou
+** Last update Sun Jul 19 01:39:48 2009 sebastien rannou
 */
 
-#include <stdlib.h>
 #include <sys/select.h>
 
 #include "lists.h"
@@ -17,6 +16,11 @@
 #include "shortcuts.h"
 #include "network.h"
 #include "client.h"
+
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
+#include <unistd.h>
 
 /**!
  * @author	rannou_s
@@ -69,7 +73,8 @@ network_loop_activity(server_t *server, network_t *network)
 static __inline int
 network_loop_init_pop(server_t *server, network_t *network, list_t **ptr)
 {
-  list_t	*cur;
+  list_t		*cur;
+  network_client_t	*client;
 
   if (server == NULL || network == NULL || ptr == NULL || *ptr == NULL)
     {
@@ -78,17 +83,22 @@ network_loop_init_pop(server_t *server, network_t *network, list_t **ptr)
     }
   cur = *ptr;
   *ptr = cur->li_next;
+  if ((client = (network_client_t *) cur->data) != NULL)
+    {
+      if (close(client->sock) == ERROR)
+	ERR_RAISE(EC_SYS_CLOSE, strerror(errno));
+    }
   if (cur->li_next != NULL)
     cur->li_next->li_prev = cur->li_prev;
   if (cur->li_prev == NULL)
     {
       network->clients = cur->li_next;
-      /* kick -> cur->data */
+      /* kick -> client->data */
       free(cur);
       return (SUCCESS);
     }
   cur->li_prev->li_next = cur->li_next;
-  /* kick cur->data */
+  /* kick client->data */
   free(cur);
   return (SUCCESS);
 }

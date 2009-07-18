@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Sun Jul 19 00:30:31 2009 sebastien rannou
+** Last update Sun Jul 19 01:37:53 2009 sebastien rannou
 */
 
 #include "errors.h"
