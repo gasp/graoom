@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 12 17:08:02 2009 Sebastien Rannou
-** Last update Sat Jul 18 22:54:38 2009 sebastien rannou
+** Last update Sun Jul 19 01:29:06 2009 sebastien rannou
 */
 
 #include <sys/select.h>
@@ -58,8 +58,8 @@ network_read_from_client_store(server_t *server, network_client_t *client,
       *ptr = '\0';
       LOG("executing command %s", buffer);
       off = (buffer + IBUFF_SIZE) - ptr;
-      memmove(buffer, ptr + 1, off);
-      client->ibuff.offset = off;
+      memmove(buffer, ptr + 1, IBUFF_SIZE - off);
+      client->ibuff.offset = 0;
     }
   return (SUCCESS);
 }

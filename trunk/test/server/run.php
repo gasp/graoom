@@ -110,6 +110,24 @@ function	create_connect()
   return fsockopen($ip, $port);
 }
 
+// Test 2
+launch_test("Network test (can be long)", 2);
+for ($i = 0; $i < 4096; $i++)
+  {
+    $sock = create_connect();
+    fclose($sock);
+  }
+end_test();
+
+// Test 3
+launch_test("CPU test (can be long)", 5);
+for ($i = 0; $i < 2048; $i++)
+  {
+    $sockets[] = create_connect();
+  }
+clean_sockets();
+end_test();
+
 // Test 1
 launch_test("Memory test", 3);
 $sock = create_connect();
@@ -123,24 +141,6 @@ for ($i = 0; $i < 1024; $i++)
       break;
   }
 fclose($sock);
-end_test();
-
-// Test 6
-launch_test("Network test (can be long)", 2);
-for ($i = 0; $i < 4096; $i++)
-  {
-    $sock = create_connect();
-    fclose($sock);
-  }
-end_test();
-
-// Test 7
-launch_test("CPU test (can be long)", 5);
-for ($i = 0; $i < 2048; $i++)
-  {
-    $sockets[] = create_connect();
-  }
-clean_sockets();
 end_test();
 
 //Yaw!

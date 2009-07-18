@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sat Jul 18 18:24:41 2009 sebastien rannou
-** Last update Sun Jul 19 00:33:36 2009 sebastien rannou
+** Last update Sun Jul 19 01:17:00 2009 sebastien rannou
 */
 
 #include <stdlib.h>
@@ -62,11 +62,45 @@ network_loop_activity(server_t *server, network_t *network)
 
 /**!
  * @author	rannou_s
+ * Ninja's skill: kick a client while looping on the list with
+ * some pointer's modifications
+ */
+
+static __inline int
+network_loop_init_pop(server_t *server, network_t *network, list_t **ptr)
+{
+  list_t	*cur;
+
+  if (server == NULL || network == NULL || ptr == NULL || *ptr == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  cur = *ptr;
+  *ptr = cur->li_next;
+  if (cur->li_next != NULL)
+    cur->li_next->li_prev = cur->li_prev;
+  if (cur->li_prev == NULL)
+    {
+      network->clients = cur->li_next;
+      /* kick -> cur->data */
+      free(cur);
+      return (SUCCESS);
+    }
+  cur->li_prev->li_next = cur->li_next;
+  /* kick cur->data */
+  free(cur);
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
  * Initialize fds to prepare the select call
  * As we need to optimize this part of the program, this is also the
  * place where we perform operations on each client and players 
  * (would be a mistake to loop again on that list in another part of the code)
- * This is also the place where we kick clients.
+ * This is also the place where we kick clients:
+ * -> ninja's skill: we kick him while looping on the list
  */
 
 #define	MAXFD(val)	((val) > network->select.current_fd_max ? (val) : \
@@ -92,7 +126,7 @@ network_loop_init(server_t *server, network_t *network)
       client = (network_client_t *) cur->data;
       if (client->state & CLIENT_KICKED)
 	{
-	  /* Let's kick him */
+	  network_loop_init_pop(server, network, &cur);
 	}
       else
 	{
