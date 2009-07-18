@@ -17,6 +17,7 @@ MV	=	mv
 MAKE	=	make
 FIND	=	find
 
+OBJDIR	=	build/
 BINDIR	=	bin/
 
 # Compilation settings

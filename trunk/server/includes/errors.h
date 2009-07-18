@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Mon Jul 13 22:37:00 2009 Sebastien Rannou
+** Last update Sun Jul 19 00:31:00 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_ERRORS_H
@@ -42,6 +42,7 @@
 #define			EC_SYS_FCNTL		7
 #define			EC_SYS_MALLOC		8
 #define			EC_SYS_INET_NTOA	9
+#define			EC_SYS_READ		10
 
 #define			EC_INI_FILE		101
 #define			EC_INI_SEC		102
@@ -54,6 +55,7 @@
 
 #define			EC_NETWORK_SOCK		301
 #define			EC_NETWORK_MAX		302
+#define			EC_NETWORK_NODATA	303
 
 void	/* logs a message, see errors.c for more information */
 error_handler(int line, char *file, int code, ...);

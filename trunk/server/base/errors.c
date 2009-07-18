@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Mon Jul 13 22:37:14 2009 Sebastien Rannou
+** Last update Sun Jul 19 00:30:31 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -98,7 +98,14 @@ error_t		global_errors[] =
     /* malloc syscall failed */
     {
       .code	=	EC_SYS_MALLOC,
-      .fmt	=	"unable to perform malloc",
+      .fmt	=	"unable to perform malloc (%s)",
+      .behavior	=	ERR_T_LOG
+    },
+
+    /* malloc syscall failed */
+    {
+      .code	=	EC_SYS_READ,
+      .fmt	=	"unable to read (%s)",
       .behavior	=	ERR_T_LOG
     },
 
@@ -164,6 +171,13 @@ error_t		global_errors[] =
       .code	=	EC_NETWORK_MAX,
       .fmt	=	"maximum number of connection reached (%d)",
       .behavior	=	ERR_T_DISPLAY
+    },
+
+    /* Unable to fetch data for the given module */
+    {
+      .code	=	EC_NETWORK_NODATA,
+      .fmt	=	"unable to fetch associated data for module (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
     },
 
     /* End of array */

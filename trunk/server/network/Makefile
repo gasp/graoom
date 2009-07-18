@@ -9,10 +9,13 @@
 
 include ../../Makefile.inc
 
-SOURCES	=	network.c		\
+SOURCES	=	cleaner.c		\
 		parser.c		\
 		init.c			\
 		connection.c		\
+		loop.c			\
+		read.c			\
+		client.c		\
 
 CFLAGS	+=	-I../../includes -I../includes/
 

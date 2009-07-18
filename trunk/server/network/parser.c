@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul 17 19:32:01 2009 sebastien rannou
-** Last update Fri Jul 17 21:08:03 2009 sebastien rannou
+** Last update Sat Jul 18 22:55:24 2009 sebastien rannou
 */
 
 #include <sys/select.h>
@@ -18,6 +18,8 @@
 #include "server.h"
 
 #include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 
 /**!
  * These defines are related to key's value 
@@ -82,7 +84,7 @@ network_parser(server_t *server, ini_section_t *conf)
     }
   if ((network = malloc(sizeof(*network))) == NULL)
     {
-      ERR_RAISE(EC_SYS_MALLOC);
+      ERR_RAISE(EC_SYS_MALLOC, strerror(errno));
       return (NULL);
     }
   if (!(value = ini_retrieve_entry_from_section(conf, LOADER_NET_PORT)))

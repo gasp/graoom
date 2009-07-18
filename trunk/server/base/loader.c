@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Fri Jul 17 20:20:51 2009 sebastien rannou
+** Last update Sun Jul 19 00:34:11 2009 sebastien rannou
 */
 
 #include "lists.h"
@@ -21,6 +21,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/select.h>
+
+int	/* server's main loop */
+network_loop(server_t *server, void *network);
 
 #define	LOADER_INI_FILE		"public/settings.ini"
 #define	LOADER_NETWORK_S	"network"
@@ -232,4 +235,30 @@ cleaner(server_t *server)
 	}
     }
   return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
+ * Let's launch the server
+ */
+
+int
+launcher(server_t *server)
+{
+  int		i;
+
+  if (server == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  for (i = 0; global_asso[i].name != NULL; i++)
+    {
+      if (strcmp(global_asso[i].name, LOADER_NETWORK_S) == 0)
+	{
+	  return (network_loop(server, global_asso[i].data));
+	}
+    }
+  ERR_RAISE(EC_NETWORK_NODATA, LOADER_NETWORK_S);
+  return (ERROR);
 }

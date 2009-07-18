@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 12 14:11:29 2009 Sebastien Rannou
-** Last update Fri Jul 17 19:35:01 2009 sebastien rannou
+** Last update Sun Jul 19 00:21:08 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_NETWORK_H
@@ -19,12 +19,17 @@ typedef struct		network_ibuff_s		/* input buffer */
   int			offset;			/* position on the buffer */
 }			network_ibuff_t;
 
+#define	CLIENT_CONNECTED	1		/* 0001 */
+#define	CLIENT_KICKED		2		/* 0010 */
+
 typedef struct		network_client_s	/* structure of a client */
 {
   network_ibuff_t	ibuff;			/* input buffer */
   void			*data;			/* volontary a typeless ptr */
   char			*ip;			/* client's ip */
   int			sock;			/* client's socket */
+  int			state;			/* to kick? playing? */
+  int			id;			/* client's id */
 }			network_client_t;
 
 typedef	struct		network_conf_s		/* network settings */
@@ -41,10 +46,11 @@ typedef struct		network_select_s	/* data related to select */
 
 typedef struct		network_s		/* main structure */
 {
-  network_conf_t	configuration;		/* network's settings */
   network_select_t	select;			/* select's configuration */
-  int			primary_socket;		/* listening socket */
+  network_conf_t	configuration;		/* network's settings */
   list_t		*clients;		/* list of connected clients */
+  int			last_client_id;		/* used to determine ids */
+  int			primary_socket;		/* listening socket */
 }			network_t;
 
 #endif /* GRAOOM_NETWORK_H */

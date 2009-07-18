@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul 17 23:27:33 2009 sebastien rannou
-** Last update Fri Jul 17 23:28:38 2009 sebastien rannou
+** Last update Sun Jul 19 00:21:28 2009 sebastien rannou
 */
 
 #include <sys/select.h>
@@ -16,6 +16,7 @@
 #include "server.h"
 #include "errors.h"
 #include "log.h"
+#include "client.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -26,6 +27,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
+#include <errno.h>
 
 /**!
  * @author	rannou_s
@@ -99,7 +101,7 @@ network_accept_new_connection_push(server_t *server, network_t *network,
     }
   if ((new_client = malloc(sizeof(*new_client))) == NULL)
     {
-      ERR_RAISE(EC_SYS_MALLOC);
+      ERR_RAISE(EC_SYS_MALLOC, strerror(errno));
       return (ERROR);
     }
   memset(new_client, 0, sizeof(*new_client));
@@ -121,6 +123,7 @@ network_accept_new_connection_push(server_t *server, network_t *network,
       return (ERROR);
     }
   new_client->sock = sock;
+  new_client->id = ++network->last_client_id;
   LOG("new connection accepted from (%s)", new_client->ip);
   return (SUCCESS);
 }
@@ -162,4 +165,3 @@ network_accept_new_connection(server_t *server, network_t *network, int sock)
     return (ERROR);
   return (SUCCESS);
 }
-

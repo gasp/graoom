@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jun 29 18:21:27 2009 Sebastien Rannou
-** Last update Wed Jul  8 23:25:48 2009 sebastien rannou
+** Last update Fri Jul 17 18:48:15 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_LIST_H
