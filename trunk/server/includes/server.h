@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 23:27:43 2009 sebastien rannou
-** Last update Sun Jul 19 00:32:46 2009 sebastien rannou
+** Last update Sun Jul 19 13:56:18 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_SERVER_H
@@ -19,9 +19,11 @@
 
 #define	SERVER_STATE_ON		0
 #define	SERVER_STATE_OFF	1
+#define	SERVER_NAME_LEN		256
 
 typedef struct		server_s	/* main structure of the program */
 {
+  char			name[256];	/* server's name */
   int			state;		/* server's state, default is ON */
 }			server_t;
 

@@ -12,23 +12,27 @@ include ../Makefile.inc
 all:
 	$(MAKE) -C network $@
 	$(MAKE) -C base $@
+	$(MAKE) -C cmd $@
 
 	$(MAKE) -C build $@
 
 clean:
 	$(MAKE) -C network $@
 	$(MAKE) -C base $@
+	$(MAKE) -C cmd $@
 
 	$(MAKE) -C build $@
 
 fclean:	clean
 	$(MAKE) -C network $@
 	$(MAKE) -C base $@
+	$(MAKE) -C cmd $@
 
 	$(MAKE) -C build $@
 
 re:	fclean all
 	$(MAKE) -C network $@
 	$(MAKE) -C base $@
+	$(MAKE) -C cmd $@
 
 	$(MAKE) -C build $@

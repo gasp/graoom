@@ -9,10 +9,10 @@
 
 include ../../Makefile.inc
 
-SOURCES	=	errors.c		\
-		log.c			\
-		server.c		\
-		loader.c		\
+SOURCES	=	base_errors.c		\
+		base_log.c		\
+		base_server.c		\
+		base_loader.c		\
 
 CFLAGS	+=	-I../../includes -I../includes/
 

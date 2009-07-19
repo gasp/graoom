@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Sun Jul 19 00:34:11 2009 sebastien rannou
+** Last update Sun Jul 19 13:53:11 2009 sebastien rannou
 */
 
 #include "lists.h"
@@ -27,6 +27,7 @@ network_loop(server_t *server, void *network);
 
 #define	LOADER_INI_FILE		"public/settings.ini"
 #define	LOADER_NETWORK_S	"network"
+#define	LOADER_SERVER_S		"server"
 
 /**!
  * @author	rannou_s
@@ -162,7 +163,9 @@ loader_parser(server_t *server)
       return (ret);
     }
   else
-    ERR_RAISE(EC_INI_FILE, LOADER_INI_FILE);
+    {
+      ERR_RAISE(EC_INI_FILE, LOADER_INI_FILE);
+    }
   ini_free_main(primary);
   return (ERROR);  
 }

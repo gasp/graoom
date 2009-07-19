@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul 17 23:27:33 2009 sebastien rannou
-** Last update Sun Jul 19 13:19:33 2009 sebastien rannou
+** Last update Sun Jul 19 14:11:33 2009 sebastien rannou
 */
 
 #include <sys/select.h>
@@ -17,6 +17,7 @@
 #include "errors.h"
 #include "log.h"
 #include "client.h"
+#include "cmd.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -124,7 +125,7 @@ network_accept_new_connection_push(server_t *server, network_t *network,
     }
   new_client->sock = sock;
   new_client->id = ++network->last_client_id;
-  network_client_write(new_client, "Hello NOOOB");
+  cmd_welcome(server, network, new_client);
   LOG("new connection accepted from (%s)", new_client->ip);
   return (SUCCESS);
 }

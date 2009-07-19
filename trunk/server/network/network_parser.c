@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul 17 19:32:01 2009 sebastien rannou
-** Last update Sat Jul 18 22:55:24 2009 sebastien rannou
+** Last update Sun Jul 19 14:11:12 2009 sebastien rannou
 */
 
 #include <sys/select.h>
@@ -27,6 +27,7 @@
  */
 
 #define	LOADER_NET_PORT		"port"
+#define	LOADER_NET_NAME		"name"
 #define	LOADER_NET_MAX		"max_connection"
 
 /**!
@@ -100,7 +101,14 @@ network_parser(server_t *server, ini_section_t *conf)
       free(network);
       return (NULL);
     }
-  network->configuration.port = num;  
+  network->configuration.port = num;
+  if (!(value = ini_retrieve_entry_from_section(conf, LOADER_NET_NAME)))
+    {
+      ERR_RAISE(EC_INI_UNKNOWN_ENTRY, LOADER_NET_NAME, conf->name);
+      free(network);
+      return (NULL);
+    }
+  strncpy(server->name, value, MIN(strlen(value), SERVER_NAME_LEN));
   if (loader_parser_network_max_con(network, conf) == ERROR)
     {
       free(network);

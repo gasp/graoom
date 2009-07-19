@@ -5,7 +5,6 @@
 ## Login   <rannou_s@epitech.net>
 ## 
 ## Started on  Wed Jul  1 22:38:14 2009 Sebastien Rannou
-## Last update Sat Sep  5 15:58:25 2009 Sebastien Rannou
 ##
 
 include Makefile.inc
