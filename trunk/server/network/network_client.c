@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Tue Jul 14 11:02:01 2009 Sebastien Rannou
-** Last update Sun Jul 19 01:06:57 2009 sebastien rannou
+** Last update Sun Jul 19 14:32:38 2009 sebastien rannou
 */
 
 #include <sys/select.h>
@@ -37,11 +37,11 @@ client_kick(network_client_t *client, char *message)
   if (message == NULL)
     {
       ERR_RAISE(EC_NULL_PTR);
-      LOG("kicking client [%d]: unknow reason", client->id);
+      LOG(LOG_CLIENT_KICK_DEF, client->id);
     }
   else
     {
-      LOG("kicking client [%d]: %s", client->id, message);
+      LOG(LOG_CLIENT_KICK, client->id, message);
     }
   client->state |= CLIENT_KICKED;
   return (SUCCESS);

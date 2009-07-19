@@ -7,18 +7,24 @@
 // Started on  Mon Apr 27 15:48:59 2009 sebastien rannou
 //
 
-error_reporting(0); // No need?!
+error_reporting(0);
 
-if (!($argc == 3))
+$pid = pcntl_fork();
+
+if ($pid == -1)
+  die("unable to fork\n");
+
+if ($pid == 0)
   {
-    color_red_start();
-    echo "usage: php moulinette.php [ip] [port]\n";
-    color_end();
-    die();
+    chdir("../../bin/graoom-server/");
+    passthru("./gserv");
+    die("unable to launch server\n");
   }
 
-$ip = $argv[1];
-$port = $argv[2];
+sleep(1);
+
+$ip = "localhost";
+$port = "3111";
 
 $sockets = array();	// array of sockets, used for several tests
 $test_id = 1;		// current id of the running test
@@ -148,5 +154,7 @@ color_green_start();
 echo "Hey, it seems to be working\n\n";
 color_end();
 echo "Don't forget to add your own tests and to share them!\n";
+
+posix_kill($pid, SIG_KILL);
 
 ?>
