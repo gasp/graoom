@@ -5,17 +5,51 @@
 ## Login   <rannou_s@epitech.net>
 ## 
 ## Started on  Wed Jul  1 22:38:14 2009 Sebastien Rannou
-## Last update Wed Jul  1 22:47:06 2009 Sebastien Rannou
 ##
 
 include ../Makefile.inc
 
-# There's probably a cleaner way to do this
-
 all:
+	$(MAKE) -C audio $@
+	$(MAKE) -C base $@
+	$(MAKE) -C event $@
+	$(MAKE) -C graphic $@
+	$(MAKE) -C cmd $@
+	$(MAKE) -C network $@
+
+	$(MAKE) -C build $@
 
 clean:
+	$(MAKE) -C audio $@
+	$(MAKE) -C base $@
+	$(MAKE) -C event $@
+	$(MAKE) -C graphic $@
+	$(MAKE) -C cmd $@
+	$(MAKE) -C network $@
 
-fclean:
+	$(MAKE) -C build $@
+
+fclean:	clean
+	$(MAKE) -C audio $@
+	$(MAKE) -C base $@
+	$(MAKE) -C event $@
+	$(MAKE) -C graphic $@
+	$(MAKE) -C cmd $@
+	$(MAKE) -C network $@
+
+
+	$(MAKE) -C network $@
+	$(MAKE) -C base $@
+	$(MAKE) -C cmd $@
+
+	$(MAKE) -C build $@
 
 re:	fclean all
+	$(MAKE) -C audio $@
+	$(MAKE) -C base $@
+	$(MAKE) -C event $@
+	$(MAKE) -C graphic $@
+	$(MAKE) -C cmd $@
+	$(MAKE) -C network $@
+
+	$(MAKE) -C build $@
