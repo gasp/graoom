@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 12 14:11:29 2009 Sebastien Rannou
-** Last update Sun Jul 19 01:32:58 2009 sebastien rannou
+** Last update Sun Jul 19 13:21:43 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_NETWORK_H
@@ -13,18 +13,19 @@
 
 #define	IBUFF_SIZE	4096			/* input buffer max size */
 
-typedef struct		network_ibuff_s		/* input buffer */
+typedef struct		network_buff_s		/* input buffer */
 {
   char			buffer[IBUFF_SIZE+1];	/* input buffer */
   int			offset;			/* position on the buffer */
-}			network_ibuff_t;
+}			network_buff_t;
 
 #define	CLIENT_CONNECTED	1		/* 0001 */
 #define	CLIENT_KICKED		2		/* 0010 */
 
 typedef struct		network_client_s	/* structure of a client */
 {
-  network_ibuff_t	ibuff;			/* input buffer */
+  network_buff_t	ibuff;			/* input buffer */
+  network_buff_t	obuff;			/* input buffer */
   void			*data;			/* volontary a typeless ptr */
   char			*ip;			/* client's ip */
   int			sock;			/* client's socket */
@@ -41,7 +42,7 @@ typedef	struct		network_conf_s		/* network settings */
 typedef struct		network_select_s	/* data related to select */
 {
   int			current_fd_max;		/* current highest fd */
-  fd_set		readfs;			/* to know activity from openned sockets */
+  fd_set		readfs;			/* select fd_set read */
 }			network_select_t;
 
 typedef struct		network_s		/* main structure */
@@ -52,5 +53,8 @@ typedef struct		network_s		/* main structure */
   int			last_client_id;		/* used to determine ids */
   int			primary_socket;		/* listening socket */
 }			network_t;
+
+int	/* send something to a client */
+network_client_write(network_client_t *client, char *fmt, ...);
 
 #endif /* GRAOOM_NETWORK_H */

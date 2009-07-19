@@ -15,6 +15,7 @@ SOURCES	=	cleaner.c		\
 		connection.c		\
 		loop.c			\
 		read.c			\
+		write.c			\
 		client.c		\
 
 CFLAGS	+=	-I../../includes -I../includes/

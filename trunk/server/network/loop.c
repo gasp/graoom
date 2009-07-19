@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sat Jul 18 18:24:41 2009 sebastien rannou
-** Last update Sun Jul 19 01:39:48 2009 sebastien rannou
+** Last update Sun Jul 19 13:21:59 2009 sebastien rannou
 */
 
 #include <sys/select.h>
@@ -27,6 +27,10 @@
  * No need to make a header file here as these functions are internals
  * of network's module, and are called only here.
  */
+
+int	/* let's send data */
+network_client_send(server_t *server, network_t *network, 
+		    network_client_t *client);
 
 int	/* let's read incoming data */
 network_read_from_client(server_t *server, network_client_t *client);
@@ -59,6 +63,8 @@ network_loop_activity(server_t *server, network_t *network)
 	{
 	  if (FD_ISSET(client->sock, &network->select.readfs))
 	    network_read_from_client(server, client);
+	  else if (client->obuff.offset > 0)
+	    network_client_send(server, network, client);
 	}
     }
   return (SUCCESS);

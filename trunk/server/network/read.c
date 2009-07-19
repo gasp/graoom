@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 12 17:08:02 2009 Sebastien Rannou
-** Last update Sun Jul 19 01:29:06 2009 sebastien rannou
+** Last update Sun Jul 19 13:21:32 2009 sebastien rannou
 */
 
 #include <sys/select.h>
@@ -37,8 +37,8 @@ network_read_from_client_store(server_t *server, network_client_t *client,
 			       char *buffer)
 {
   char			*ptr;
-  int			len;
   int			off;
+  int			len;
 
   if (server == NULL || client == NULL || buffer == NULL)
     {

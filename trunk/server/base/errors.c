@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Sun Jul 19 01:37:53 2009 sebastien rannou
+** Last update Sun Jul 19 13:18:12 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -60,7 +60,7 @@ error_t		global_errors[] =
       .behavior	=	ERR_T_LOG
     },
 
-    /* NULL pointer found (unexpected) */
+    /* Select failed */
     {
       .code	=	EC_SYS_SELECT,
       .fmt	=	"unable to perform select",
@@ -102,10 +102,24 @@ error_t		global_errors[] =
       .behavior	=	ERR_T_LOG
     },
 
-    /* malloc syscall failed */
+    /* unable to read */
     {
       .code	=	EC_SYS_READ,
       .fmt	=	"unable to read (%s)",
+      .behavior	=	ERR_T_LOG
+    },
+
+    /* unable to write */
+    {
+      .code	=	EC_SYS_WRITE,
+      .fmt	=	"unable to write (%s)",
+      .behavior	=	ERR_T_LOG
+    },
+
+    /* unable to send */
+    {
+      .code	=	EC_SYS_SEND,
+      .fmt	=	"unable to send (%s)",
       .behavior	=	ERR_T_LOG
     },
 
