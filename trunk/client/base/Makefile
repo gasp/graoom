@@ -9,7 +9,8 @@
 
 include ../../Makefile.inc
 
-SOURCES	=	client.c		\
+SOURCES	=	base_client.c		\
+		base_errors.c		\
 
 CFLAGS	+=	-I../../includes -I../includes/
 
