@@ -12,7 +12,7 @@ include ../../Makefile.inc
 NAME	=	gclient
 
 CFLAGS	+=	-I../../includes/
-LIBS	=	-ltools_`uname -m`-`uname -s` -L../../libs/
+LIBS	=	-ltools_`uname -m`-`uname -s` -L../../libs/ -lSDL -lSDL_net
 
 all:
 	$(CC) *.o -o $(NAME) $(LIBS)

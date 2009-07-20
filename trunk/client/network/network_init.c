@@ -5,93 +5,45 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Mon Jul 20 22:37:19 2009 sebastien rannou
+** Last update Mon Jul 20 23:18:30 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
 #include "lists.h"
 #include "client.h"
-#include "network.h"
 #include "errors.h"
-#include "ini.h"
-
-#ifndef	_BSD_SOURCE	/* strdup on linux */
-#define	_BSD_SOURCE
-#endif
 
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <SDL/SDL_net.h>
 
-#define	CLIENT_HOST_VAL	"host"
-#define	CLIENT_PORT_VAL	"port"
+#include "network.h"
 
 /**!
  * @author	rannou_s
- * let's fetch data from settings.ini (section network) to add
- * some informations into network's structure
+ * Initialization of the connection with the server
+ * Simply opens a TCP socket with the help of SDL_Net
  */
 
-static __inline int
-network_parser_fetch(network_t *network, ini_section_t *section)
+int
+network_init(client_t *client, network_t *network)
 {
-  char			*val;
-
-  if (network == NULL || section == NULL)
+  if (client == NULL || network == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
-  if ((val = ini_retrieve_entry_from_section(section, CLIENT_PORT_VAL)) == NULL)
+  if (SDLNet_ResolveHost(&network->ip, network->host, network->port) == ERROR)
     {
-      ERR_RAISE(EC_INI_UNKNOWN_ENTRY, CLIENT_PORT_VAL, section->name);
+      ERR_RAISE(EC_SDL_NET_RESOLVE, network->host, 
+		network->port, SDLNet_GetError());
       return (ERROR);
     }
-  network->port = atoi(val);
-  if (!(network->port > 0 && network->port < 65536))
+  if ((network->sock = SDLNet_TCP_Open(&network->ip)) == NULL)
     {
-      ERR_RAISE(EC_LOADER_PORT, network->port);
+      ERR_RAISE(EC_SDL_NET_OPEN, SDLNet_GetError());
       return (ERROR);
     }
-  if ((val = ini_retrieve_entry_from_section(section, CLIENT_HOST_VAL)) == NULL)
-    {
-      ERR_RAISE(EC_INI_UNKNOWN_ENTRY, CLIENT_HOST_VAL, section->name);
-      return (ERROR);
-    }
-  if ((network->host = strdup(val)) == NULL)
-    {
-      ERR_RAISE(EC_SYS_STRDUP, strerror(errno)); /* assuming errno is set */
-      return (ERROR);
-    }  
   return (SUCCESS);
-}
-
-/**!
- * @author	rannou_s
- * Initialization of network's module
- * Allocates network structure and initialize its content
- */
-
-void *
-network_parser(client_t *client, ini_section_t *section)
-{
-  network_t		*network;
-
-  if (client == NULL || section == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (NULL);
-    }
-  if ((network = malloc(sizeof(*network))) == NULL)
-    {
-      ERR_RAISE(EC_SYS_MALLOC, strerror(errno));
-      return (NULL);
-    }
-  memset(network, 0, sizeof(*network));
-  if (network_parser_fetch(network, section) == ERROR)
-    {
-      free(network);
-      return (NULL);
-    }
-  return (network);
 }

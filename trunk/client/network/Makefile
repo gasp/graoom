@@ -9,12 +9,14 @@
 
 include ../../Makefile.inc
 
-SOURCES	=	network_init.c
+SOURCES	=	network_init.c		\
+		network_parser.c	\
+		network_cleaner.c	\
 
 CFLAGS	+=	-I../../includes -I../includes/
 
 all:	$(OBJECTS)
-#	$(MV) $(OBJECTS) ../$(OBJDIR)
+	$(MV) $(OBJECTS) ../$(OBJDIR)
 
 clean:
 	$(RM) $(OBJECTS)

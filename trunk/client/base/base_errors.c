@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Mon Jul 20 22:13:42 2009 sebastien rannou
+** Last update Mon Jul 20 23:10:44 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -106,6 +106,20 @@ error_t		global_errors[] =
     {
       .code	=	EC_LOADER_NULL,
       .fmt	=	"unable to find section (%s) in file (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* SDLNet_ResolveHost failed */
+    {
+      .code	=	EC_SDL_NET_RESOLVE,
+      .fmt	=	"unable to resolve host [%s:%d] (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* SDLNet_TCP_OPEN failed */
+    {
+      .code	=	EC_SDL_NET_OPEN,
+      .fmt	=	"unable to open socket (%s)",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
     },
 

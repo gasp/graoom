@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Mon Jul 20 18:51:40 2009 sebastien rannou
+** Last update Mon Jul 20 23:33:01 2009 sebastien rannou
 */
 
 #include "lists.h"
@@ -15,6 +15,7 @@
 #include "errors.h"
 #include "client.h"
 #include "log.h"
+#include "network_loader.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -44,6 +45,15 @@ typedef struct	loader_asso_s /* associates an entry with a loader */
 static
 loader_asso_t global_asso[] =
   {
+
+    {
+      .name	=	"network",
+      .parser	=	&network_parser,
+      .init	=	&network_init,
+      .clean	=	&network_cleaner,
+      .loaded	=	0,
+      .data	=	NULL
+    },
 
     /* End of array */
     {NULL, NULL, NULL, NULL, 0, NULL}
@@ -75,7 +85,7 @@ loader_parser_dispatch(client_t *client, ini_t *ini, ini_section_t *section)
 	    {
 	      ERR_RAISE(EC_LOADER_SEV, section->name, ini->name);
 	      return (ERROR);
-	    }
+ 	    }
 	  if (global_asso[i].parser != NULL)
 	    {
 	      global_asso[i].data = global_asso[i].parser(client, section);

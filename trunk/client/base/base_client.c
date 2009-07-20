@@ -5,12 +5,13 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 19 18:18:43 2009 sebastien rannou
-** Last update Mon Jul 20 20:33:09 2009 sebastien rannou
+** Last update Mon Jul 20 23:27:41 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
 #include "client.h"
 #include "loader.h"
+#include "log.h"
 
 /**!
  * @author	rannou_s

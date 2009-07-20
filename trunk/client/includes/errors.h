@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Mon Jul 20 22:12:50 2009 sebastien rannou
+** Last update Mon Jul 20 23:09:57 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_C_ERRORS_H
@@ -45,6 +45,9 @@
 #define			EC_LOADER_SEV		201
 #define			EC_LOADER_NULL		202
 #define			EC_LOADER_PORT		203
+
+#define			EC_SDL_NET_RESOLVE	301
+#define			EC_SDL_NET_OPEN		302
 
 void	/* logs a message, see errors.c for more information */
 error_handler(int line, char *file, int code, ...);
