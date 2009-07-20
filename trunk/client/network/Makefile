@@ -9,7 +9,7 @@
 
 include ../../Makefile.inc
 
-SOURCES	=	
+SOURCES	=	network_init.c
 
 CFLAGS	+=	-I../../includes -I../includes/
 

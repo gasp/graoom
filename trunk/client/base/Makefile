@@ -1,3 +1,4 @@
+
 ##
 ## Makefile for graoom in /home/rannou_s/Work/graoom
 ## 
@@ -11,6 +12,7 @@ include ../../Makefile.inc
 
 SOURCES	=	base_client.c		\
 		base_errors.c		\
+		base_loader.c		\
 
 CFLAGS	+=	-I../../includes -I../includes/
 

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Mon Jul 20 18:32:15 2009 sebastien rannou
+** Last update Mon Jul 20 22:13:42 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -60,6 +60,13 @@ error_t		global_errors[] =
       .behavior	=	ERR_T_LOG
     },
 
+    /* strdup failed */
+    {
+      .code	=	EC_SYS_STRDUP,
+      .fmt	=	"unable to perform strdup (%s)",
+      .behavior	=	ERR_T_LOG
+    },
+
     /* Unable to load ini file */
     {
       .code	=	EC_INI_FILE,
@@ -74,11 +81,32 @@ error_t		global_errors[] =
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
     },
 
+    /* Invalid port given in .ini configuration file */
+    {
+      .code	=	EC_LOADER_PORT,
+      .fmt	=	"invalid port (%d) range: must be between 1 and 65536",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
     /* Unknown entry in ini file */
     {
       .code	=	EC_INI_UNKNOWN_ENTRY,
       .fmt	=	"unknown entry (%s) in ini file (%s)", 
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
+    /* Loader has already loaded this module before */
+    {
+      .code	=	EC_LOADER_SEV,
+      .fmt	=	"module (%s) already loaded in (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
+    /* This module wasn't loaded */
+    {
+      .code	=	EC_LOADER_NULL,
+      .fmt	=	"unable to find section (%s) in file (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
     },
 
     /* End of array */

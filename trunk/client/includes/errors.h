@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Mon Jul 20 18:32:46 2009 sebastien rannou
+** Last update Mon Jul 20 22:12:50 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_C_ERRORS_H
@@ -36,10 +36,15 @@
 #define			EC_NULL_PTR_DIE		2
 
 #define			EC_SYS_MALLOC		3
+#define			EC_SYS_STRDUP		4
 
 #define			EC_INI_FILE		101
 #define			EC_INI_SEC		102
 #define			EC_INI_UNKNOWN_ENTRY	103
+
+#define			EC_LOADER_SEV		201
+#define			EC_LOADER_NULL		202
+#define			EC_LOADER_PORT		203
 
 void	/* logs a message, see errors.c for more information */
 error_handler(int line, char *file, int code, ...);
