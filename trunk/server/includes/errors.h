@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Sun Jul 19 13:00:52 2009 sebastien rannou
+** Last update Mon Jul 20 16:18:33 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_ERRORS_H
@@ -13,7 +13,7 @@
 
 /**!
  * @author	rannou_s
- * error file where logs are writtent
+ * error file where logs are written
  */
 
 #define	ERR_LOG_FILE	"error.log"

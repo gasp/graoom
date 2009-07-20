@@ -10,7 +10,6 @@
 include ../../Makefile.inc
 
 SOURCES	=	base_errors.c		\
-		base_log.c		\
 		base_server.c		\
 		base_loader.c		\
 
