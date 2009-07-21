@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Mon Jul 20 23:33:01 2009 sebastien rannou
+** Last update Tue Jul 21 16:43:11 2009 sebastien rannou
 */
 
 #include "lists.h"
@@ -16,6 +16,7 @@
 #include "client.h"
 #include "log.h"
 #include "network_loader.h"
+#include "graphic_loader.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -45,6 +46,19 @@ typedef struct	loader_asso_s /* associates an entry with a loader */
 static
 loader_asso_t global_asso[] =
   {
+
+    /* Graphic module - need to be loaded first */
+
+    {
+      .name	=	"graphic",
+      .parser	=	&graphic_parser,
+      .init	=	&graphic_init,
+      .clean	=	&graphic_cleaner,
+      .loaded	=	0,
+      .data	=	NULL
+    },    
+
+    /* Network module */
 
     {
       .name	=	"network",

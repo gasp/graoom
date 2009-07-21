@@ -9,12 +9,14 @@
 
 include ../../Makefile.inc
 
-SOURCES	=	
+SOURCES	=	graphic_parser.c		\
+		graphic_init.c			\
+		graphic_cleaner.c		\
 
 CFLAGS	+=	-I../../includes -I../includes/
 
 all:	$(OBJECTS)
-#	$(MV) $(OBJECTS) ../$(OBJDIR)
+	$(MV) $(OBJECTS) ../$(OBJDIR)
 
 clean:
 	$(RM) $(OBJECTS)

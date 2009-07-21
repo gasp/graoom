@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Mon Jul 20 23:10:44 2009 sebastien rannou
+** Last update Tue Jul 21 16:43:51 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -109,6 +109,27 @@ error_t		global_errors[] =
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
     },
 
+    /* Invalid winx value given  */
+    {
+      .code	=	EC_LOADER_GFX_WINX,
+      .fmt	=	"invalid resolution range for width (%d), must be > 0",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* Invalid winy value given  */
+    {
+      .code	=	EC_LOADER_GFX_WINY,
+      .fmt	=	"invalid resolution range for height (%d), must be > 0",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
+    /* Invalid resolution ratio  */
+    {
+      .code	=	EC_LOADER_GFX_RATIO,
+      .fmt	=	"invalid ratio resolution (%dx%d), try another resolution",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
     /* SDLNet_ResolveHost failed */
     {
       .code	=	EC_SDL_NET_RESOLVE,
@@ -120,6 +141,20 @@ error_t		global_errors[] =
     {
       .code	=	EC_SDL_NET_OPEN,
       .fmt	=	"unable to open socket (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* SDL_Init failed */
+    {
+      .code	=	EC_SDL_INIT,
+      .fmt	=	"unable to initialize SDL (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* SDL_SetVideoMode failed */
+    {
+      .code	=	EC_SDL_SETVIDEO,
+      .fmt	=	"unable to create window (%s)",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
     },
 
