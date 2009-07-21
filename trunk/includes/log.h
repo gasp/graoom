@@ -5,18 +5,17 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 12 22:06:23 2009 Sebastien Rannou
-** Last update Sun Jul 19 14:33:15 2009 sebastien rannou
+** Last update Tue Jul 21 11:39:18 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_LOG_H
 #define GRAOOM_LOG_H
 
-#define	LOG_CLIENT_KICK_DEF	"kicking client [%d] (unknow reason)"
-#define	LOG_CLIENT_KICK		"kicking client [%d] (%s)"
+#define	LOG_PREFIX_OK		"+ "
 
 int
 log_print(int line, char *file, char *prefix, ...);
 
-#define	LOG(...)	log_print(__LINE__, __FILE__, "+ ", __VA_ARGS__)
+#define	LOG(...)	log_print(__LINE__, __FILE__, LOG_PREFIX_OK, __VA_ARGS__)
 
 #endif /* GRAOOM_LOG_H */

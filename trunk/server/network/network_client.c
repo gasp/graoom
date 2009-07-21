@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Tue Jul 14 11:02:01 2009 Sebastien Rannou
-** Last update Sun Jul 19 14:32:38 2009 sebastien rannou
+** Last update Tue Jul 21 11:38:07 2009 sebastien rannou
 */
 
 #include <sys/select.h>
@@ -15,9 +15,10 @@
 #include "network.h"
 #include "errors.h"
 #include "log.h"
+#include "server_log.h"
 
 #include <stdlib.h>
-#include <stdarg.h>
+#include <stdio.h>
 
 /**!
  * @author	rannou_s
@@ -43,6 +44,6 @@ client_kick(network_client_t *client, char *message)
     {
       LOG(LOG_CLIENT_KICK, client->id, message);
     }
-  client->state |= CLIENT_KICKED;
+  client->state |= CLIENT_KICKED; /* it's a smiley \0/ */
   return (SUCCESS);
 }
