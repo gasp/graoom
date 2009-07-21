@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Tue Jul 21 20:52:21 2009 sebastien rannou
+** Last update Wed Jul 22 00:36:20 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
@@ -22,6 +22,7 @@
 #include <GL/gl.h>
 
 #include "graphic.h"
+#include "graphic_font.h"
 
 #define	WIN	(&graphic->window)	/* shortcut */
 
@@ -78,6 +79,10 @@ graphic_init(client_t *client, graphic_t *graphic)
       return (ERROR);
     }
   if (graphic_init_sdl(client, graphic) == ERROR)
+    {
+      return (ERROR);
+    }
+  if (graphic_load_ttf() == ERROR)
     {
       return (ERROR);
     }

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Tue Jul 21 20:49:35 2009 sebastien rannou
-** Last update Wed Jul 22 00:25:15 2009 sebastien rannou
+** Last update Wed Jul 22 00:49:28 2009 sebastien rannou
 */
 
 /**!
@@ -18,6 +18,8 @@
 #include "shortcuts.h"
 #include "ini.h"
 #include "errors.h"
+#include "log.h"
+#include "log_client.h"
 
 #ifndef		_BSD_SOURCE
 # define	_BSD_SOURCE	/* strdup() on linux */
@@ -181,6 +183,7 @@ graphic_load_ttf(void)
   ini_t		*config;
   list_t	*cur;
 
+  LOG(GRAPHIC_LOADING_FONT);
   if ((config = ini_parse_file(FONT_INI_FILE)) == NULL)
     {
       ERR_RAISE(EC_INI_FILE, FONT_INI_FILE);
