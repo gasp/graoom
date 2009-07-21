@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Tue Jul 21 17:25:33 2009 sebastien rannou
+** Last update Tue Jul 21 20:33:23 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
@@ -13,6 +13,7 @@
 #include "client.h"
 #include "errors.h"
 #include "ini.h"
+#include "coor.h"
 
 #ifndef	_BSD_SOURCE	/* strdup on linux */
 #define	_BSD_SOURCE
@@ -22,6 +23,7 @@
 #include <string.h>
 #include <errno.h>
 #include <SDL/SDL_net.h>
+#include <GL/gl.h>
 
 #include "graphic.h"
 

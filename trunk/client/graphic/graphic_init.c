@@ -5,18 +5,21 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Tue Jul 21 17:18:47 2009 sebastien rannou
+** Last update Tue Jul 21 20:52:21 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
 #include "lists.h"
 #include "client.h"
 #include "errors.h"
+#include "coor.h"
 
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
+#include <GL/gl.h>
 
 #include "graphic.h"
 
@@ -53,6 +56,11 @@ graphic_init_sdl(client_t *client, graphic_t *graphic)
       return (ERROR);
     }
   SDL_WM_SetCaption(WIN->title, NULL); /* void function? :( too bad */
+  if (TTF_Init() == ERROR)
+    {
+      ERR_RAISE(EC_SDL_TTF_INIT, TTF_GetError());
+      return (ERROR);
+    }
   return (SUCCESS);
 }
 

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Tue Jul 21 16:25:08 2009 sebastien rannou
+** Last update Wed Jul 22 00:20:47 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_C_ERRORS_H
@@ -53,6 +53,9 @@
 #define			EC_SDL_NET_OPEN		302
 #define			EC_SDL_INIT		303
 #define			EC_SDL_SETVIDEO		304
+#define			EC_SDL_TTF_INIT		305
+#define			EC_SDL_TTF_OPEN		306
+#define			EC_SDL_TTF_INVALID_SIZE	307
 
 void	/* logs a message, see errors.c for more information */
 error_handler(int line, char *file, int code, ...);

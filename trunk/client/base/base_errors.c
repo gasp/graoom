@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Tue Jul 21 16:43:51 2009 sebastien rannou
+** Last update Wed Jul 22 00:20:32 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -155,6 +155,27 @@ error_t		global_errors[] =
     {
       .code	=	EC_SDL_SETVIDEO,
       .fmt	=	"unable to create window (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* TTF_Init failed */
+    {
+      .code	=	EC_SDL_TTF_INIT,
+      .fmt	=	"unable to initialize TTF (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* font size is invalid */
+    {
+      .code	=	EC_SDL_TTF_INVALID_SIZE,
+      .fmt	=	"invalid font size (%d) in %s [section %s]",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* TTF_OpenFont failed */
+    {
+      .code	=	EC_SDL_TTF_OPEN,
+      .fmt	=	"unable to load font (%s) (%s)",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
     },
 

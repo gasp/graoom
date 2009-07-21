@@ -12,6 +12,7 @@ include ../../Makefile.inc
 SOURCES	=	graphic_parser.c		\
 		graphic_init.c			\
 		graphic_cleaner.c		\
+		graphic_font.c			\
 
 CFLAGS	+=	-I../../includes -I../includes/
 

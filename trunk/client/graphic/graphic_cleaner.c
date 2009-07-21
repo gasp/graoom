@@ -5,16 +5,19 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Tue Jul 21 17:20:59 2009 sebastien rannou
+** Last update Wed Jul 22 00:19:51 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
 #include "lists.h"
 #include "client.h"
 #include "errors.h"
+#include "coor.h"
 
 #include <stdlib.h>
 #include <SDL/SDL_net.h>
+#include <SDL/SDL_ttf.h>
+#include <GL/gl.h>
 
 #include "graphic.h"
 
@@ -31,7 +34,9 @@ graphic_cleaner_sdl(client_t *client, graphic_t *graphic)
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
+  TTF_Quit();
   SDL_Quit();
+  graphic = graphic; /* unused param? */
   return (SUCCESS);
 }
 
