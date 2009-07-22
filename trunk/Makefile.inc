@@ -16,6 +16,7 @@ RANLIB	=	ranlib
 MV	=	mv
 MAKE	=	make
 FIND	=	find
+CP	=	cp
 
 OBJDIR	=	build/
 BINDIR	=	bin/

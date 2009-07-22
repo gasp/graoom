@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Wed Jul 22 00:20:47 2009 sebastien rannou
+** Last update Wed Jul 22 20:58:39 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_C_ERRORS_H
@@ -48,6 +48,7 @@
 #define			EC_LOADER_GFX_WINX	204
 #define			EC_LOADER_GFX_WINY	205
 #define			EC_LOADER_GFX_RATIO	206
+#define			EC_LOADER_EVENT_UNK	207
 
 #define			EC_SDL_NET_RESOLVE	301
 #define			EC_SDL_NET_OPEN		302

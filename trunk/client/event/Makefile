@@ -9,12 +9,14 @@
 
 include ../../Makefile.inc
 
-SOURCES	=	
+SOURCES	=	event_parser.c		\
+		event_init.c		\
+		event_cleaner.c		\
 
 CFLAGS	+=	-I../../includes -I../includes/
 
 all:	$(OBJECTS)
-#	$(MV) $(OBJECTS) ../$(OBJDIR)
+	$(MV) $(OBJECTS) ../$(OBJDIR)
 
 clean:
 	$(RM) $(OBJECTS)

@@ -9,23 +9,22 @@
 
 include		../../Makefile.inc
 
-NAMELIB		=	libtools_`uname -m`-`uname -s`.a
+NAMELIB		=	libSDL_console_`uname -m`-`uname -s`.a
 
-SOURCES		= 	lists.c				\
-			ini.c				\
-			tools.c				\
-			log.c				\
+SOURCES		= 	internal.c		\
+			DT_drawtext.c		\
+			SDL_console.c		\
 
-CFLAGS		+=	-I../../includes/
+CFLAGS		+=	-I../../includes/ -I/
 
 all:	$(OBJECTS)
 	$(AR) r $(NAMELIB) $(OBJECTS)
 	$(RANLIB) $(NAMELIB)
 	$(MV) $(NAMELIB) ../
-	$(CP) ../$(NAMELIB) ../libtools.a
+	$(CP) ../$(NAMELIB) ../libSDL_console.a
 
 clean:
-	$(RM) $(OBJECTS) $(OBJECTS_TEST)
+	$(RM) $(OBJECTS)
 
 fclean:	clean
 	$(RM) $(NAMELIB) ../$(NAMELIB) $(BIN_TEST)

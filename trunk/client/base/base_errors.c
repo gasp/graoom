@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Wed Jul 22 00:20:32 2009 sebastien rannou
+** Last update Wed Jul 22 20:59:03 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -127,6 +127,13 @@ error_t		global_errors[] =
     {
       .code	=	EC_LOADER_GFX_RATIO,
       .fmt	=	"invalid ratio resolution (%dx%d), try another resolution",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* Unknow association of binding in event section */
+    {
+      .code	=	EC_LOADER_EVENT_UNK,
+      .fmt	=	"invalid key/action given (%s = %s)",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
     },
 

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Tue Jul 21 16:43:11 2009 sebastien rannou
+** Last update Wed Jul 22 22:37:44 2009 sebastien rannou
 */
 
 #include "lists.h"
@@ -15,17 +15,16 @@
 #include "errors.h"
 #include "client.h"
 #include "log.h"
+#include "log_client.h"
 #include "network_loader.h"
 #include "graphic_loader.h"
+#include "event_loader.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
 #define	LOADER_INI_FILE		"settings.ini"
-#define	LOADER_NETWORK_S	"network"
-#define	LOADER_GRAPHIC_S	"graphic"
-#define	LOADER_AUDIO_S		"audio"
 
 /**!
  * @author	rannou_s
@@ -57,6 +56,17 @@ loader_asso_t global_asso[] =
       .loaded	=	0,
       .data	=	NULL
     },    
+
+    /* Events module */
+
+    {
+      .name	=	"event",
+      .parser	=	&event_parser,
+      .init	=	&event_init,
+      .clean	=	&event_cleaner,
+      .loaded	=	0,
+      .data	=	NULL
+    },
 
     /* Network module */
 
@@ -161,6 +171,7 @@ loader_parser(client_t *client)
     {
       for (cur = primary->sections_is; cur != NULL; cur = cur->li_next)
 	{
+	  LOG(LOG_LOADER_MODULE_CONF, ((ini_section_t *) cur->data)->name);
 	  if (ERROR == 
 	      loader_parser_dispatch(client, primary, (ini_section_t *) cur->data))
 	    {
@@ -202,7 +213,7 @@ loader(client_t *client)
 	return (ERROR);
       for (i = 0; global_asso[i].name != NULL; i++)
 	{
-	  LOG("loading module [%s]", global_asso[i].name);
+	  LOG(LOG_LOADER_MODULE, global_asso[i].name);
 	  if (global_asso[i].init != NULL)
 	    {
 	      if (global_asso[i].init(client,
@@ -212,7 +223,7 @@ loader(client_t *client)
 		}
 	    }
 	}
-      LOG("loading completed");
+      LOG(LOG_LOADER_MODULE_OK);
     }
   else
     {
