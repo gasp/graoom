@@ -5,18 +5,20 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Mon Jul 20 23:18:25 2009 sebastien rannou
+** Last update Thu Jul 23 00:57:52 2009 sebastien rannou
 */
+
+#ifndef	_BSD_SOURCE	/* strdup on linux */
+#define	_BSD_SOURCE
+#endif
+
+#include <SDL/SDL.h>
 
 #include "shortcuts.h"
 #include "lists.h"
 #include "client.h"
 #include "errors.h"
 #include "ini.h"
-
-#ifndef	_BSD_SOURCE	/* strdup on linux */
-#define	_BSD_SOURCE
-#endif
 
 #include <stdlib.h>
 #include <string.h>

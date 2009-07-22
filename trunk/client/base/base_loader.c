@@ -5,8 +5,10 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Wed Jul 22 22:37:44 2009 sebastien rannou
+** Last update Thu Jul 23 00:33:50 2009 sebastien rannou
 */
+
+#include <SDL/SDL.h>
 
 #include "lists.h"
 #include "shortcuts.h"
@@ -19,10 +21,12 @@
 #include "network_loader.h"
 #include "graphic_loader.h"
 #include "event_loader.h"
+#include "threads.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #define	LOADER_INI_FILE		"settings.ini"
 
@@ -38,6 +42,7 @@ typedef struct	loader_asso_s /* associates an entry with a loader */
   void		*(*parser)(client_t*, ini_section_t*);	/* parsers's pointer */
   int		(*init)(client_t *, void *);		/* init's pointer */
   int		(*clean)(client_t *, void *);		/* cleaner's pointer */
+  int		(*thread)(void *);			/* cleaner's pointer */
   int		loaded;					/* > 0 when true */
   void		*data;					/* module's data */
 }		loader_asso_t;
@@ -53,6 +58,7 @@ loader_asso_t global_asso[] =
       .parser	=	&graphic_parser,
       .init	=	&graphic_init,
       .clean	=	&graphic_cleaner,
+      .thread   =	NULL,
       .loaded	=	0,
       .data	=	NULL
     },    
@@ -64,6 +70,7 @@ loader_asso_t global_asso[] =
       .parser	=	&event_parser,
       .init	=	&event_init,
       .clean	=	&event_cleaner,
+      .thread   =	NULL,
       .loaded	=	0,
       .data	=	NULL
     },
@@ -75,12 +82,13 @@ loader_asso_t global_asso[] =
       .parser	=	&network_parser,
       .init	=	&network_init,
       .clean	=	&network_cleaner,
+      .thread   =	NULL,
       .loaded	=	0,
       .data	=	NULL
     },
 
     /* End of array */
-    {NULL, NULL, NULL, NULL, 0, NULL}
+    {NULL, NULL, NULL, NULL, NULL, 0, NULL}
 
   };
 
@@ -263,27 +271,72 @@ cleaner(client_t *client)
 
 /**!
  * @author	rannou_s
+ * Initialize a parameter struct to be send to the thread and launch it
+ */
+
+static __inline int
+launcher_thread(client_t *client, loader_asso_t *data, int has_to_thread)
+{
+  client_thread_t	*new_thread;
+
+  if (client == NULL || data == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  if (data->thread == NULL)
+    return (SUCCESS);
+  new_thread = malloc(sizeof(*new_thread));
+  if (new_thread == NULL)
+    {
+      threads_leave(client);
+      ERR_RAISE(EC_SYS_MALLOC, strerror(errno));
+      return (ERROR);
+    }
+  new_thread->client = client;
+  new_thread->data = data->data;
+  if (has_to_thread == SUCCESS)
+    {
+      if (SDL_CreateThread(data->thread, new_thread) == NULL)
+	{
+	  threads_leave(client);
+	  ERR_RAISE(EC_SDL_CREATE_THREAD, SDL_GetError());
+	  return (ERROR);
+	}
+    }
+  else
+    data->thread(new_thread);
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
  * Let's launch each thread :)
  * 1 module <=> 1 thread
+ * We start at i = 1 to avoid loading the first thread (it will become
+ * the main thread), because OpenGL requires to be initialized in the same
+ * thread (it's already loaded before).
  */
 
 int
 launcher(client_t *client)
 {
-  int		i;
+  int			i;
 
   if (client == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
-  for (i = 0; global_asso[i].name != NULL; i++)
+  if (threads_init(client) == ERROR)
+    return (ERROR);
+  for (i = 1; global_asso[i].name != NULL; i++)
     {
-      if (global_asso[i + 1].name != NULL)
-	{
-	  /* Let's launch each threads */
-	}
+      if (launcher_thread(client, &global_asso[i], SUCCESS) == ERROR)
+	return (ERROR);
     }
-  /* last module in the array becomes the main thread */
+  /* First module in the array becomes the main thread */
+  if (launcher_thread(client, &global_asso[0], ERROR) == ERROR)
+    return (ERROR);
   return (ERROR);
 }

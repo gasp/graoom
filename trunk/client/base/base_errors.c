@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Wed Jul 22 20:59:03 2009 sebastien rannou
+** Last update Thu Jul 23 00:12:12 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -185,6 +185,20 @@ error_t		global_errors[] =
       .fmt	=	"unable to load font (%s) (%s)",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
     },
+
+    /* Unable to create a mutex? */
+    {
+      .code	=	EC_SDL_CREATEMUTEX,
+      .fmt	=	"unable to initialize mutex (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* Unable to create thread */
+    {
+      .code	=	EC_SDL_CREATE_THREAD,
+      .fmt	=	"unable to create thread (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },    
 
     /* End of array */
     {

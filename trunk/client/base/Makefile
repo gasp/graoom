@@ -13,6 +13,7 @@ include ../../Makefile.inc
 SOURCES	=	base_client.c		\
 		base_errors.c		\
 		base_loader.c		\
+		base_threads.c		\
 
 CFLAGS	+=	-I../../includes -I../includes/
 

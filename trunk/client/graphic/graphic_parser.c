@@ -5,8 +5,15 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Tue Jul 21 20:33:23 2009 sebastien rannou
+** Last update Thu Jul 23 00:54:15 2009 sebastien rannou
 */
+
+#ifndef	_BSD_SOURCE	/* strdup on linux */
+#define	_BSD_SOURCE
+#endif
+
+#include <SDL/SDL.h>
+#include <GL/gl.h>
 
 #include "shortcuts.h"
 #include "lists.h"
@@ -15,15 +22,9 @@
 #include "ini.h"
 #include "coor.h"
 
-#ifndef	_BSD_SOURCE	/* strdup on linux */
-#define	_BSD_SOURCE
-#endif
-
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <SDL/SDL_net.h>
-#include <GL/gl.h>
 
 #include "graphic.h"
 

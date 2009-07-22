@@ -6,8 +6,10 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Wed Jul 22 21:58:41 2009 sebastien rannou
+** Last update Thu Jul 23 00:49:13 2009 sebastien rannou
 */
+
+#include <SDL/SDL.h>
 
 #include "shortcuts.h"
 #include "lists.h"
@@ -15,7 +17,6 @@
 #include "errors.h"
 
 #include <stdlib.h>
-#include <SDL/SDL.h>
 
 #include "event.h"
 
@@ -28,8 +29,6 @@
 int
 event_cleaner(client_t *client, event_t *event)
 {
-  list_t		*cur;
-
   if (client == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);

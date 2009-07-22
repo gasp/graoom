@@ -5,18 +5,28 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 19 18:20:31 2009 sebastien rannou
-** Last update Sun Jul 19 18:40:45 2009 sebastien rannou
+** Last update Thu Jul 23 00:31:40 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_C_CLIENT_H
 #define GRAOOM_C_CLIENT_H
 
-#define	CLIENT_NAME_LEN	256
+#define	CLIENT_STATE_ON		0
+#define	CLIENT_STATE_OFF	1
+
+#define	CLIENT_NAME_LEN		256
 
 typedef struct		client_s		/* main structure */
 {
+  SDL_mutex		*mutex;			/* client's mutex */
   char			name[CLIENT_NAME_LEN];	/* client's name */
   int			state;			/* client's state */
 }			client_t;
+
+typedef struct		client_thread_s		/* parameter for each thread */
+{
+  client_t		*client;		/* main structure */
+  void			*data;			/* internal struct */
+}			client_thread_t;
 
 #endif /* GRAOOM_C_CLIENT_H */

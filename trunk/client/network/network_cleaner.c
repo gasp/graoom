@@ -5,8 +5,10 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Mon Jul 20 23:24:53 2009 sebastien rannou
+** Last update Thu Jul 23 00:58:09 2009 sebastien rannou
 */
+
+#include <SDL/SDL.h>
 
 #include "shortcuts.h"
 #include "lists.h"
