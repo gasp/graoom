@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 01:25:00 2009 sebastien rannou
-** Last update Thu Jul 23 23:58:05 2009 sebastien rannou
+** Last update Fri Jul 24 01:02:57 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -18,6 +18,7 @@
 #include "errors.h"
 #include "graphic.h"
 #include "threads.h"
+#include "log.h"
 
 #define	TIME	(&client->time)
 
@@ -43,12 +44,12 @@ graphic_thread_computes(client_t *client, graphic_t *graphic)
  * client's mutex.
  */
 
-#define	MIN_SLEEP_SLOW	20
+#define	MIN_SLEEP_SLOW	1
 
 static __inline int
 graphic_thread_sleep(client_t *client)
 {
-  int			time_to_sleep;
+  int		time_to_sleep;
   int		time_elapsed;
 
   if (client == NULL)
@@ -59,20 +60,22 @@ graphic_thread_sleep(client_t *client)
     }
   TIME->loop_end = SDL_GetTicks();
   time_elapsed = TIME->loop_end - TIME->loop_start;
-  time_to_sleep = (int) (1000 / (Uint32) TIME->max_fps) - time_elapsed;
-  if (time_elapsed < 0)
+  time_to_sleep = (1000 / TIME->max_fps) - time_elapsed;
+  if (time_to_sleep <= 0)
     {
       /**!
        * Application is slow (not reaching max_fps) 
        * Would be great to make a benchmark to know how to sleep()
        * sleep() is an obligation as we have to let other threads a part
        * of control ... so? let's choose an arbitrary sleep value :(
+       *
+       * This is not an arbitrary, this is 1 (sdl doc) // Thanks to Talus
        */
       SDL_Delay(MIN_SLEEP_SLOW);
     }
   else
     {
-      SDL_Delay(time_to_sleep);
+      SDL_Delay((Uint32) time_to_sleep);
     }
   return (SUCCESS);
 }
