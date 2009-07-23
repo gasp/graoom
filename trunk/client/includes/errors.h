@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Thu Jul 23 18:26:44 2009 sebastien rannou
+** Last update Fri Jul 24 00:03:44 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_C_ERRORS_H
@@ -62,6 +62,9 @@
 #define			EC_SDL_CREATEMUTEX	308
 #define			EC_SDL_CREATE_THREAD	309
 #define			EC_SDL_CREATE_SURFACE	310
+#define			EC_SDL_LOAD_IMG		311
+
+#define			EC_GL_CONVERT_TEX	401
 
 void	/* logs a message, see errors.c for more information */
 error_handler(int line, char *file, int code, ...);

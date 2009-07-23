@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 01:25:00 2009 sebastien rannou
-** Last update Thu Jul 23 19:31:30 2009 sebastien rannou
+** Last update Thu Jul 23 23:58:05 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -17,6 +17,7 @@
 #include "shortcuts.h"
 #include "errors.h"
 #include "graphic.h"
+#include "threads.h"
 
 #define	TIME	(&client->time)
 
@@ -52,6 +53,7 @@ graphic_thread_sleep(client_t *client)
 
   if (client == NULL)
     {
+      threads_leave(client);
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
@@ -93,6 +95,7 @@ graphic_thread_time_refresh(client_t *client)
 
   if (client == NULL)
     {
+      threads_leave(client);
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
@@ -122,6 +125,7 @@ graphic_thread(client_thread_t *holder)
 {
   if (holder == NULL)
     {
+      threads_leave(holder->client);
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
@@ -131,6 +135,7 @@ graphic_thread(client_thread_t *holder)
       graphic_thread_time_refresh(holder->client);
       graphic_thread_computes(holder->client, holder->data);
       SDL_mutexV(holder->client->mutex);
+      SDL_GL_SwapBuffers();
       graphic_thread_sleep(holder->client);
       SDL_mutexP(holder->client->mutex);
     }

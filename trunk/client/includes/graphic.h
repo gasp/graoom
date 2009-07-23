@@ -5,11 +5,19 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Tue Jul 21 12:35:08 2009 sebastien rannou
-** Last update Thu Jul 23 19:13:04 2009 sebastien rannou
+** Last update Fri Jul 24 00:15:15 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_C_GRAPHIC_H
 #define	GRAOOM_C_GRAPHIC_H
+
+/**!
+ * @author	rannou_s
+ * Some shortcuts
+ */
+
+#define	WX		(graphic->window.width)
+#define	WY		(graphic->window.height)
 
 typedef struct		texture_s	/* texture SDL/OpenGL */
 {

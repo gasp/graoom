@@ -14,6 +14,7 @@ SOURCES	=	graphic_parser.c		\
 		graphic_cleaner.c		\
 		graphic_font.c			\
 		graphic_thread.c		\
+		graphic_texture.c		\
 
 CFLAGS	+=	-I../../includes -I../includes/
 

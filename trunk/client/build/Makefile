@@ -14,6 +14,7 @@ NAME	=	gclient
 CFLAGS	+=	-I../../includes/
 LIBS	=	-L../../libs/ -lSDL -lSDL_net	\
 		-lSDL_ttf -ltools -lSDL_console	\
+		-lGL -lGLU -lSDL_image
 
 all:
 	$(CC) *.o -o $(NAME) $(LIBS)

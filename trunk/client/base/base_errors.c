@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Thu Jul 23 18:26:20 2009 sebastien rannou
+** Last update Fri Jul 24 00:03:22 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -218,6 +218,20 @@ error_t		global_errors[] =
     {
       .code	=	EC_SDL_CREATE_SURFACE,
       .fmt	=	"unable to create RGB surface (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },    
+
+    /* Unable to load image */
+    {
+      .code	=	EC_SDL_LOAD_IMG,
+      .fmt	=	"unable to load image [%s] (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },    
+
+    /* Unable to convert surface */
+    {
+      .code	=	EC_GL_CONVERT_TEX,
+      .fmt	=	"unable to convert surface to OpenGL texture",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
     },    
 
