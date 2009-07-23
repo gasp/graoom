@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Thu Jul 23 12:32:44 2009 sebastien rannou
+** Last update Thu Jul 23 15:58:28 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -27,25 +27,20 @@
 
 #define	WIN	(&graphic->window)	/* shortcut */
 
+#define	SDL_BPP		32
+#define	SDL_VIDEO_FLAGS	SDL_OPENGL
+
 /**!
  * @author	rannou_s
- * Initialize SDL video (window, screen2d, ...)
+ * Initialize screens and 2d buffer
  */
 
-#define	SDL_BPP		32
-#define	SDL_VIDEO_FLAGS	SDL_HWSURFACE | SDL_DOUBLEBUF	/* openGL? */
-
 static __inline int
-graphic_init_sdl_video(client_t *client, graphic_t *graphic)
+graphic_init_video_screen(client_t *client, graphic_t *graphic)
 {
   if (client == NULL || graphic == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);
-    }
-  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) == ERROR)
-    {
-      ERR_RAISE(EC_SDL_INIT, SDL_GetError());
       return (ERROR);
     }
   WIN->screen = SDL_SetVideoMode(WIN->width, WIN->height, 
@@ -69,6 +64,32 @@ graphic_init_sdl_video(client_t *client, graphic_t *graphic)
 
 /**!
  * @author	rannou_s
+ * Initialize video (SDL/OpenGL)
+ */
+
+static __inline int
+graphic_init_video(client_t *client, graphic_t *graphic)
+{
+  if (client == NULL || graphic == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) == ERROR)
+    {
+      ERR_RAISE(EC_SDL_INIT, SDL_GetError());
+      return (ERROR);
+    }
+  if (SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1) == ERROR)
+    {
+      ERR_RAISE(EC_SDL_INIT, SDL_GetError());
+      return (ERROR);
+    }
+  return (graphic_init_video_screen(client, graphic));
+}
+
+/**!
+ * @author	rannou_s
  * Let's initialize SDL!
  * At that moment we force BPP to be 32, don't know if it can be
  * a good idea to allow setting it to 16/24, will have to make some searches
@@ -82,7 +103,7 @@ graphic_init_sdl(client_t *client, graphic_t *graphic)
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
-  if (graphic_init_sdl_video(client, graphic) == ERROR)
+  if (graphic_init_video(client, graphic) == ERROR)
     return (ERROR);
   if (TTF_Init() == ERROR)
     {

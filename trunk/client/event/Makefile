@@ -18,7 +18,7 @@ SOURCES	=	event_parser.c		\
 CFLAGS	+=	-I../../includes -I../includes/
 
 all:	$(OBJECTS)
-	$(MV) $(OBJECTS) ../$(OBJDIR)
+	$(CP) $(OBJECTS) ../$(OBJDIR)
 
 clean:
 	$(RM) $(OBJECTS)

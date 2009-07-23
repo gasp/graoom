@@ -14,7 +14,6 @@ all:
 	$(MAKE) -C base $@
 	$(MAKE) -C event $@
 	$(MAKE) -C graphic $@
-	$(MAKE) -C cmd $@
 	$(MAKE) -C network $@
 
 	$(MAKE) -C build $@
@@ -24,7 +23,6 @@ clean:
 	$(MAKE) -C base $@
 	$(MAKE) -C event $@
 	$(MAKE) -C graphic $@
-	$(MAKE) -C cmd $@
 	$(MAKE) -C network $@
 
 	$(MAKE) -C build $@
@@ -34,13 +32,8 @@ fclean:	clean
 	$(MAKE) -C base $@
 	$(MAKE) -C event $@
 	$(MAKE) -C graphic $@
-	$(MAKE) -C cmd $@
-	$(MAKE) -C network $@
-
-
 	$(MAKE) -C network $@
 	$(MAKE) -C base $@
-	$(MAKE) -C cmd $@
 
 	$(MAKE) -C build $@
 
@@ -49,7 +42,6 @@ re:	fclean all
 	$(MAKE) -C base $@
 	$(MAKE) -C event $@
 	$(MAKE) -C graphic $@
-	$(MAKE) -C cmd $@
 	$(MAKE) -C network $@
 
 	$(MAKE) -C build $@
