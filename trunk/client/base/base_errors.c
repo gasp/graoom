@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Thu Jul 23 00:12:12 2009 sebastien rannou
+** Last update Thu Jul 23 12:31:11 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -106,7 +106,14 @@ error_t		global_errors[] =
     {
       .code	=	EC_LOADER_NULL,
       .fmt	=	"unable to find section (%s) in file (%s)",
-      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
+    /* Unable to load that module */
+    {
+      .code	=	EC_LOADER_NOK,
+      .fmt	=	"unable to load module (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
     },
 
     /* Invalid winx value given  */
@@ -197,6 +204,13 @@ error_t		global_errors[] =
     {
       .code	=	EC_SDL_CREATE_THREAD,
       .fmt	=	"unable to create thread (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },    
+
+    /* Unable to create RGB surface */
+    {
+      .code	=	EC_SDL_CREATE_SURFACE,
+      .fmt	=	"unable to create RGB surface (%s)",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
     },    
 

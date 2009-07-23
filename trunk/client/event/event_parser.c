@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Thu Jul 23 00:48:33 2009 sebastien rannou
+** Last update Thu Jul 23 15:04:38 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -35,6 +35,12 @@ typedef struct		event_asso_s	/* associates an event with a key */
 static event_asso_t
 global_event_asso[] =
   {
+
+    /* Leave the client */
+    {
+      .name	=	"quit",
+      .action	=	&event_leave
+    },
 
     /* End of array */
     {NULL, NULL}

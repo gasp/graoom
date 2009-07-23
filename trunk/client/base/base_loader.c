@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Thu Jul 23 00:33:50 2009 sebastien rannou
+** Last update Thu Jul 23 12:32:00 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -58,7 +58,7 @@ loader_asso_t global_asso[] =
       .parser	=	&graphic_parser,
       .init	=	&graphic_init,
       .clean	=	&graphic_cleaner,
-      .thread   =	NULL,
+      .thread   =	&graphic_thread,
       .loaded	=	0,
       .data	=	NULL
     },    
@@ -70,7 +70,7 @@ loader_asso_t global_asso[] =
       .parser	=	&event_parser,
       .init	=	&event_init,
       .clean	=	&event_cleaner,
-      .thread   =	NULL,
+      .thread   =	&event_thread,
       .loaded	=	0,
       .data	=	NULL
     },
@@ -82,7 +82,7 @@ loader_asso_t global_asso[] =
       .parser	=	&network_parser,
       .init	=	&network_init,
       .clean	=	&network_cleaner,
-      .thread   =	NULL,
+      .thread   =	&network_thread,
       .loaded	=	0,
       .data	=	NULL
     },
@@ -227,6 +227,7 @@ loader(client_t *client)
 	      if (global_asso[i].init(client,
 				      global_asso[i].data) == ERROR)
 		{
+		  ERR_RAISE(EC_LOADER_NOK, global_asso[i].name);
 		  return (ERROR);
 		}
 	    }

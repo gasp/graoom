@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul 22 14:40:25 2009 sebastien rannou
-** Last update Wed Jul 22 19:17:25 2009 sebastien rannou
+** Last update Thu Jul 23 14:55:11 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_CLIENT_EVENT_H
@@ -13,7 +13,8 @@
 
 typedef struct		event_s		/* main thread's structure */
 {
-  list_t		*events;
+  list_t		*events;	/* list of binded events */
+  SDL_Event		sdl_event;	/* to be polled */
 }			event_t;
 
 typedef struct		event_entry_s	/* associates an event with an action */
@@ -22,5 +23,8 @@ typedef struct		event_entry_s	/* associates an event with an action */
   int			code;
   int			(*action)(client_t *client, event_t *event);  
 }			event_entry_t;
+
+int	/* leave the client */
+event_leave(client_t *client, event_t *event);
 
 #endif /* GRAOOM_CLIENT_EVENT_H */

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Thu Jul 23 00:54:15 2009 sebastien rannou
+** Last update Thu Jul 23 02:34:32 2009 sebastien rannou
 */
 
 #ifndef	_BSD_SOURCE	/* strdup on linux */
@@ -201,5 +201,6 @@ graphic_parser(client_t *client, ini_section_t *section)
       free(graphic);
       return (NULL);
     }
+  client->graphic = graphic;
   return (graphic);
 }

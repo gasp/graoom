@@ -12,6 +12,8 @@ include ../../Makefile.inc
 SOURCES	=	event_parser.c		\
 		event_init.c		\
 		event_cleaner.c		\
+		event_thread.c		\
+		event_behavior.c	\
 
 CFLAGS	+=	-I../../includes -I../includes/
 

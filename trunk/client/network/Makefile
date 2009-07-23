@@ -12,6 +12,7 @@ include ../../Makefile.inc
 SOURCES	=	network_init.c		\
 		network_parser.c	\
 		network_cleaner.c	\
+		network_thread.c	\
 
 CFLAGS	+=	-I../../includes -I../includes/
 

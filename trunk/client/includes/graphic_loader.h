@@ -5,11 +5,14 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Tue Jul 21 16:39:54 2009 sebastien rannou
-** Last update Wed Jul 22 00:37:15 2009 sebastien rannou
+** Last update Thu Jul 23 12:22:35 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_C_LOADER_H
 #define	GRAOOM_C_LOADER_H
+
+int	/* main thread's loop */
+graphic_thread(void *holder);
 
 void *	/* let's load configuration from settings.ini */
 graphic_parser(client_t *client, ini_section_t *section);

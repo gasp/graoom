@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Thu Jul 23 00:49:48 2009 sebastien rannou
+** Last update Thu Jul 23 12:32:44 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -29,16 +29,14 @@
 
 /**!
  * @author	rannou_s
- * Let's initialize SDL!
- * At that moment we force BPP to be 32, don't know if it can be
- * a good idea to allow setting it to 16/24, will have to make some searches
+ * Initialize SDL video (window, screen2d, ...)
  */
 
 #define	SDL_BPP		32
 #define	SDL_VIDEO_FLAGS	SDL_HWSURFACE | SDL_DOUBLEBUF	/* openGL? */
 
 static __inline int
-graphic_init_sdl(client_t *client, graphic_t *graphic)
+graphic_init_sdl_video(client_t *client, graphic_t *graphic)
 {
   if (client == NULL || graphic == NULL)
     {
@@ -58,6 +56,34 @@ graphic_init_sdl(client_t *client, graphic_t *graphic)
       return (ERROR);
     }
   SDL_WM_SetCaption(WIN->title, NULL); /* void function? :( too bad */
+  if ((graphic->opengl.screen2d = 
+       SDL_CreateRGBSurface(SDL_SRCALPHA | SDL_HWSURFACE,
+			    WIN->width, WIN->height, SDL_BPP, 
+			    0, 0, 0, 0)) == NULL)
+    {
+      ERR_RAISE(EC_SDL_CREATE_SURFACE, SDL_GetError());
+      return (ERROR);
+    }
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
+ * Let's initialize SDL!
+ * At that moment we force BPP to be 32, don't know if it can be
+ * a good idea to allow setting it to 16/24, will have to make some searches
+ */
+
+static __inline int
+graphic_init_sdl(client_t *client, graphic_t *graphic)
+{
+  if (client == NULL || graphic == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  if (graphic_init_sdl_video(client, graphic) == ERROR)
+    return (ERROR);
   if (TTF_Init() == ERROR)
     {
       ERR_RAISE(EC_SDL_TTF_INIT, TTF_GetError());
