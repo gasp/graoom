@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Thu Jul 23 12:32:00 2009 sebastien rannou
+** Last update Thu Jul 23 18:51:01 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -265,6 +265,7 @@ cleaner(client_t *client)
 	  LOG("cleaning module [%s]", global_asso[i].name);
 	  if (global_asso[i].clean != NULL)
 	    global_asso[i].clean(client, global_asso[i].data);
+	  free(global_asso[i].data);
 	}
     }
   return (SUCCESS);

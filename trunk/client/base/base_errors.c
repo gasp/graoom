@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Thu Jul 23 12:31:11 2009 sebastien rannou
+** Last update Thu Jul 23 18:26:20 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -135,6 +135,13 @@ error_t		global_errors[] =
       .code	=	EC_LOADER_GFX_RATIO,
       .fmt	=	"invalid ratio resolution (%dx%d), try another resolution",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* Invalid max_fps  */
+    {
+      .code	=	EC_LOADER_GFX_MAXFPS,
+      .fmt	=	"invalid maximum number of FPS (%d), must be > 0",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
     },
 
     /* Unknow association of binding in event section */

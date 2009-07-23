@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 01:25:00 2009 sebastien rannou
-** Last update Thu Jul 23 12:14:39 2009 sebastien rannou
+** Last update Thu Jul 23 19:31:30 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -18,12 +18,104 @@
 #include "errors.h"
 #include "graphic.h"
 
+#define	TIME	(&client->time)
+
+/**!
+ * @author	rannou_s
+ * more of the calculs are done in this function
+ */
+
+static __inline int
+graphic_thread_computes(client_t *client, graphic_t *graphic)
+{
+  if (client == NULL || graphic == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
+ * Let's sleep to let other threads having some time to lock/unlock
+ * client's mutex.
+ */
+
+#define	MIN_SLEEP_SLOW	20
+
+static __inline int
+graphic_thread_sleep(client_t *client)
+{
+  int			time_to_sleep;
+  int		time_elapsed;
+
+  if (client == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  TIME->loop_end = SDL_GetTicks();
+  time_elapsed = TIME->loop_end - TIME->loop_start;
+  time_to_sleep = (int) (1000 / (Uint32) TIME->max_fps) - time_elapsed;
+  if (time_elapsed < 0)
+    {
+      /**!
+       * Application is slow (not reaching max_fps) 
+       * Would be great to make a benchmark to know how to sleep()
+       * sleep() is an obligation as we have to let other threads a part
+       * of control ... so? let's choose an arbitrary sleep value :(
+       */
+      SDL_Delay(MIN_SLEEP_SLOW);
+    }
+  else
+    {
+      SDL_Delay(time_to_sleep);
+    }
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
+ * Refreshes current_fps & loop_start value
+ * Also try to estimate virtual_max_fps, which is the maximum number
+ * of FPS that the graphic thread can display, it's different than the maximum
+ * num of FPS of the application, as it depends on other threads and on time
+ * used to lock/unlock access to client's structure.
+ */
+
+static __inline int
+graphic_thread_time_refresh(client_t *client)
+{
+  Uint32		elapsed_time;
+  int			virtual_max_fps;
+  int			current_fps;
+
+  if (client == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  if (client->time.loop_end != 0)	/* First frame == 0 */
+    {
+      elapsed_time = TIME->loop_end - TIME->loop_start;
+      if (elapsed_time == 0)		/* What an amazing computer */
+	elapsed_time++;
+      virtual_max_fps = (int) ((Uint32) 1000 / elapsed_time);
+      current_fps = (virtual_max_fps > TIME->max_fps) ?
+	            (TIME->max_fps) : (virtual_max_fps);
+      TIME->current_fps = current_fps;
+      TIME->virtual_max_fps = virtual_max_fps;
+      TIME->loop_start = SDL_GetTicks();
+    }
+  client->time.loop_start = SDL_GetTicks();
+  return (SUCCESS);
+}
+
 /**!
  * @author	rannou_s
  * main loop of graphic's thread
  */
-
-#define	GRAPHIC_DELAY	50
 
 int
 graphic_thread(client_thread_t *holder)
@@ -36,8 +128,10 @@ graphic_thread(client_thread_t *holder)
   SDL_mutexP(holder->client->mutex);
   while (holder->client->state == CLIENT_STATE_ON)
     {
+      graphic_thread_time_refresh(holder->client);
+      graphic_thread_computes(holder->client, holder->data);
       SDL_mutexV(holder->client->mutex);
-      SDL_Delay(GRAPHIC_DELAY);
+      graphic_thread_sleep(holder->client);
       SDL_mutexP(holder->client->mutex);
     }
   SDL_mutexV(holder->client->mutex);

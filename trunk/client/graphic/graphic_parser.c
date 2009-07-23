@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Thu Jul 23 02:34:32 2009 sebastien rannou
+** Last update Thu Jul 23 18:39:13 2009 sebastien rannou
 */
 
 #ifndef	_BSD_SOURCE	/* strdup on linux */
@@ -31,6 +31,7 @@
 #define	CLIENT_X_VAL	"window_width"
 #define	CLIENT_Y_VAL	"window_height"
 #define	CLIENT_NAME_VAL	"window_title"
+#define	CLIENT_MAX_FPS	"max_fps"
 
 /**!
  * @author	rannou_s
@@ -156,20 +157,55 @@ graphic_parser_fetch_window(graphic_t *graphic, ini_section_t *section)
 
 /**!
  * @author	rannou_s
+ * Let's fetch max_fps value
+ */
+
+static __inline int
+graphic_parser_fetch_gfx(client_t *client, graphic_t *graphic, 
+			 ini_section_t *section)
+{
+  char			*value;
+  int			fps;
+
+  if (client == NULL || graphic == NULL || section == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  if ((value = ini_retrieve_entry_from_section(section, CLIENT_MAX_FPS)) 
+      == NULL)
+    {
+      ERR_RAISE(EC_INI_UNKNOWN_ENTRY, CLIENT_MAX_FPS, section->name);
+      return (ERROR);
+    }
+  fps = atoi(value);
+  if (fps <= 0)
+    {
+      ERR_RAISE(EC_LOADER_GFX_MAXFPS, fps);
+      return (ERROR);
+    }
+  client->time.max_fps = fps;
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
  * let's fetch data from settings.ini (section graphic) to add
  * some informations into graphic's structure
  */
 
 static __inline int
-graphic_parser_fetch(graphic_t *graphic, ini_section_t *section)
+graphic_parser_fetch(client_t *client, graphic_t *graphic, 
+		     ini_section_t *section)
 {
-
-  if (graphic == NULL || section == NULL)
+  if (graphic == NULL || section == NULL || client == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
   if (graphic_parser_fetch_window(graphic, section) == ERROR)
+    return (ERROR);
+  if (graphic_parser_fetch_gfx(client, graphic, section) == ERROR)
     return (ERROR);
   return (SUCCESS);
 }
@@ -196,7 +232,7 @@ graphic_parser(client_t *client, ini_section_t *section)
       return (NULL);
     }
   memset(graphic, 0, sizeof(*graphic));
-  if (graphic_parser_fetch(graphic, section) == ERROR)
+  if (graphic_parser_fetch(client, graphic, section) == ERROR)
     {
       free(graphic);
       return (NULL);

@@ -5,13 +5,14 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Thu Jul 23 02:43:37 2009 sebastien rannou
+** Last update Thu Jul 23 19:20:46 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
 #include "lists.h"
 #include "errors.h"
 #include "coor.h"
+#include "log.h"
 
 #include <stdlib.h>
 #include <SDL/SDL.h>
@@ -36,11 +37,13 @@ graphic_cleaner_sdl(client_t *client, graphic_t *graphic)
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
-  if (graphic->opengl.screen2d != NULL)
-    SDL_FreeSurface(graphic->opengl.screen2d);
+  if (graphic != NULL)
+    {
+      if (graphic->opengl.screen2d != NULL)
+	SDL_FreeSurface(graphic->opengl.screen2d);
+    }
   TTF_Quit();
   SDL_Quit();
-  graphic = graphic; /* unused param? */
   return (SUCCESS);
 }
 
@@ -79,9 +82,7 @@ graphic_cleaner(client_t *client, graphic_t *graphic)
       return (ERROR);
     }
   if (graphic != NULL)
-    {
-      graphic_cleaner_window(&graphic->window);
-    }
+    graphic_cleaner_window(&graphic->window);
   graphic_cleaner_sdl(client, graphic);
   graphic_clean_ttf();
   return (SUCCESS);

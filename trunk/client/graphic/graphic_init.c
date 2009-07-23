@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Thu Jul 23 15:58:28 2009 sebastien rannou
+** Last update Thu Jul 23 18:43:40 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -25,7 +25,7 @@
 #include "graphic.h"
 #include "graphic_font.h"
 
-#define	WIN	(&graphic->window)	/* shortcut */
+#define	WIN		(&graphic->window)	/* shortcut */
 
 #define	SDL_BPP		32
 #define	SDL_VIDEO_FLAGS	SDL_OPENGL

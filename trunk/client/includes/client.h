@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 19 18:20:31 2009 sebastien rannou
-** Last update Thu Jul 23 14:54:20 2009 sebastien rannou
+** Last update Thu Jul 23 18:12:17 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_C_CLIENT_H
@@ -16,12 +16,23 @@
 
 #define	CLIENT_NAME_LEN		256
 
+typedef struct		client_time_s		/* used to have a fixed FPS */
+{
+  int			max_fps;		/* maximum number of FPS */
+  int			current_fps;		/* current FPS */
+  int			virtual_max_fps;	/* max FPS without raming */
+  Uint32		loop_start;		/* before calculs */
+  Uint32		loop_end;		/* after blit and flip,
+						   before sleep */
+}			client_time_t;
+
 typedef struct		client_s		/* main structure */
 {
+  client_time_t		time;			/* timers are stored here */
   SDL_mutex		*mutex;			/* client's mutex */
+  void			*graphic;		/* hash on graphic's struct */
   char			name[CLIENT_NAME_LEN];	/* client's name */
   int			state;			/* client's state */
-  void			*graphic;		/* hash on graphic's struct */
 }			client_t;
 
 typedef struct		client_thread_s		/* parameter for each thread */
