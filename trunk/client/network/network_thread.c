@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 01:25:00 2009 sebastien rannou
-** Last update Thu Jul 23 12:17:42 2009 sebastien rannou
+** Last update Fri Jul 24 01:27:56 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -36,6 +36,7 @@ network_thread(client_thread_t *holder)
       SDL_Delay(NETWORK_DELAY);
       SDL_mutexP(holder->client->mutex);
     }
+  holder->client->launched_threads--;
   SDL_mutexV(holder->client->mutex);
   free(holder);
   return (SUCCESS);

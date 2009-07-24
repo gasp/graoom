@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 14:45:25 2009 sebastien rannou
-** Last update Thu Jul 23 15:03:19 2009 sebastien rannou
+** Last update Fri Jul 24 01:36:48 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -15,6 +15,8 @@
 #include "client.h"
 #include "event.h"
 #include "errors.h"
+#include "log.h"
+#include "log_client.h"
 
 /**!
  * Events that change the behavior of the client
@@ -33,6 +35,7 @@ event_leave(client_t *client, event_t *event)
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
+  LOG(LOG_LEAVE);
   client->state = CLIENT_STATE_OFF;
   return (SUCCESS);
 }

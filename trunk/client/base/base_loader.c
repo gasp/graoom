@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Thu Jul 23 18:51:01 2009 sebastien rannou
+** Last update Fri Jul 24 01:35:21 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -312,6 +312,34 @@ launcher_thread(client_t *client, loader_asso_t *data, int has_to_thread)
 }
 
 /**!
+ * @author	rannou_s 
+ * The network thread then wait other threads to have finnished by sleeping
+ * in cycles of SLEEP_CYCLE
+ */
+
+#define	SLEEP_CYCLE	50
+
+static __inline int
+launcher_wait_threads_to_leave(client_t *client)
+{
+  if (client == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  SDL_mutexP(client->mutex);
+  while (client->launched_threads > 0)
+    {
+      SDL_mutexV(client->mutex);
+      LOG(LOG_WAIT_THREADS, client->launched_threads);
+      SDL_Delay(SLEEP_CYCLE);
+      SDL_mutexP(client->mutex);
+    }
+  SDL_mutexV(client->mutex);
+  return (SUCCESS);
+}
+
+/**!
  * @author	rannou_s
  * Let's launch each thread :)
  * 1 module <=> 1 thread
@@ -335,10 +363,15 @@ launcher(client_t *client)
   for (i = 1; global_asso[i].name != NULL; i++)
     {
       if (launcher_thread(client, &global_asso[i], SUCCESS) == ERROR)
-	return (ERROR);
+	{
+	  threads_leave(client);
+	  break;
+	}
+      else
+	client->launched_threads++;
     }
   /* First module in the array becomes the main thread */
   if (launcher_thread(client, &global_asso[0], ERROR) == ERROR)
-    return (ERROR);
-  return (ERROR);
+    threads_leave(client);
+  return (launcher_wait_threads_to_leave(client));
 }

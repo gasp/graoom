@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 19 18:20:31 2009 sebastien rannou
-** Last update Thu Jul 23 18:12:17 2009 sebastien rannou
+** Last update Fri Jul 24 01:24:16 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_C_CLIENT_H
@@ -29,6 +29,7 @@ typedef struct		client_time_s		/* used to have a fixed FPS */
 typedef struct		client_s		/* main structure */
 {
   client_time_t		time;			/* timers are stored here */
+  int			launched_threads;	/* number of threads */
   SDL_mutex		*mutex;			/* client's mutex */
   void			*graphic;		/* hash on graphic's struct */
   char			name[CLIENT_NAME_LEN];	/* client's name */

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 19:48:00 2009 sebastien rannou
-** Last update Fri Jul 24 00:14:28 2009 sebastien rannou
+** Last update Fri Jul 24 13:43:35 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -17,7 +17,7 @@
 #include "graphic.h"
 #include "shortcuts.h"
 #include "threads.h"
-#include "texture.h"
+#include "textures.h"
 
 #include <stdlib.h>
 
@@ -49,7 +49,6 @@ graphic_2d_draw(client_t *client, graphic_t *graphic)
       ERR_RAISE(EC_GL_CONVERT_TEX);
       return (ERROR);
     }
-  glBindTexture(GL_TEXTURE_2D, texture);
   glBegin(GL_QUADS);
   {
     glTexCoord2d(0, 0);

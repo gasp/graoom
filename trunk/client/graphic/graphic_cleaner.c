@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Thu Jul 23 19:20:46 2009 sebastien rannou
+** Last update Fri Jul 24 01:46:34 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
@@ -83,7 +83,7 @@ graphic_cleaner(client_t *client, graphic_t *graphic)
     }
   if (graphic != NULL)
     graphic_cleaner_window(&graphic->window);
-  graphic_cleaner_sdl(client, graphic);
   graphic_clean_ttf();
+  graphic_cleaner_sdl(client, graphic);
   return (SUCCESS);
 }

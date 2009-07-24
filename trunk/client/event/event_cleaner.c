@@ -6,7 +6,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Thu Jul 23 00:49:13 2009 sebastien rannou
+** Last update Fri Jul 24 16:30:27 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -15,6 +15,7 @@
 #include "lists.h"
 #include "client.h"
 #include "errors.h"
+#include "log.h"
 
 #include <stdlib.h>
 
@@ -36,7 +37,7 @@ event_cleaner(client_t *client, event_t *event)
     }
   if (event != NULL)
     {
-      list_free(&event->events, NULL);
+      list_free(&event->events, &free);
     }
   return (SUCCESS);
 }

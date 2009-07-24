@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 01:25:00 2009 sebastien rannou
-** Last update Thu Jul 23 15:00:17 2009 sebastien rannou
+** Last update Fri Jul 24 15:34:36 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -34,6 +34,7 @@ event_thread_poll(client_t *client, event_t *event)
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
+  memset(&event->sdl_event, 0, sizeof(event->sdl_event));
   while (SDL_PollEvent(&event->sdl_event))
     {
       for (cur = event->events; cur != NULL; cur = cur->li_next)
@@ -80,6 +81,7 @@ event_thread(client_thread_t *holder)
       SDL_Delay(EVENT_DELAY);
       SDL_mutexP(holder->client->mutex);
     }
+  holder->client->launched_threads--;
   SDL_mutexV(holder->client->mutex);
   free(holder);
   return (SUCCESS);
