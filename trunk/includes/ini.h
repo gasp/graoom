@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul  2 22:21:41 2009 Sebastien Rannou
-** Last update Sun Jul 12 16:22:03 2009 Sebastien Rannou
+** Last update Sat Jul 25 12:49:09 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_INI_H
@@ -45,6 +45,9 @@ ini_retrieve_entry(ini_t *ini, char *section, char *key);
 
 char *		/* returns an entry from its section */
 ini_retrieve_entry_from_section(ini_section_t *section, char *key);
+
+int		/* returns 1 if ON, 0 if OFF, -1 on error */
+ini_retrieve_entry_from_section_bool(ini_section_t *section, char *key);
 
 void		/* free everything that's was loaded from a file */
 ini_free_main(void *ini);

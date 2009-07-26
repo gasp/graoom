@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Fri Jul 24 00:03:22 2009 sebastien rannou
+** Last update Fri Jul 24 19:12:53 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -197,6 +197,35 @@ error_t		global_errors[] =
     {
       .code	=	EC_SDL_TTF_OPEN,
       .fmt	=	"unable to load font (%s) (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* TTF render failed */
+    {
+      .code	=	EC_SDL_TTF_RENDER,
+      .fmt	=	"unable to render text (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* SDL_Blit failed */
+    {
+      .code	=	EC_SDL_BLIT,
+      .fmt	=	"unable to blit SDL_Surface (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+
+    /* TTF font wasn't found */
+    {
+      .code	=	EC_SDL_TTF_NOT_FOUND,
+      .fmt	=	"unable to find that font (%d)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* TTF font wasn't found */
+    {
+      .code	=	EC_SDL_TTF_GET,
+      .fmt	=	"unable to get that font (%s)",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
     },
 

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Thu Jul 23 18:43:40 2009 sebastien rannou
+** Last update Sun Jul 26 15:49:40 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -24,6 +24,7 @@
 
 #include "graphic.h"
 #include "graphic_font.h"
+#include "graphic_colors.h"
 
 #define	WIN		(&graphic->window)	/* shortcut */
 
@@ -52,7 +53,7 @@ graphic_init_video_screen(client_t *client, graphic_t *graphic)
     }
   SDL_WM_SetCaption(WIN->title, NULL); /* void function? :( too bad */
   if ((graphic->opengl.screen2d = 
-       SDL_CreateRGBSurface(SDL_SRCALPHA | SDL_HWSURFACE,
+       SDL_CreateRGBSurface(SDL_SRCALPHA | SDL_SWSURFACE,
 			    WIN->width, WIN->height, SDL_BPP, 
 			    0, 0, 0, 0)) == NULL)
     {
@@ -127,12 +128,10 @@ graphic_init(client_t *client, graphic_t *graphic)
       return (ERROR);
     }
   if (graphic_init_sdl(client, graphic) == ERROR)
-    {
-      return (ERROR);
-    }
+    return (ERROR);
   if (graphic_load_ttf() == ERROR)
-    {
-      return (ERROR);
-    }
+    return (ERROR);
+  if (graphic_load_colors() == ERROR)
+    return (ERROR);
   return (SUCCESS);
 }

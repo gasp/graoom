@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jun 29 18:11:11 2009 Sebastien Rannou
-** Last update Sat Sep  5 17:50:52 2009 Sebastien Rannou
+** Last update Fri Jul 24 16:36:47 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
@@ -18,7 +18,6 @@
 /**!
  * @author	rannou_s
  * Free a list, allowing to call a specific function for inside void* data
- * @todo        + free li_info
  */
 
 int
@@ -31,17 +30,23 @@ list_free(list_t **li_start, void (*f)(void *))
     return (SUCCESS);
   prev = NULL;
   if ((*li_start)->li_info != NULL)
-    free((*li_start)->li_info);
+    {
+      free((*li_start)->li_info);
+    }
   for (cur = *li_start; cur != NULL; cur = cur->li_next)
     {
       if (cur->data != NULL && f != NULL)
 	f(cur->data);
       if (cur->li_prev != NULL)
-	free(cur->li_prev);
+	{
+	  free(cur->li_prev);
+	}
       prev = cur;
     }
   if (prev != NULL)
-    free(prev);
+    {
+      free(prev);
+    }
   *li_start = NULL;
   return (SUCCESS);
 }

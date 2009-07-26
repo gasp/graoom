@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jun 29 18:24:28 2009 Sebastien Rannou
-** Last update Sun Jul 12 20:51:58 2009 Sebastien Rannou
+** Last update Sat Jul 25 13:39:56 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_SHORTCUTS_H
@@ -13,6 +13,9 @@
 
 #define	ERROR			-1
 #define	SUCCESS			0
+
+#define	ON			1
+#define	OFF			0
 
 #define	FOP_R			"r"
 #define	FOP_AP			"a+"

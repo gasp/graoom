@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 01:25:00 2009 sebastien rannou
-** Last update Fri Jul 24 13:38:15 2009 sebastien rannou
+** Last update Sat Jul 25 22:16:25 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -35,8 +35,6 @@ graphic_thread_computes(client_t *client, graphic_t *graphic)
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
-  glLoadIdentity();
-  glTranslatef(-1.5f,0.0f,-6.0f);
   graphic_2d_draw(client, graphic);
   return (SUCCESS);
 }
@@ -139,9 +137,13 @@ graphic_thread(client_thread_t *holder)
   while (holder->client->state == CLIENT_STATE_ON)
     {
       graphic_thread_time_refresh(holder->client);
-      graphic_thread_computes(holder->client, holder->data);
-      SDL_mutexV(holder->client->mutex);
-      SDL_GL_SwapBuffers();
+      {
+	glClear(GL_COLOR_BUFFER_BIT);
+	graphic_thread_computes(holder->client, holder->data);
+	SDL_mutexV(holder->client->mutex);
+	glFlush();
+	SDL_GL_SwapBuffers();
+      }
       graphic_thread_sleep(holder->client);
       SDL_mutexP(holder->client->mutex);
     }

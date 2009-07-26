@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Thu Jul 23 18:39:13 2009 sebastien rannou
+** Last update Sat Jul 25 23:23:58 2009 sebastien rannou
 */
 
 #ifndef	_BSD_SOURCE	/* strdup on linux */
@@ -32,6 +32,7 @@
 #define	CLIENT_Y_VAL	"window_height"
 #define	CLIENT_NAME_VAL	"window_title"
 #define	CLIENT_MAX_FPS	"max_fps"
+#define	CLIENT_FPS_BOX	"fpsbox"
 
 /**!
  * @author	rannou_s
@@ -190,6 +191,34 @@ graphic_parser_fetch_gfx(client_t *client, graphic_t *graphic,
 
 /**!
  * @author	rannou_s
+ * Activates (or not) fpsbox
+ */
+
+static __inline int
+graphic_parser_fetch_fpsbox(client_t *client, graphic_t *graphic,
+			    ini_section_t *section)
+{
+  int			activated;
+
+  if (client == NULL || graphic == NULL || section == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  if ((activated = 
+       ini_retrieve_entry_from_section_bool(section, CLIENT_FPS_BOX)) == ON)
+    {
+      graphic->fpsbox.state = ON;
+    }
+  else
+    {
+      graphic->fpsbox.state = OFF;
+    }
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
  * let's fetch data from settings.ini (section graphic) to add
  * some informations into graphic's structure
  */
@@ -206,6 +235,8 @@ graphic_parser_fetch(client_t *client, graphic_t *graphic,
   if (graphic_parser_fetch_window(graphic, section) == ERROR)
     return (ERROR);
   if (graphic_parser_fetch_gfx(client, graphic, section) == ERROR)
+    return (ERROR);
+  if (graphic_parser_fetch_fpsbox(client, graphic, section) == ERROR)
     return (ERROR);
   return (SUCCESS);
 }

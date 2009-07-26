@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul  2 22:20:45 2009 Sebastien Rannou
-** Last update Sun Jul 12 14:50:57 2009 Sebastien Rannou
+** Last update Sat Jul 25 17:37:16 2009 sebastien rannou
 */
 
 /**!
@@ -364,4 +364,38 @@ ini_retrieve_entry_from_section(ini_section_t *section, char *key)
 	}
     }
   return (NULL);
+}
+
+/**!
+ * @author	rannou_s
+ * Returns a	1 if the entry is set to ON
+ *		0 if the entry is set to OFF
+ *		-1 on error
+ */
+
+#define		BOOL_ON		"on"
+#define		BOOL_OFF	"off"
+
+int
+ini_retrieve_entry_from_section_bool(ini_section_t *section, char *key)
+{
+  char			*value;
+
+  if (section == NULL || key == NULL)
+    {
+      return (ERROR);
+    }
+  if ((value = ini_retrieve_entry_from_section(section, key)) == NULL)
+    {
+      return (ERROR);
+    }
+  if (strcasecmp(BOOL_ON, value) == 0)
+    {
+      return (1);
+    }
+  if (strcasecmp(BOOL_OFF, value) == 0)
+    {
+      return (0);
+    }
+  return (ERROR);
 }

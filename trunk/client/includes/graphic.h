@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Tue Jul 21 12:35:08 2009 sebastien rannou
-** Last update Fri Jul 24 00:15:15 2009 sebastien rannou
+** Last update Sun Jul 26 11:48:29 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_C_GRAPHIC_H
@@ -28,6 +28,7 @@ typedef struct		texture_s	/* texture SDL/OpenGL */
 typedef struct		opengl_s	/* opengl data */
 {
   SDL_Surface		*screen2d;	/* blitted each time on screen */
+  GLuint		screen2d_id;	/* opengl's ID of screen2d */
 }			opengl_t;
 
 typedef struct		window_s	/* data concerning the window */
@@ -38,11 +39,28 @@ typedef struct		window_s	/* data concerning the window */
   SDL_Surface		*screen;	/* screen's surface */
 }			window_t;
 
+typedef struct		fpsbox_s	/* box that displays informations */
+{
+  int			state;		/* on/off */
+  i2_t			pos_percent;	/* position on screen in % */
+  int			font_id;	/* font's id */
+}			fpsbox_t;
+
 typedef struct		graphic_s	/* main structure for gfx module */
 {
   opengl_t		opengl;		/* opengl related */
   list_t		*textures;	/* list of loaded textures */
   window_t		window;		/* window related */
+  fpsbox_t		fpsbox;		/* fps box that display infos  */
 }			graphic_t;
+
+int
+graphic_2d_draw(client_t *client, graphic_t *graphic);
+
+int
+graphic_set_2d(graphic_t *graphic);
+
+int
+graphic_set_3d(graphic_t *graphic);
 
 #endif /* GRAOOM_C_GRAPHIC_H */
