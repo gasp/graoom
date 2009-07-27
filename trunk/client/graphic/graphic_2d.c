@@ -5,13 +5,14 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 19:48:00 2009 sebastien rannou
-** Last update Sun Jul 26 13:05:20 2009 sebastien rannou
+** Last update Mon Jul 27 13:11:12 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
 #include <GL/gl.h>
 
 #include "coor.h"
+#include "font.h"
 #include "lists.h"
 #include "errors.h"
 #include "client.h"
@@ -43,7 +44,7 @@ graphic_2d_draw_fpsbox(client_t *client, graphic_t *graphic)
     {
       return (SUCCESS);
     }
-  
+  /* Here we are :) */
   return (SUCCESS);
 }
 

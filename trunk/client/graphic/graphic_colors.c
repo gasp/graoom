@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 26 14:40:55 2009 sebastien rannou
-** Last update Mon Jul 27 11:27:16 2009 sebastien rannou
+** Last update Mon Jul 27 13:11:41 2009 sebastien rannou
 */
 
 #ifndef		_BSD_SOURCE
@@ -14,9 +14,10 @@
 
 #include <SDL/SDL.h>
 
+#include "coor.h"
+#include "font.h"
 #include "lists.h"
 #include "ini.h"
-#include "coor.h"
 #include "shortcuts.h"
 #include "errors.h"
 #include "font.h"

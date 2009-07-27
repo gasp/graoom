@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 01:25:00 2009 sebastien rannou
-** Last update Sat Jul 25 22:16:25 2009 sebastien rannou
+** Last update Mon Jul 27 13:10:49 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -13,6 +13,7 @@
 
 #include "lists.h"
 #include "coor.h"
+#include "font.h"
 #include "client.h"
 #include "shortcuts.h"
 #include "errors.h"

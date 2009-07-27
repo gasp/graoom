@@ -5,13 +5,14 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 26 11:42:06 2009 sebastien rannou
-** Last update Sun Jul 26 11:51:00 2009 sebastien rannou
+** Last update Mon Jul 27 13:11:26 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
 #include <GL/gl.h>
 
 #include "coor.h"
+#include "font.h"
 #include "lists.h"
 #include "shortcuts.h"
 #include "client.h"

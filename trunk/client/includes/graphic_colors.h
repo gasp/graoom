@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 26 15:44:23 2009 sebastien rannou
-** Last update Sun Jul 26 15:47:34 2009 sebastien rannou
+** Last update Mon Jul 27 13:08:00 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_C_GRAPHIC_COLORS_H
@@ -19,5 +19,7 @@ graphic_clean_colors(void);
 
 SDL_Color *	/* Let's get a color */
 graphic_colors_get(char *name);
+
+#define	COL_DARKGREY	"darkgrey"
 
 #endif /* GRAOOM_C_GRAPHIC_COLORS_H */

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Tue Jul 21 12:35:08 2009 sebastien rannou
-** Last update Sun Jul 26 11:48:29 2009 sebastien rannou
+** Last update Mon Jul 27 12:56:26 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_C_GRAPHIC_H
@@ -42,8 +42,7 @@ typedef struct		window_s	/* data concerning the window */
 typedef struct		fpsbox_s	/* box that displays informations */
 {
   int			state;		/* on/off */
-  i2_t			pos_percent;	/* position on screen in % */
-  int			font_id;	/* font's id */
+  font_t		font;		/* font to display */
 }			fpsbox_t;
 
 typedef struct		graphic_s	/* main structure for gfx module */

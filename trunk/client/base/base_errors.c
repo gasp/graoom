@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Mon Jul 27 11:27:03 2009 sebastien rannou
+** Last update Mon Jul 27 12:23:36 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -141,6 +141,13 @@ error_t		global_errors[] =
     {
       .code	=	EC_LOADER_GFX_MAXFPS,
       .fmt	=	"invalid maximum number of FPS (%d), must be > 0",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
+    /* Color not found  */
+    {
+      .code	=	EC_LOADER_COLOR_UNKNOWN,
+      .fmt	=	"color not found (%s)",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
     },
 

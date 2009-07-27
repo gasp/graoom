@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Tue Jul 21 20:49:35 2009 sebastien rannou
-** Last update Sun Jul 26 15:16:31 2009 sebastien rannou
+** Last update Mon Jul 27 13:18:43 2009 sebastien rannou
 */
 
 /**!
@@ -199,7 +199,10 @@ graphic_load_ttf(void)
     {
       if (cur->data != NULL)
 	{
-	  graphic_load_ttf_create(config, cur->data);
+	  if (graphic_load_ttf_create(config, cur->data) == ERROR)
+	    {
+	      return (ERROR);
+	    }
 	}
     }
   ini_free_main(config);

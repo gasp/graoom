@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Sun Jul 26 15:43:35 2009 sebastien rannou
+** Last update Mon Jul 27 13:10:18 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
@@ -20,6 +20,7 @@
 #include <SDL/SDL_ttf.h>
 #include <GL/gl.h>
 
+#include "font.h"
 #include "client.h"
 #include "graphic.h"
 #include "graphic_font.h"

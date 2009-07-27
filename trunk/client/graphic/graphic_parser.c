@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Sat Jul 25 23:23:58 2009 sebastien rannou
+** Last update Mon Jul 27 13:25:14 2009 sebastien rannou
 */
 
 #ifndef	_BSD_SOURCE	/* strdup on linux */
@@ -15,18 +15,22 @@
 #include <SDL/SDL.h>
 #include <GL/gl.h>
 
+#include "coor.h"
+#include "font.h"
 #include "shortcuts.h"
 #include "lists.h"
 #include "client.h"
 #include "errors.h"
 #include "ini.h"
-#include "coor.h"
+#include "graphic_colors.h"
 
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 
 #include "graphic.h"
+#include "graphic_font.h"
+#include "graphic_colors.h"
 
 #define	CLIENT_X_VAL	"window_width"
 #define	CLIENT_Y_VAL	"window_height"
@@ -174,46 +178,39 @@ graphic_parser_fetch_gfx(client_t *client, graphic_t *graphic,
       return (ERROR);
     }
   if ((value = ini_retrieve_entry_from_section(section, CLIENT_MAX_FPS)) 
-      == NULL)
-    {
-      ERR_RAISE(EC_INI_UNKNOWN_ENTRY, CLIENT_MAX_FPS, section->name);
-      return (ERROR);
-    }
-  fps = atoi(value);
-  if (fps <= 0)
-    {
-      ERR_RAISE(EC_LOADER_GFX_MAXFPS, fps);
-      return (ERROR);
-    }
-  client->time.max_fps = fps;
-  return (SUCCESS);
-}
+       == NULL)
+     {
+       ERR_RAISE(EC_INI_UNKNOWN_ENTRY, CLIENT_MAX_FPS, section->name);
+       return (ERROR);
+     }
+   fps = atoi(value);
+   if (fps <= 0)
+     {
+       ERR_RAISE(EC_LOADER_GFX_MAXFPS, fps);
+       return (ERROR);
+     }
+   client->time.max_fps = fps;
+   return (SUCCESS);
+ }
 
-/**!
- * @author	rannou_s
- * Activates (or not) fpsbox
- */
+ /**!
+  * @author	rannou_s
+  * Activates (or not) fpsbox
+  */
 
 static __inline int
 graphic_parser_fetch_fpsbox(client_t *client, graphic_t *graphic,
 			    ini_section_t *section)
 {
   int			activated;
-
+  
   if (client == NULL || graphic == NULL || section == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
-  if ((activated = 
-       ini_retrieve_entry_from_section_bool(section, CLIENT_FPS_BOX)) == ON)
-    {
-      graphic->fpsbox.state = ON;
-    }
-  else
-    {
-      graphic->fpsbox.state = OFF;
-    }
+  activated = ini_retrieve_entry_from_section_bool(section, CLIENT_FPS_BOX);
+  graphic->fpsbox.state = activated == ON ? ON : OFF;
   return (SUCCESS);
 }
 
