@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Fri Jul 24 19:13:06 2009 sebastien rannou
+** Last update Mon Jul 27 11:25:44 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_C_ERRORS_H
@@ -67,6 +67,7 @@
 #define			EC_SDL_BLIT		313
 #define			EC_SDL_TTF_NOT_FOUND	314
 #define			EC_SDL_TTF_GET		315
+#define			EC_SDL_INVALID_COLOR	316
 
 #define			EC_GL_CONVERT_TEX	401
 

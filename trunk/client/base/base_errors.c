@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Fri Jul 24 19:12:53 2009 sebastien rannou
+** Last update Mon Jul 27 11:27:03 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -257,12 +257,19 @@ error_t		global_errors[] =
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
     },    
 
+    /* Invalid color given */
+    {
+      .code	=	EC_SDL_INVALID_COLOR,
+      .fmt	=	"invalid color range (%d) for %s (%s) : trimming it",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
     /* Unable to convert surface */
     {
       .code	=	EC_GL_CONVERT_TEX,
       .fmt	=	"unable to convert surface to OpenGL texture",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
-    },    
+    },
 
     /* End of array */
     {

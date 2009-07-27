@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 26 14:40:55 2009 sebastien rannou
-** Last update Sun Jul 26 18:07:36 2009 sebastien rannou
+** Last update Mon Jul 27 11:27:16 2009 sebastien rannou
 */
 
 #ifndef		_BSD_SOURCE
@@ -77,9 +77,15 @@ graphic_load_colors_create_getval(ini_section_t *section, char *request)
   result = atoi(value);
   /* Would be great to raise an error here ? */
   if (result < 0)
-    result = 0;
+    {
+      ERR_RAISE(EC_SDL_INVALID_COLOR, result, section->name, request);
+      result = 0;
+    }
   else if (result > 255)
-    result = 255;
+    {
+      ERR_RAISE(EC_SDL_INVALID_COLOR, result, section->name, request);
+      result = 255;
+    }
   return (result);
 }
 
