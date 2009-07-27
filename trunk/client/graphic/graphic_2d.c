@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 19:48:00 2009 sebastien rannou
-** Last update Mon Jul 27 13:11:12 2009 sebastien rannou
+** Last update Mon Jul 27 13:48:22 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -31,6 +31,8 @@
  * @todo	add a flag in settings.ini to activate/desactive this function
  */
 
+#define		FPSBOX_STRING	"%d FPS"
+
 int
 graphic_2d_draw_fpsbox(client_t *client, graphic_t *graphic)
 {
@@ -44,7 +46,8 @@ graphic_2d_draw_fpsbox(client_t *client, graphic_t *graphic)
     {
       return (SUCCESS);
     }
-  /* Here we are :) */
+  graphic_text_to_surface(graphic->opengl.screen2d, &graphic->fpsbox.font,
+			  FPSBOX_STRING, client->time.current_fps);
   return (SUCCESS);
 }
 

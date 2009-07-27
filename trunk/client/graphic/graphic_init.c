@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Mon Jul 27 13:29:02 2009 sebastien rannou
+** Last update Mon Jul 27 13:44:05 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -120,6 +120,8 @@ graphic_init_sdl(client_t *client, graphic_t *graphic)
  * Let's initialize the fpsbox
  */
 
+#define	FPSBOX_MARGIN	10
+
 static __inline int
 graphic_init_fpsbox(client_t *client, graphic_t *graphic)
 {
@@ -133,10 +135,10 @@ graphic_init_fpsbox(client_t *client, graphic_t *graphic)
     }
   if (graphic->fpsbox.state == OFF)
     return (SUCCESS);
-    color = graphic_colors_get(COL_DARKGREY);
+    color = graphic_colors_get(COL_2D_INFO);
   if (color == NULL)
     {
-      ERR_RAISE(EC_LOADER_COLOR_UNKNOWN, COL_DARKGREY);
+      ERR_RAISE(EC_LOADER_COLOR_UNKNOWN, COL_2D_INFO);
       return (ERROR);
     }
   if ((font_id = graphic_font_getid(FONT_2D_INFO)) == ERROR)
@@ -146,7 +148,8 @@ graphic_init_fpsbox(client_t *client, graphic_t *graphic)
     }
   graphic->fpsbox.font.color = color;
   graphic->fpsbox.font.font_id = font_id;
-  graphic->fpsbox.font.pos.x = WX / 2;
+  graphic->fpsbox.font.pos.x = FPSBOX_MARGIN;
+  graphic->fpsbox.font.pos.y = FPSBOX_MARGIN;
   return (SUCCESS);
 }
 

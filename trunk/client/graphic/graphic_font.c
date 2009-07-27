@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Tue Jul 21 20:49:35 2009 sebastien rannou
-** Last update Mon Jul 27 13:18:43 2009 sebastien rannou
+** Last update Mon Jul 27 13:31:58 2009 sebastien rannou
 */
 
 /**!
@@ -292,6 +292,7 @@ graphic_clean_ttf(void)
 int
 graphic_text_to_surface(SDL_Surface *surface, font_t *font, char *fmt, ...)
 {
+  SDL_Rect		rect;
   SDL_Surface		*tmp;
   TTF_Font		*ttf_font;
   char			buffer[PRINT_BUFF_SIZE];
@@ -312,7 +313,9 @@ graphic_text_to_surface(SDL_Surface *surface, font_t *font, char *fmt, ...)
       ERR_RAISE(EC_SDL_TTF_RENDER, TTF_GetError());
       return (ERROR);
     }
-  SDL_BlitSurface(tmp, NULL, surface, NULL);
+  rect.x = font->pos.x;
+  rect.y = font->pos.y;
+  SDL_BlitSurface(tmp, NULL, surface, &rect);
   SDL_FreeSurface(tmp);
   return (SUCCESS);
 }
