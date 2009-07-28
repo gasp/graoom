@@ -6,7 +6,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Fri Jul 24 16:30:27 2009 sebastien rannou
+** Last update Mon Jul 27 22:18:26 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -19,6 +19,7 @@
 
 #include <stdlib.h>
 
+#include "SDL_console.h"
 #include "event.h"
 
 /**!

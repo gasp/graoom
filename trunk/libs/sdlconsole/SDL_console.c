@@ -507,6 +507,11 @@ void CON_Hide(ConsoleInformation *console) {
 		console->Visible = CON_CLOSING;
 		SDL_EnableUNICODE(console->WasUnicode);
 	}
+	else if (Topmost)
+	  {
+	    Topmost->Visible = CON_CLOSING;
+	    SDL_EnableUNICODE(Topmost->WasUnicode);
+	  }
 }
 
 /* tells wether the console is visible or not */

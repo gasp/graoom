@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 01:25:00 2009 sebastien rannou
-** Last update Fri Jul 24 15:34:36 2009 sebastien rannou
+** Last update Tue Jul 28 00:22:35 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -13,8 +13,10 @@
 #include "errors.h"
 #include "lists.h"
 #include "client.h"
+#include "SDL_console.h"
 #include "event.h"
 #include "shortcuts.h"
+#include "log.h"
 
 #include <stdlib.h>
 
@@ -37,12 +39,13 @@ event_thread_poll(client_t *client, event_t *event)
   memset(&event->sdl_event, 0, sizeof(event->sdl_event));
   while (SDL_PollEvent(&event->sdl_event))
     {
-      for (cur = event->events; cur != NULL; cur = cur->li_next)
+      if (CON_Events(&event->sdl_event))
 	{
-	  entry = (event_entry_t *) cur->data;
-	  if (entry != NULL)
+	  for (cur = event->events; cur != NULL; cur = cur->li_next)
 	    {
-	      if (event->sdl_event.type == entry->type)
+	      entry = (event_entry_t *) cur->data;
+	      if (entry != NULL &&
+		  event->sdl_event.type == entry->type)
 		{
 		  if (event->sdl_event.type == SDL_KEYDOWN &&
 		      (int) event->sdl_event.key.keysym.sym == entry->code)

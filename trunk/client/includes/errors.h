@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Mon Jul 27 12:23:31 2009 sebastien rannou
+** Last update Wed Jul 29 00:13:56 2009 sebastien rannou
 */
 
 #ifndef GRAOOM_C_ERRORS_H
@@ -52,6 +52,7 @@
 #define			EC_LOADER_NOK		208
 #define			EC_LOADER_GFX_MAXFPS	209
 #define			EC_LOADER_COLOR_UNKNOWN	210
+#define			EC_LOADER_EVENT_OVER	211
 
 #define			EC_SDL_NET_RESOLVE	301
 #define			EC_SDL_NET_OPEN		302
@@ -69,6 +70,7 @@
 #define			EC_SDL_TTF_NOT_FOUND	314
 #define			EC_SDL_TTF_GET		315
 #define			EC_SDL_INVALID_COLOR	316
+#define			EC_SDL_CONSOLE_INI	317
 
 #define			EC_GL_CONVERT_TEX	401
 

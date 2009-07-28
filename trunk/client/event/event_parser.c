@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Thu Jul 23 15:04:38 2009 sebastien rannou
+** Last update Wed Jul 29 00:28:26 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -15,6 +15,7 @@
 #include "client.h"
 #include "errors.h"
 #include "ini.h"
+#include "SDL_console.h"
 
 #ifndef	_BSD_SOURCE	/* strdup on linux */
 #define	_BSD_SOURCE
@@ -42,6 +43,12 @@ global_event_asso[] =
       .action	=	&event_leave
     },
 
+    /* Toggle console mode */
+    {
+      .name	=	"console_toggle",
+      .action	=	&event_console_toggle
+    },
+
     /* End of array */
     {NULL, NULL}
   };
@@ -64,8 +71,39 @@ global_event_keys[] =
       .code	=	SDLK_ESCAPE
     },
 
+    /* Space event */
+    {
+      .name	=	"key_space",
+      .type	=	SDL_KEYDOWN,
+      .code	=	SDLK_SPACE
+    },
+
     /* End of array */
     {NULL, -1, -1}
+  };
+
+/**!
+ * @author	rannou_s
+ * Events that CAN'T BE CHANGED through ini file 
+ */
+
+static event_entry_t
+global_entry_default[] =
+  {
+
+    /* Console toogling (forbidden to touch this !) */
+    {
+      .type	=	SDL_KEYDOWN,
+      .code	=	SDLK_BACKQUOTE,
+      .action	=	&event_console_toggle
+    },
+    
+    /* End of array */
+    {
+      .type	=	-1,
+      .code	=	-1,
+      .action	=	NULL
+    }
   };
 
 /**!
@@ -75,11 +113,11 @@ global_event_keys[] =
 
 static __inline int
 event_parser_fetch_push(event_t *event, event_asso_t *action, 
-			event_key_t *key, ini_content_t *content)
+			event_key_t *key)
 {
   event_entry_t		*new_elem;
 
-  if (event == NULL || action == NULL || key == NULL || content == NULL)
+  if (event == NULL || action == NULL || key == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
@@ -133,7 +171,7 @@ event_parser_fetch(event_t *event, ini_section_t *section)
 		  if (strcasecmp(global_event_asso[j].name, content->value) == 0)
 		    {
 		      event_parser_fetch_push(event, &global_event_asso[j],
-					      &global_event_keys[i], content);
+					      &global_event_keys[i]);
 		      match++;
 		    }
 		}
@@ -142,6 +180,52 @@ event_parser_fetch(event_t *event, ini_section_t *section)
       if (!match)
 	{
 	  ERR_RAISE(EC_LOADER_EVENT_UNK, content->name, content->value);
+	  return (ERROR);
+	}
+    }
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
+ * Let's bind some shortcuts that can't be changed
+ * Performs a check so as to forbid overload of that events 
+ */
+
+static __inline int
+event_parser_default_locked(client_t *client, event_t *event)
+{
+  int			i;
+  event_entry_t		*entry;
+  event_entry_t		*tmp;
+  list_t		*current;
+
+  if (client == NULL || event == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  for (i = 0; global_entry_default[i].action != NULL; i++)
+    {
+      if ((entry = malloc(sizeof(*entry))) == NULL)
+	{
+	  ERR_RAISE(EC_SYS_MALLOC, strerror(errno));
+	  return (ERROR);
+	}
+      memcpy(entry,  &global_entry_default[i], sizeof(*entry));
+      for (current = event->events; current != NULL; current = current->li_next)
+	{
+	  tmp = current->data;
+	  if (tmp->type == entry->type && tmp->code == entry->code)
+	    {
+	      ERR_RAISE(EC_LOADER_EVENT_OVER, entry->type, entry->code);
+	      return (ERROR);
+	    }
+	}
+      if (list_push(&event->events, entry) == ERROR)
+	{
+	  free(entry);
+	  ERR_RAISE(EC_SYS_MALLOC, strerror(errno));
 	  return (ERROR);
 	}
     }
@@ -172,6 +256,11 @@ event_parser(client_t *client, ini_section_t *section)
     }
   memset(event, 0, sizeof(*event));
   if (event_parser_fetch(event, section) == ERROR)
+    {
+      free(event);
+      return (NULL);
+    }
+  if (event_parser_default_locked(client, event) == ERROR)
     {
       free(event);
       return (NULL);

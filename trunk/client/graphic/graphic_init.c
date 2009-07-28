@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Mon Jul 27 13:44:05 2009 sebastien rannou
+** Last update Wed Jul 29 01:13:40 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -23,6 +23,7 @@
 #include <string.h>
 #include <errno.h>
 
+#include "SDL_console.h"
 #include "graphic.h"
 #include "graphic_font.h"
 #include "graphic_colors.h"
@@ -155,6 +156,43 @@ graphic_init_fpsbox(client_t *client, graphic_t *graphic)
 
 /**!
  * @author	rannou_s
+ * Let's initialize the console
+ * @todo	link this defines with a nice .ini file
+ */
+
+#define		FONT	"internals/fonts/ConsoleFont.bmp"
+#define		LINES	24
+#define		PROMPT	"> "
+
+static __inline int
+graphic_init_console(client_t *client, graphic_t *graphic)
+{
+  SDL_Rect			rect;
+
+  if (client == NULL || graphic == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  memset(&rect, 0, sizeof(rect));
+  rect.w = WX;
+  rect.x = 0;
+  rect.y = 0;
+  rect.h = WY / 2;
+  graphic->console = CON_Init(FONT, graphic->opengl.screen2d, LINES, rect);
+  if (graphic->console == NULL)
+    {
+      ERR_RAISE(EC_SDL_CONSOLE_INI);
+      return (ERROR);
+    }
+  CON_SetHideKey(graphic->console, SDLK_BACKQUOTE);
+  CON_SetPrompt(graphic->console, PROMPT);
+  CON_Topmost(graphic->console);
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
  * Initialization of everything related to graphic's thread
  */
 
@@ -166,7 +204,6 @@ graphic_init(client_t *client, graphic_t *graphic)
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
-
   if (graphic_init_sdl(client, graphic) == ERROR)
     return (ERROR);
   if (graphic_load_ttf() == ERROR)
@@ -174,6 +211,8 @@ graphic_init(client_t *client, graphic_t *graphic)
   if (graphic_load_colors() == ERROR)
     return (ERROR);
   if (graphic_init_fpsbox(client, graphic) == ERROR)
+    return (ERROR);
+  if (graphic_init_console(client, graphic) == ERROR)
     return (ERROR);
   return (SUCCESS);
 }

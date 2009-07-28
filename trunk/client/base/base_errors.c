@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Mon Jul 27 12:23:36 2009 sebastien rannou
+** Last update Wed Jul 29 00:14:00 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -151,6 +151,13 @@ error_t		global_errors[] =
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
     },
 
+    /* Color not found  */
+    {
+      .code	=	EC_LOADER_EVENT_OVER,
+      .fmt	=	"forbidden to overload that event (type = %d code = %d)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
     /* Unknow association of binding in event section */
     {
       .code	=	EC_LOADER_EVENT_UNK,
@@ -183,6 +190,13 @@ error_t		global_errors[] =
     {
       .code	=	EC_SDL_SETVIDEO,
       .fmt	=	"unable to create window (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
+    },
+
+    /* SDL console initialization failed */
+    {
+      .code	=	EC_SDL_CONSOLE_INI,
+      .fmt	=	"unable to initialize console",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG      
     },
 

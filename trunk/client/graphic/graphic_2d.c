@@ -5,12 +5,13 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 19:48:00 2009 sebastien rannou
-** Last update Mon Jul 27 13:48:22 2009 sebastien rannou
+** Last update Mon Jul 27 23:37:01 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
 #include <GL/gl.h>
 
+#include "SDL_console.h"
 #include "coor.h"
 #include "font.h"
 #include "lists.h"
@@ -104,6 +105,24 @@ graphic_2d_draw_screen(graphic_t *graphic, GLuint texture)
 
 /**!
  * @author	rannou_s
+ * Let's draw the console :)
+ */
+
+static __inline int
+graphic_2d_draw_console(client_t *client, graphic_t *graphic)
+{
+  if (client == NULL || graphic == NULL)
+    {
+      threads_leave(client);
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  CON_DrawConsole(graphic->console);
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
  * Kind of SDL blit on screen equivalent:
  * we blit the screen2d surface on a square surface that
  * simulates a screen.
@@ -126,6 +145,7 @@ graphic_2d_draw(client_t *client, graphic_t *graphic)
   SDL_FillRect(graphic->opengl.screen2d, NULL, 
 	       SDL_MapRGB(graphic->opengl.screen2d->format, 255, 0, 0));
   graphic_2d_draw_fpsbox(client, graphic);
+  graphic_2d_draw_console(client, graphic);
   if (graphic_surface_to_gl(graphic->opengl.screen2d, 
 			    &graphic->opengl.screen2d_id) == ERROR)
     {

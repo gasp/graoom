@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Mon Jul 27 13:10:18 2009 sebastien rannou
+** Last update Wed Jul 29 00:23:50 2009 sebastien rannou
 */
 
 #include "shortcuts.h"
@@ -25,6 +25,7 @@
 #include "graphic.h"
 #include "graphic_font.h"
 #include "graphic_colors.h"
+#include "SDL_console.h"
 
 /**!
  * @author	rannou_s
@@ -51,19 +52,25 @@ graphic_cleaner_sdl(client_t *client, graphic_t *graphic)
 
 /**!
  * @author	rannou_S
- * Cleans window's structure
+ * Cleans window's structure and console
  */
 
 static __inline int
-graphic_cleaner_window(window_t *window)
+graphic_cleaner_main(graphic_t *graphic)
 {
-  if (window == NULL)
+  if (graphic == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
-  if (window->title != NULL)
-    free(window->title);
+  if (graphic->window.title != NULL)
+    {
+      free(graphic->window.title);
+    }
+  if (graphic->console != NULL)
+    {
+      CON_Destroy(graphic->console);
+    }
   return (SUCCESS);
 }
 
@@ -84,7 +91,7 @@ graphic_cleaner(client_t *client, graphic_t *graphic)
       return (ERROR);
     }
   if (graphic != NULL)
-    graphic_cleaner_window(&graphic->window);
+    graphic_cleaner_main(graphic);
   graphic_clean_ttf();
   graphic_clean_colors();
   graphic_cleaner_sdl(client, graphic);

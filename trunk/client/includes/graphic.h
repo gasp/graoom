@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Tue Jul 21 12:35:08 2009 sebastien rannou
-** Last update Mon Jul 27 12:56:26 2009 sebastien rannou
+** Last update Mon Jul 27 22:51:45 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_C_GRAPHIC_H
@@ -51,6 +51,7 @@ typedef struct		graphic_s	/* main structure for gfx module */
   list_t		*textures;	/* list of loaded textures */
   window_t		window;		/* window related */
   fpsbox_t		fpsbox;		/* fps box that display infos  */
+  void			*console;	/* sdl_console's structure */
 }			graphic_t;
 
 int
