@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Wed Jul 29 00:14:00 2009 sebastien rannou
+** Last update Wed Jul 29 18:55:37 2009 sebastien rannou
 */
 
 #include "errors.h"
@@ -155,6 +155,13 @@ error_t		global_errors[] =
     {
       .code	=	EC_LOADER_EVENT_OVER,
       .fmt	=	"forbidden to overload that event (type = %d code = %d)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
+    /* Color not found  */
+    {
+      .code	=	EC_LOADER_INVALID_FOV,
+      .fmt	=	"invalid fov (%d), must be > 0",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
     },
 

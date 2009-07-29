@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 19:48:00 2009 sebastien rannou
-** Last update Mon Jul 27 23:37:01 2009 sebastien rannou
+** Last update Wed Jul 29 14:05:25 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -142,8 +142,6 @@ graphic_2d_draw(client_t *client, graphic_t *graphic)
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
-  SDL_FillRect(graphic->opengl.screen2d, NULL, 
-	       SDL_MapRGB(graphic->opengl.screen2d->format, 255, 0, 0));
   graphic_2d_draw_fpsbox(client, graphic);
   graphic_2d_draw_console(client, graphic);
   if (graphic_surface_to_gl(graphic->opengl.screen2d, 

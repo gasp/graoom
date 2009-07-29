@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Mon Jul 27 13:25:14 2009 sebastien rannou
+** Last update Wed Jul 29 18:54:46 2009 sebastien rannou
 */
 
 #ifndef	_BSD_SOURCE	/* strdup on linux */
@@ -37,6 +37,7 @@
 #define	CLIENT_NAME_VAL	"window_title"
 #define	CLIENT_MAX_FPS	"max_fps"
 #define	CLIENT_FPS_BOX	"fpsbox"
+#define	CLIENT_FOV	"fov"
 
 /**!
  * @author	rannou_s
@@ -143,9 +144,13 @@ graphic_parser_fetch_window(graphic_t *graphic, ini_section_t *section)
       return (ERROR);
     }
   if (graphic_parser_fetch_winsize(graphic, section) == ERROR)
-    return (ERROR);
+    {
+      return (ERROR);
+    }
   if (graphic_parser_check_winsize(graphic) == ERROR)
-    return (ERROR);
+    {
+      return (ERROR);
+    }
   if ((entry = 
        ini_retrieve_entry_from_section(section, CLIENT_NAME_VAL)) == NULL)
     {
@@ -155,6 +160,16 @@ graphic_parser_fetch_window(graphic_t *graphic, ini_section_t *section)
   if ((graphic->window.title = strdup(entry)) == NULL)
     {
       ERR_RAISE(EC_SYS_STRDUP, strerror(errno)); /* assuming errno is set */
+      return (ERROR);
+    }
+  if ((entry = ini_retrieve_entry_from_section(section, CLIENT_FOV)) == NULL)
+    {
+      ERR_RAISE(EC_INI_UNKNOWN_ENTRY, CLIENT_FOV, section->name);
+      return (ERROR);
+    }
+  if ((graphic->window.fov = atoi(entry)) <= 0)
+    {
+      ERR_RAISE(EC_LOADER_INVALID_FOV, graphic->window.fov);
       return (ERROR);
     }
   return (SUCCESS);

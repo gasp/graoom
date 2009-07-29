@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Wed Jul 29 01:13:40 2009 sebastien rannou
+** Last update Wed Jul 29 20:45:19 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -27,6 +27,7 @@
 #include "graphic.h"
 #include "graphic_font.h"
 #include "graphic_colors.h"
+#include "graphic_texture.h"
 
 #define	WIN		(&graphic->window)	/* shortcut */
 
@@ -209,6 +210,8 @@ graphic_init(client_t *client, graphic_t *graphic)
   if (graphic_load_ttf() == ERROR)
     return (ERROR);
   if (graphic_load_colors() == ERROR)
+    return (ERROR);
+  if (graphic_load_textures() == ERROR)
     return (ERROR);
   if (graphic_init_fpsbox(client, graphic) == ERROR)
     return (ERROR);

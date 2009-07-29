@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Tue Jul 21 12:35:08 2009 sebastien rannou
-** Last update Mon Jul 27 22:51:45 2009 sebastien rannou
+** Last update Wed Jul 29 18:51:40 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_C_GRAPHIC_H
@@ -35,6 +35,7 @@ typedef struct		window_s	/* data concerning the window */
 {
   int			width;		/* window's width */
   int			height;		/* window's height */
+  int			fov;		/* opengl's fov */
   char			*title;		/* window's title */
   SDL_Surface		*screen;	/* screen's surface */
 }			window_t;
@@ -53,6 +54,9 @@ typedef struct		graphic_s	/* main structure for gfx module */
   fpsbox_t		fpsbox;		/* fps box that display infos  */
   void			*console;	/* sdl_console's structure */
 }			graphic_t;
+
+int
+graphic_3d_draw(client_t *client, graphic_t *graphic);
 
 int
 graphic_2d_draw(client_t *client, graphic_t *graphic);

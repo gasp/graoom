@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul 22 00:44:20 2009 sebastien rannou
-** Last update Sun Jul 26 14:52:54 2009 sebastien rannou
+** Last update Wed Jul 29 20:15:44 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_CLIENT_LOG_H
@@ -16,6 +16,7 @@
 #define	LOG_LOADER_MODULE_OK		"modules loaded"
 #define	GRAPHIC_LOADING_FONT		"loading fonts..."
 #define	GRAPHIC_LOADING_COLORS		"loading colors..."
+#define	GRAPHIC_LOADING_TEXTURES	"loading textures..."
 #define	LOG_LOADED_OK			"loading completed, launching the client"
 #define	LOG_WAIT_THREADS		"waiting for threads to leave [%d remaining]"
 #define	LOG_LEAVE			"[quit] command executed, leaving..."

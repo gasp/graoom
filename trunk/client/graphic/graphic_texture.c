@@ -5,8 +5,12 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 19:55:08 2009 sebastien rannou
-** Last update Sun Jul 26 12:26:13 2009 sebastien rannou
+** Last update Wed Jul 29 20:49:34 2009 sebastien rannou
 */
+
+#ifndef	_BSD_SOURCE	/* strdup() */
+#define	_BSD_SOURCE
+#endif
 
 #include <SDL/SDL_image.h>
 #include <GL/gl.h>
@@ -14,9 +18,27 @@
 #include "coor.h"
 #include "shortcuts.h"
 #include "lists.h"
+#include "ini.h"
 #include "errors.h"
+#include "log.h"
+#include "log_client.h"
 
 #include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+
+#define		TEXTURES_INI_FILE	"internals/texture.ini"
+#define		INI_PATH		"path"
+
+typedef struct	internal_texture_s
+{
+  char		*name;
+  SDL_Surface	*surface;
+  GLuint	id;
+}		internal_texture_t;
+
+list_t *
+global_textures;
 
 /**!
  * @author	rannou_s
@@ -146,4 +168,139 @@ void
 graphic_destroy_gl_texture(GLuint id)
 {
   glDeleteTextures(1, &id);
+}
+
+/**!
+ * @author	rannou_s
+ * Let's destroy an internal texture
+ */
+
+void
+graphic_clean_texture(void *ptr)
+{
+  internal_texture_t		*texture = ptr;
+
+  if (texture != NULL)
+    {
+      graphic_destroy_gl_texture(texture->id);
+      SDL_FreeSurface(texture->surface);
+      free(texture->name);
+      free(texture);
+    }
+}
+
+/**!
+ * @author	rannou_s
+ * Let's create a new texture, load it in SDL + OpenGL
+ * and push it to the global list
+ */
+
+int
+graphic_load_texture(char *path, char *name)
+{
+  internal_texture_t	*new;
+  SDL_Surface		*image;
+
+  if (path == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR);
+      return (ERROR);
+    }
+  image = graphic_load_image(path);
+  if (image == NULL)
+    {
+      return (ERROR);
+    }
+  if ((new = malloc(sizeof(*new))) == NULL)
+    {
+      ERR_RAISE(EC_SYS_MALLOC, strerror(errno));
+      graphic_clean_texture(new);
+      return (ERROR);
+    }
+  memset(new, 0, sizeof(*new));
+  new->surface = image;
+  if (graphic_surface_to_gl(new->surface, &new->id) == ERROR)
+    {
+      graphic_clean_texture(new);
+      return (ERROR);
+    }
+  if ((new->name = strdup(name)) == NULL)
+    {
+      graphic_clean_texture(new);
+      ERR_RAISE(EC_SYS_STRDUP, strerror(errno)); /* assuming errno is set */
+      return (ERROR);
+    }
+  if (list_push(&global_textures, new) == ERROR)
+    {
+      graphic_clean_texture(new);
+      ERR_RAISE(EC_SYS_MALLOC, strerror(errno));
+      return (ERROR);
+    }
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
+ * Let's fetch texture's properties
+ */
+
+static __inline int
+graphic_load_texture_create(ini_t *config, ini_section_t *section)
+{
+  char			*path;
+
+  if (config == NULL || section == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  path = ini_retrieve_entry_from_section(section, INI_PATH);
+  if (path == NULL)
+    {
+      ERR_RAISE(EC_INI_UNKNOWN_ENTRY, INI_PATH, config->name);
+      return (ERROR);
+    }
+  return (graphic_load_texture(path, section->name));
+}
+
+/**!
+ * @author	rannou_s
+ *  Main entry of the loader for textures
+ */
+
+int
+graphic_load_textures(void)
+{
+  ini_t		*config;
+  list_t	*cur;
+  
+  LOG(GRAPHIC_LOADING_TEXTURES);
+  if ((config = ini_parse_file(TEXTURES_INI_FILE)) == NULL)
+    {
+      ERR_RAISE(EC_INI_FILE, TEXTURES_INI_FILE);
+      return (ERROR);
+    }
+  for (cur = config->sections_is; cur != NULL; cur = cur->li_next)
+    {
+      if (cur->data != NULL)
+	{
+	  if (graphic_load_texture_create(config, cur->data) == ERROR)
+	    {
+	      return (ERROR);
+	    }
+	}
+    }
+  ini_free_main(config);
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
+ * And finnaly, the cleaner that cleans up each texture
+ */
+
+int
+graphic_clean_textures(void)
+{
+  return (list_free(&global_textures, &graphic_clean_texture));
 }

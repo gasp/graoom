@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Tue Jul 21 16:39:54 2009 sebastien rannou
-** Last update Thu Jul 23 12:22:35 2009 sebastien rannou
+** Last update Wed Jul 29 20:43:36 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_C_LOADER_H
