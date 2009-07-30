@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul 22 14:40:25 2009 sebastien rannou
-** Last update Mon Jul 27 22:51:17 2009 sebastien rannou
+** Last update Wed Jul 29 21:08:47 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_CLIENT_EVENT_H
@@ -27,7 +27,10 @@ typedef struct		event_entry_s	/* associates an event with an action */
 int	/* leave the client */
 event_leave(client_t *client, event_t *event);
 
-int
+int	/* toggles the console */
 event_console_toggle(client_t *client, event_t *event);
+
+int	/* move to left */
+event_move_left(client_t *client, event_t *event);
 
 #endif /* GRAOOM_CLIENT_EVENT_H */

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 01:25:00 2009 sebastien rannou
-** Last update Wed Jul 29 14:06:12 2009 sebastien rannou
+** Last update Thu Jul 30 12:36:20 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -36,8 +36,8 @@ graphic_thread_computes(client_t *client, graphic_t *graphic)
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
-  graphic_2d_draw(client, graphic);
   graphic_3d_draw(client, graphic);
+  graphic_2d_draw(client, graphic);
   return (SUCCESS);
 }
 

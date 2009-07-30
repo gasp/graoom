@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 19:55:08 2009 sebastien rannou
-** Last update Wed Jul 29 20:49:34 2009 sebastien rannou
+** Last update Wed Jul 29 23:05:57 2009 sebastien rannou
 */
 
 #ifndef	_BSD_SOURCE	/* strdup() */

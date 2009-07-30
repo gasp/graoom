@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Tue Jul 21 12:35:08 2009 sebastien rannou
-** Last update Wed Jul 29 18:51:40 2009 sebastien rannou
+** Last update Wed Jul 29 23:35:50 2009 sebastien rannou
 */
 
 #ifndef	GRAOOM_C_GRAPHIC_H
@@ -18,6 +18,7 @@
 
 #define	WX		(graphic->window.width)
 #define	WY		(graphic->window.height)
+#define	CR		(&graphic->camera.rotation)
 
 typedef struct		texture_s	/* texture SDL/OpenGL */
 {
@@ -46,6 +47,12 @@ typedef struct		fpsbox_s	/* box that displays informations */
   font_t		font;		/* font to display */
 }			fpsbox_t;
 
+typedef struct		camera_s	/* trackball camera */
+{
+  double		distance;	/* distance from 0,0,0 */
+  d3_t			rotation;	/* x,y,z */
+}			camera_t;
+
 typedef struct		graphic_s	/* main structure for gfx module */
 {
   opengl_t		opengl;		/* opengl related */
@@ -53,6 +60,7 @@ typedef struct		graphic_s	/* main structure for gfx module */
   window_t		window;		/* window related */
   fpsbox_t		fpsbox;		/* fps box that display infos  */
   void			*console;	/* sdl_console's structure */
+  camera_t		camera;		/* camera's structure */
 }			graphic_t;
 
 int

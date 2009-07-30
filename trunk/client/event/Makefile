@@ -14,6 +14,7 @@ SOURCES	=	event_parser.c		\
 		event_cleaner.c		\
 		event_thread.c		\
 		event_behavior.c	\
+		event_play.c		\
 
 CFLAGS	+=	-I../../includes -I../includes/
 

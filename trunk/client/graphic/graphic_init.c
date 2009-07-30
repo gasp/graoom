@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Wed Jul 29 20:45:19 2009 sebastien rannou
+** Last update Wed Jul 29 23:44:04 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -58,7 +58,7 @@ graphic_init_video_screen(client_t *client, graphic_t *graphic)
   if ((graphic->opengl.screen2d = 
        SDL_CreateRGBSurface(SDL_SRCALPHA | SDL_SWSURFACE,
 			    WIN->width, WIN->height, SDL_BPP, 
-			    0, 0, 0, 0)) == NULL)
+			    0, 0, 0, 255)) == NULL)
     {
       ERR_RAISE(EC_SDL_CREATE_SURFACE, SDL_GetError());
       return (ERROR);
@@ -162,6 +162,7 @@ graphic_init_fpsbox(client_t *client, graphic_t *graphic)
  */
 
 #define		FONT	"internals/fonts/ConsoleFont.bmp"
+#define		BG	"internals/textures/console.png"
 #define		LINES	24
 #define		PROMPT	"> "
 
@@ -189,6 +190,24 @@ graphic_init_console(client_t *client, graphic_t *graphic)
   CON_SetHideKey(graphic->console, SDLK_BACKQUOTE);
   CON_SetPrompt(graphic->console, PROMPT);
   CON_Topmost(graphic->console);
+  CON_Background(graphic->console, BG, 0, 0);
+  return (SUCCESS);
+}
+
+/**!
+ * @author	rannou_s
+ * Initialize camera's positions
+ */
+
+static __inline int
+graphic_init_camera(client_t *client, graphic_t *graphic)
+{
+  if (client == NULL || graphic == NULL)
+    {
+      ERR_RAISE(EC_NULL_PTR_DIE);
+      return (ERROR);
+    }
+  graphic->camera.distance = 5;
   return (SUCCESS);
 }
 
@@ -216,6 +235,8 @@ graphic_init(client_t *client, graphic_t *graphic)
   if (graphic_init_fpsbox(client, graphic) == ERROR)
     return (ERROR);
   if (graphic_init_console(client, graphic) == ERROR)
+    return (ERROR);
+  if (graphic_init_camera(client, graphic) == ERROR)
     return (ERROR);
   return (SUCCESS);
 }

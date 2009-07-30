@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Mon Jul 27 22:52:35 2009 sebastien rannou
+** Last update Wed Jul 29 21:02:48 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -29,6 +29,8 @@
  * Initialization of event's
  */
 
+#define	KEY_REPEAT		10
+
 int
 event_init(client_t *client, event_t *event)
 {
@@ -37,5 +39,6 @@ event_init(client_t *client, event_t *event)
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
+  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
   return (SUCCESS);
 }

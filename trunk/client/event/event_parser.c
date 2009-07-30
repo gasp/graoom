@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Wed Jul 29 00:28:26 2009 sebastien rannou
+** Last update Wed Jul 29 21:10:57 2009 sebastien rannou
 */
 
 #include <SDL/SDL.h>
@@ -43,10 +43,10 @@ global_event_asso[] =
       .action	=	&event_leave
     },
 
-    /* Toggle console mode */
+    /* Move to left */
     {
-      .name	=	"console_toggle",
-      .action	=	&event_console_toggle
+      .name	=	"move_left",
+      .action	=	&event_move_left
     },
 
     /* End of array */
@@ -76,6 +76,13 @@ global_event_keys[] =
       .name	=	"key_space",
       .type	=	SDL_KEYDOWN,
       .code	=	SDLK_SPACE
+    },
+
+    /* Left arrow */
+    {
+      .name	=	"key_left",
+      .type	=	SDL_KEYDOWN,
+      .code	=	SDLK_LEFT
     },
 
     /* End of array */
