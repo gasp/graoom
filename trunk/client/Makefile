@@ -38,10 +38,3 @@ fclean:	clean
 	$(MAKE) -C build $@
 
 re:	fclean all
-	$(MAKE) -C audio $@
-	$(MAKE) -C base $@
-	$(MAKE) -C event $@
-	$(MAKE) -C graphic $@
-	$(MAKE) -C network $@
-
-	$(MAKE) -C build $@

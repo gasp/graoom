@@ -146,9 +146,7 @@ graphic_2d_draw(client_t *client, graphic_t *graphic)
       return (ERROR);
     }
   graphic_2d_draw_fpsbox(client, graphic);
-  /*
   graphic_2d_draw_console(client, graphic);
-  */
   if (graphic_surface_to_gl(graphic->opengl.screen2d, 
 			    &graphic->opengl.screen2d_id) == ERROR)
     {

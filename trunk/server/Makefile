@@ -31,8 +31,3 @@ fclean:	clean
 	$(MAKE) -C build $@
 
 re:	fclean all
-	$(MAKE) -C network $@
-	$(MAKE) -C base $@
-	$(MAKE) -C cmd $@
-
-	$(MAKE) -C build $@
