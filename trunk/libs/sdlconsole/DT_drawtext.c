@@ -128,14 +128,10 @@ int DT_LoadFont(const char *BitmapName, int flags) {
 	 * is that the first pixel of the font image will be the color we should treat
 	 * as transparent.
 	 */
-	if(flags & TRANS_FONT) {
-		if(SDL_GetVideoSurface()->flags & SDL_OPENGLBLIT)
-			DT_SetFontAlphaGL(FontNumber, SDL_ALPHA_TRANSPARENT);
-		else
-			SDL_SetColorKey((*CurrentFont)->FontSurface, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB((*CurrentFont)->FontSurface->format, 255, 0, 255));
-	} else if(SDL_GetVideoSurface()->flags & SDL_OPENGLBLIT)
-		DT_SetFontAlphaGL(FontNumber, SDL_ALPHA_OPAQUE);
-
+	/* Edited by rannou sebastien, I don't need OpenGL blit support even if i'm in an opengl context */
+	if(flags & TRANS_FONT)
+	  SDL_SetColorKey((*CurrentFont)->FontSurface, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB((*CurrentFont)->FontSurface->format, 255, 0, 255));
+	
 	return FontNumber;
 }
 

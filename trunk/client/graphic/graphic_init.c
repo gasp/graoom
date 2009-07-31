@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Wed Jul 29 23:44:04 2009 sebastien rannou
+** Last update Fri Jul 31 19:21:24 2009 
 */
 
 #include <SDL/SDL.h>
@@ -163,7 +163,7 @@ graphic_init_fpsbox(client_t *client, graphic_t *graphic)
 
 #define		FONT	"internals/fonts/ConsoleFont.bmp"
 #define		BG	"internals/textures/console.png"
-#define		LINES	24
+#define		LINES	100
 #define		PROMPT	"> "
 
 static __inline int

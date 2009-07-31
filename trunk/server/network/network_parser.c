@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul 17 19:32:01 2009 sebastien rannou
-** Last update Sun Jul 19 14:11:12 2009 sebastien rannou
+** Last update Fri Jul 31 19:21:45 2009 
 */
 
 #include <sys/select.h>
@@ -78,7 +78,7 @@ network_parser(server_t *server, ini_section_t *conf)
   char		*value;
   int		num;
 
-  if (server == NULL || conf == NULL || network == NULL)
+  if (server == NULL || conf == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (NULL);
