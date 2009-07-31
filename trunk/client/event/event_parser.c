@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Wed Jul 29 21:10:57 2009 sebastien rannou
+** Last update Sat Aug  1 01:57:16 2009 
 */
 
 #include <SDL/SDL.h>
@@ -30,7 +30,7 @@
 typedef struct		event_asso_s	/* associates an event with a key */
 {
   char			*name;		/* name of the action */
-  int			(*action)(client_t *client, event_t *event);
+  int			(*action)(client_t *client);
 }			event_asso_t;
 
 static event_asso_t

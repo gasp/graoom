@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 14:45:25 2009 sebastien rannou
-** Last update Wed Jul 29 21:06:25 2009 sebastien rannou
+** Last update Sat Aug  1 01:34:25 2009 
 */
 
 #include <SDL/SDL.h>
@@ -33,9 +33,9 @@
  */
 
 int
-event_leave(client_t *client, event_t *event)
+event_leave(client_t *client)
 {
-  if (client == NULL || event == NULL)
+  if (client == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
@@ -51,11 +51,11 @@ event_leave(client_t *client, event_t *event)
  */
 
 int
-event_console_toggle(client_t *client, event_t *event)
+event_console_toggle(client_t *client)
 {
   graphic_t			*graphic;
 
-  if (client == NULL || event == NULL)
+  if (client == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);

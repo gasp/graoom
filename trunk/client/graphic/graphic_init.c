@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Fri Jul 31 19:21:24 2009 
+** Last update Sat Aug  1 02:01:22 2009 
 */
 
 #include <SDL/SDL.h>
@@ -28,6 +28,7 @@
 #include "graphic_font.h"
 #include "graphic_colors.h"
 #include "graphic_texture.h"
+#include "event.h"
 
 #define	WIN		(&graphic->window)	/* shortcut */
 
@@ -166,6 +167,10 @@ graphic_init_fpsbox(client_t *client, graphic_t *graphic)
 #define		LINES	100
 #define		PROMPT	"> "
 
+/* don't want to create one header file for one prototype */
+void
+console_command_handler(ConsoleInformation *console, char *command);
+
 static __inline int
 graphic_init_console(client_t *client, graphic_t *graphic)
 {
@@ -191,6 +196,8 @@ graphic_init_console(client_t *client, graphic_t *graphic)
   CON_SetPrompt(graphic->console, PROMPT);
   CON_Topmost(graphic->console);
   CON_Background(graphic->console, BG, 0, 0);
+  CON_SetExecuteFunction(graphic->console, &console_command_handler);
+  console_event_init(client);
   return (SUCCESS);
 }
 

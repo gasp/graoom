@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 01:25:00 2009 sebastien rannou
-** Last update Tue Jul 28 00:22:35 2009 sebastien rannou
+** Last update Sat Aug  1 01:59:22 2009 
 */
 
 #include <SDL/SDL.h>
@@ -50,7 +50,7 @@ event_thread_poll(client_t *client, event_t *event)
 		  if (event->sdl_event.type == SDL_KEYDOWN &&
 		      (int) event->sdl_event.key.keysym.sym == entry->code)
 		    {
-		      entry->action(client, event);
+		      entry->action(client);
 		    }
 		}
 	    }

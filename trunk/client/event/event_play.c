@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul 29 21:06:06 2009 sebastien rannou
-** Last update Wed Jul 29 23:39:29 2009 sebastien rannou
+** Last update Sat Aug  1 01:34:11 2009 
 */
 
 #include <SDL/SDL.h>
@@ -33,11 +33,11 @@
  */
 
 int
-event_move_left(client_t *client, event_t *event)
+event_move_left(client_t *client)
 {
   graphic_t		*graphic;
 
-  if (client == NULL || event == NULL)
+  if (client == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
