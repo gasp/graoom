@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul 22 14:40:25 2009 sebastien rannou
-** Last update Sat Aug  1 01:59:03 2009 
+** Last update Sat Aug  1 22:40:29 2009 
 */
 
 #ifndef	GRAOOM_CLIENT_EVENT_H
@@ -33,7 +33,10 @@ event_console_toggle(client_t *client);
 int	/* move to left */
 event_move_left(client_t *client);
 
-int
+int	/* for sdl_console */
 console_event_init(client_t *client);
+
+char *	/* for sdl_console */
+console_tab_handler(char *command);
 
 #endif /* GRAOOM_CLIENT_EVENT_H */

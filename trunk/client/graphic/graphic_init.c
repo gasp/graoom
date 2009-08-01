@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Sat Aug  1 02:01:22 2009 
+** Last update Sat Aug  1 02:15:07 2009 
 */
 
 #include <SDL/SDL.h>
@@ -197,6 +197,7 @@ graphic_init_console(client_t *client, graphic_t *graphic)
   CON_Topmost(graphic->console);
   CON_Background(graphic->console, BG, 0, 0);
   CON_SetExecuteFunction(graphic->console, &console_command_handler);
+  CON_SetTabCompletion(graphic->console, &console_tab_handler);
   console_event_init(client);
   return (SUCCESS);
 }

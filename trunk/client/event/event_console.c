@@ -5,7 +5,7 @@
 ** Login   <aimxhaisse@epitech.net>
 ** 
 ** Started on  Fri Jul 31 20:50:31 2009 
-** Last update Sat Aug  1 02:00:41 2009 
+** Last update Sat Aug  1 23:12:37 2009 
 */
 
 #include <SDL/SDL.h>
@@ -87,18 +87,39 @@ console_command_handler(ConsoleInformation *console, char *command)
 
 /**!
  * @author	rannou_s
+ * Let's full a local array of some completion options
+ */
+
+char *
+console_tab_handler(char *command)
+{
+  return (command);
+}
+
+/**!
+ * @author	rannou_s
  * Initialize this file by setting global_client to client's address
  * Quite ugly but the only solution is to redesign SDL_Console library
+ * Only allocated memory for completion
  */
 
 int
 console_event_init(client_t *client)
 {
+  int			i;
+
   if (client == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
   global_console_client = client;
+  global_tab = malloc((COMPLETION_MAX_ROWS + 1) * sizeof(*global_tab));
+  for (i = 0; i < COMPLETION_MAX_ROWS; i++)
+    {
+      global_tab[i] = malloc((COMPLETION_MAX_LEN + 1) * sizeof(**global_tab));
+      memset(global_tab[i], 0, COMPLETION_MAX_LEN * sizeof(**global_tab));
+    }
+  global_tab[i] = NULL;
   return (SUCCESS);
 }
