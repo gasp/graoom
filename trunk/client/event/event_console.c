@@ -5,7 +5,7 @@
 ** Login   <aimxhaisse@epitech.net>
 ** 
 ** Started on  Fri Jul 31 20:50:31 2009 
-** Last update Sat Aug  1 23:12:37 2009 
+** Last update Mon Aug  3 13:25:25 2009 
 */
 
 #include <SDL/SDL.h>
@@ -106,20 +106,11 @@ console_tab_handler(char *command)
 int
 console_event_init(client_t *client)
 {
-  int			i;
-
   if (client == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
   global_console_client = client;
-  global_tab = malloc((COMPLETION_MAX_ROWS + 1) * sizeof(*global_tab));
-  for (i = 0; i < COMPLETION_MAX_ROWS; i++)
-    {
-      global_tab[i] = malloc((COMPLETION_MAX_LEN + 1) * sizeof(**global_tab));
-      memset(global_tab[i], 0, COMPLETION_MAX_LEN * sizeof(**global_tab));
-    }
-  global_tab[i] = NULL;
   return (SUCCESS);
 }

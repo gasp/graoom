@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 01:25:00 2009 sebastien rannou
-** Last update Thu Jul 30 12:36:20 2009 sebastien rannou
+** Last update Mon Aug  3 13:23:08 2009 
 */
 
 #include <SDL/SDL.h>
@@ -72,7 +72,7 @@ graphic_thread_sleep(client_t *client)
        * sleep() is an obligation as we have to let other threads a part
        * of control ... so? let's choose an arbitrary sleep value :(
        *
-       * This is not an arbitrary, this is 1 (sdl doc) // Thanks to Talus
+       * This value is 1 (sdl doc) // Thanks to Talus
        */
       SDL_Delay(MIN_SLEEP_SLOW);
     }
