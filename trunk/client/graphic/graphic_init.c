@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Sat Aug  1 02:15:07 2009 
+** Last update Wed Aug  5 01:15:58 2009 
 */
 
 #include <SDL/SDL.h>
@@ -59,11 +59,14 @@ graphic_init_video_screen(client_t *client, graphic_t *graphic)
   if ((graphic->opengl.screen2d = 
        SDL_CreateRGBSurface(SDL_SRCALPHA | SDL_SWSURFACE,
 			    WIN->width, WIN->height, SDL_BPP, 
-			    0, 0, 0, 255)) == NULL)
+			    0, 0, 0, 0)) == NULL)
     {
       ERR_RAISE(EC_SDL_CREATE_SURFACE, SDL_GetError());
       return (ERROR);
     }
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_COLOR_MATERIAL);
+  glShadeModel(GL_SMOOTH);
   return (SUCCESS);
 }
 

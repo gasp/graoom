@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Tue Jul 21 12:35:08 2009 sebastien rannou
-** Last update Wed Jul 29 23:35:50 2009 sebastien rannou
+** Last update Wed Aug  5 01:00:03 2009 
 */
 
 #ifndef	GRAOOM_C_GRAPHIC_H
@@ -16,6 +16,7 @@
  * Some shortcuts
  */
 
+#define	FOV		(graphic->window.fov)
 #define	WX		(graphic->window.width)
 #define	WY		(graphic->window.height)
 #define	CR		(&graphic->camera.rotation)
@@ -71,8 +72,5 @@ graphic_2d_draw(client_t *client, graphic_t *graphic);
 
 int
 graphic_set_2d(graphic_t *graphic);
-
-int
-graphic_set_3d(graphic_t *graphic);
 
 #endif /* GRAOOM_C_GRAPHIC_H */

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 19:48:00 2009 sebastien rannou
-** Last update Thu Jul 30 14:26:46 2009 sebastien rannou
+** Last update Wed Aug  5 02:30:20 2009 
 */
 
 #include <SDL/SDL.h>
@@ -70,7 +70,7 @@ graphic_2d_draw_fpsbox(client_t *client, graphic_t *graphic)
  *       *                                       *
  * (0,0) ***************************************** (0,1)
  *
- * It's a quick way to easily bind a texture on a screen.
+ * This way we can use SDL_Blits without worrying
  */
 
 static __inline int
@@ -81,11 +81,18 @@ graphic_2d_draw_screen(graphic_t *graphic, GLuint texture)
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);      
     }
+
   graphic_set_2d(graphic);
+
+  glDisable(GL_DEPTH_TEST);
+  glDisable(GL_LIGHTING);
+
+  glEnable(GL_BLEND);
   glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, texture);
-  glEnable(GL_BLEND); 
+
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+  glBindTexture(GL_TEXTURE_2D, texture);
+
   glBegin(GL_QUADS);
   {
     glTexCoord2d(0.0, 1.0);
@@ -101,8 +108,10 @@ graphic_2d_draw_screen(graphic_t *graphic, GLuint texture)
     glVertex2d(0, 0);
   }
   glEnd();
+
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND); 
+
   return (SUCCESS);
 }
 
@@ -145,8 +154,13 @@ graphic_2d_draw(client_t *client, graphic_t *graphic)
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
-  graphic_2d_draw_fpsbox(client, graphic);
+  SDL_FillRect(graphic->opengl.screen2d, NULL, 
+	       SDL_MapRGBA(graphic->opengl.screen2d->format,
+			   0, 0, 0, 0));
   graphic_2d_draw_console(client, graphic);
+  graphic_2d_draw_fpsbox(client, graphic);
+  SDL_SetColorKey(graphic->opengl.screen2d, SDL_RLEACCEL | SDL_SRCCOLORKEY, 
+		  SDL_MapRGB(graphic->opengl.screen2d->format, 0, 0, 0 ));
   if (graphic_surface_to_gl(graphic->opengl.screen2d, 
 			    &graphic->opengl.screen2d_id) == ERROR)
     {
@@ -154,8 +168,5 @@ graphic_2d_draw(client_t *client, graphic_t *graphic)
       return (ERROR);
     }
   graphic_2d_draw_screen(graphic, graphic->opengl.screen2d_id);
-  SDL_FillRect(graphic->opengl.screen2d, NULL, 
-	       SDL_MapRGBA(graphic->opengl.screen2d->format,
-			   0, 0, 0, 200));
   return (SUCCESS);
 }
