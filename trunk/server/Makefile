@@ -13,6 +13,7 @@ all:
 	$(MAKE) -C network $@
 	$(MAKE) -C base $@
 	$(MAKE) -C cmd $@
+	$(MAKE) -C game $@
 
 	$(MAKE) -C build $@
 
@@ -20,6 +21,7 @@ clean:
 	$(MAKE) -C network $@
 	$(MAKE) -C base $@
 	$(MAKE) -C cmd $@
+	$(MAKE) -C game $@
 
 	$(MAKE) -C build $@
 
@@ -27,6 +29,7 @@ fclean:	clean
 	$(MAKE) -C network $@
 	$(MAKE) -C base $@
 	$(MAKE) -C cmd $@
+	$(MAKE) -C game $@
 
 	$(MAKE) -C build $@
 

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul 17 23:27:33 2009 sebastien rannou
-** Last update Sun Jul 19 14:11:33 2009 sebastien rannou
+** Last update Sat Aug  8 16:41:31 2009 
 */
 
 #include <sys/select.h>
@@ -126,6 +126,7 @@ network_accept_new_connection_push(server_t *server, network_t *network,
   new_client->sock = sock;
   new_client->id = ++network->last_client_id;
   cmd_welcome(server, network, new_client);
+  cmd_map(server, network, new_client);
   LOG("new connection accepted from (%s)", new_client->ip);
   return (SUCCESS);
 }

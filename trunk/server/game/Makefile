@@ -9,21 +9,17 @@
 
 include ../../Makefile.inc
 
-NAME	=	gserv
+SOURCES	=	game_init.c			\
+		game_parser.c			\
 
-CFLAGS	+=	-I../../includes/
-LIBS	=	-ltools_`uname -m`-`uname -s` -L../../libs/ -lgcov
+CFLAGS	+=	-I../../includes -I../includes/
 
-all:
-	$(CC) *.o -o $(NAME) $(LIBS)
-	$(MV) $(NAME) ../../$(BINDIR)/graoom-server/
+all:	$(OBJECTS)
+	$(CP) $(OBJECTS) ../$(OBJDIR)
 
 clean:
-	$(RM) *.o
+	$(RM) $(OBJECTS)
 
 fclean:	clean
-	$(RM) $(NAME)
 
-re:
-	$(RM) $(NAME)
-	$(MAKE) all
+re:	fclean all

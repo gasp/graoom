@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Mon Jul 20 22:09:44 2009 sebastien rannou
+** Last update Thu Aug  6 00:05:59 2009 
 */
 
 #include "errors.h"
@@ -155,6 +155,13 @@ error_t		global_errors[] =
     {
       .code	=	EC_LOADER_SEV,
       .fmt	=	"module (%s) already loaded in (%s)",
+      .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
+    },
+
+    /* Name of the map is too long */
+    {
+      .code	=	EC_GAME_MAPLEN,
+      .fmt	=	"name of the map si too long (= %d, maximum is %d)",
       .behavior	=	ERR_T_DISPLAY | ERR_T_LOG
     },
 

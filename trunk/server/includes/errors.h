@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 20:27:27 2009 sebastien rannou
-** Last update Mon Jul 20 18:42:52 2009 sebastien rannou
+** Last update Thu Aug  6 00:06:10 2009 
 */
 
 #ifndef GRAOOM_ERRORS_H
@@ -59,6 +59,8 @@
 #define			EC_NETWORK_SOCK		301
 #define			EC_NETWORK_MAX		302
 #define			EC_NETWORK_NODATA	303
+
+#define			EC_GAME_MAPLEN		401
 
 void	/* logs a message, see errors.c for more information */
 error_handler(int line, char *file, int code, ...);

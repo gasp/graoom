@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Sun Jul 19 13:53:11 2009 sebastien rannou
+** Last update Sat Aug  8 14:38:15 2009 
 */
 
 #include "lists.h"
@@ -15,6 +15,7 @@
 #include "errors.h"
 #include "server.h"
 #include "network_prototypes.h"
+#include "game_prototypes.h"
 #include "log.h"
 
 #include <stdio.h>
@@ -27,6 +28,7 @@ network_loop(server_t *server, void *network);
 
 #define	LOADER_INI_FILE		"public/settings.ini"
 #define	LOADER_NETWORK_S	"network"
+#define	LOADER_GAME_S		"game"
 #define	LOADER_SERVER_S		"server"
 
 /**!
@@ -55,6 +57,16 @@ loader_asso_t global_asso[] =
       .parser	=	&network_parser, 
       .init	=	&network_initialize, 
       .clean	=	&network_clean,
+      .loaded	=	0,
+      .data	=	NULL
+    },
+
+    /* game's module */
+    {
+      .name	=	LOADER_GAME_S,
+      .parser	=	&game_parser,
+      .init	=	&game_initialize,
+      .clean	=	&game_clean,
       .loaded	=	0,
       .data	=	NULL
     },
