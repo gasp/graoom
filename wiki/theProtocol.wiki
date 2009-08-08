@@ -14,7 +14,7 @@ The connection consists of a primary dialog which aims at defining the way the c
 
 ==The communication==
 
-One the communication has been initialized, the client is connected to the server and a communication takes place. This communication can be of different types, according to the nature of the client. Basically, the client and the server use the same way to communicate:
+Once the communication has been initialized, the client is connected to the server and a communication takes place. This communication can be of different types, according to the nature of the client. Basically, the client and the server use the same way to communicate:
 
 {{{
 type:data\n
