@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul 17 23:27:33 2009 sebastien rannou
-** Last update Sat Aug  8 16:41:31 2009 
+** Last update Sun Aug  9 14:43:08 2009 
 */
 
 #include <sys/select.h>
@@ -36,14 +36,8 @@
  */
 
 static __inline int
-network_accept_new_connection_limit(server_t *server, network_t *network, 
-				    int sock)
+network_accept_new_connection_limit(network_t *network, int sock)
 {
-  if (server == NULL || network == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);      
-    }
   if (sock >= network->configuration.num_max_connection)
     {
       ERR_RAISE(EC_NETWORK_MAX, network->configuration.num_max_connection);
@@ -63,14 +57,8 @@ network_accept_new_connection_limit(server_t *server, network_t *network,
  */
 
 static __inline int
-network_accept_new_connection_cfg(server_t *server, network_t *network, 
-				  int sock)
+network_accept_new_connection_cfg(int sock)
 {
-  if (server == NULL || network == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);      
-    }
   if (fcntl(sock, F_SETFL, O_NONBLOCK) == ERROR)
     {
       ERR_RAISE(EC_SYS_FCNTL);
@@ -95,11 +83,6 @@ network_accept_new_connection_push(server_t *server, network_t *network,
 {
   network_client_t	*new_client;
 
-  if (server == NULL || addr == NULL || network == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);
-    }
   if ((new_client = malloc(sizeof(*new_client))) == NULL)
     {
       ERR_RAISE(EC_SYS_MALLOC, strerror(errno));
@@ -111,7 +94,9 @@ network_accept_new_connection_push(server_t *server, network_t *network,
     {
       ERR_RAISE(EC_SYS_INET_NTOA);
       if (close(sock) == ERROR)
-	ERR_RAISE(EC_SYS_CLOSE);
+	{
+	  ERR_RAISE(EC_SYS_CLOSE);
+	}
       free(new_client);
       return (ERROR);
     }
@@ -119,7 +104,9 @@ network_accept_new_connection_push(server_t *server, network_t *network,
     {
       ERR_RAISE(EC_SYS_MALLOC);
       if (close(sock) == ERROR)
-	ERR_RAISE(EC_SYS_CLOSE);
+	{
+	  ERR_RAISE(EC_SYS_CLOSE);
+	}
       free(new_client);
       return (ERROR);
     }
@@ -144,10 +131,10 @@ network_accept_new_connection(server_t *server, network_t *network, int sock)
   struct sockaddr_in	saddr;
   socklen_t		size;
   int			client_sock;
-
+  
   if (server == NULL || network == NULL)
     {
-      ERR_RAISE(EC_NULL_PTR_DIE);
+      ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
     }
   if (!(sock > 0))
@@ -162,9 +149,11 @@ network_accept_new_connection(server_t *server, network_t *network, int sock)
       ERR_RAISE(EC_SYS_ACCEPT);
       return (ERROR);
     }
-  if (network_accept_new_connection_limit(server, network, client_sock))
-    return (ERROR);
-  if (network_accept_new_connection_push(server, network, client_sock, &saddr))
-    return (ERROR);
+  if (network_accept_new_connection_limit(network, client_sock) ||
+      network_accept_new_connection_cfg(client_sock) ||
+      network_accept_new_connection_push(server, network, client_sock, &saddr))
+    {
+      return (ERROR);
+    }
   return (SUCCESS);
 }

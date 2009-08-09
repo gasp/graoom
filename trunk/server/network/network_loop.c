@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sat Jul 18 18:24:41 2009 sebastien rannou
-** Last update Sun Jul 19 13:21:59 2009 sebastien rannou
+** Last update Sun Aug  9 14:46:18 2009 
 */
 
 #include <sys/select.h>
@@ -50,21 +50,22 @@ network_loop_activity(server_t *server, network_t *network)
   list_t		*cur;
   network_client_t	*client;
 
-  if (server == NULL || network == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);      
-    }
   if (FD_ISSET(network->primary_socket, &network->select.readfs))
-    network_accept_new_connection(server, network, network->primary_socket);
+    {
+      network_accept_new_connection(server, network, network->primary_socket);
+    }
   for (cur = network->clients; cur != NULL; cur = cur->li_next)
     {
       if ((client = (network_client_t *) cur->data) != NULL)
 	{
 	  if (FD_ISSET(client->sock, &network->select.readfs))
-	    network_read_from_client(server, client);
+	    {
+	      network_read_from_client(server, client);
+	    }
 	  else if (client->obuff.offset > 0)
-	    network_client_send(server, network, client);
+	    {
+	      network_client_send(server, network, client);
+	    }
 	}
     }
   return (SUCCESS);
@@ -77,25 +78,24 @@ network_loop_activity(server_t *server, network_t *network)
  */
 
 static __inline int
-network_loop_init_pop(server_t *server, network_t *network, list_t **ptr)
+network_loop_init_pop(network_t *network, list_t **ptr)
 {
   list_t		*cur;
   network_client_t	*client;
 
-  if (server == NULL || network == NULL || ptr == NULL || *ptr == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);
-    }
   cur = *ptr;
   *ptr = cur->li_next;
   if ((client = (network_client_t *) cur->data) != NULL)
     {
       if (close(client->sock) == ERROR)
-	ERR_RAISE(EC_SYS_CLOSE, strerror(errno));
+	{
+	  ERR_RAISE(EC_SYS_CLOSE, strerror(errno));
+	}
     }
   if (cur->li_next != NULL)
-    cur->li_next->li_prev = cur->li_prev;
+    {
+      cur->li_next->li_prev = cur->li_prev;
+    }
   if (cur->li_prev == NULL)
     {
       network->clients = cur->li_next;
@@ -123,16 +123,11 @@ network_loop_init_pop(server_t *server, network_t *network, list_t **ptr)
 			 network->select.current_fd_max)
 
 static __inline int
-network_loop_init(server_t *server, network_t *network)
+network_loop_init(network_t *network)
 {
   list_t		*cur;
   network_client_t	*client;
 
-  if (server == NULL || network == NULL)
-   {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);      
-    }
   FD_ZERO(&network->select.readfs);
   FD_SET(network->primary_socket, &network->select.readfs);
   network->select.current_fd_max = MAXFD(network->primary_socket);
@@ -142,7 +137,7 @@ network_loop_init(server_t *server, network_t *network)
       client = (network_client_t *) cur->data;
       if (client->state & CLIENT_KICKED)
 	{
-	  network_loop_init_pop(server, network, &cur);
+	  network_loop_init_pop(network, &cur);
 	}
       else
 	{
@@ -173,7 +168,7 @@ network_loop(server_t *server, network_t *network)
     }
   while (server->state == SERVER_STATE_ON)
     {
-      network_loop_init(server, network);
+      network_loop_init(network);
       res = select(network->select.current_fd_max + 1, 
 		   &network->select.readfs,
 		   NULL, NULL, NULL);

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 12 17:08:02 2009 Sebastien Rannou
-** Last update Fri Jul 17 23:28:36 2009 sebastien rannou
+** Last update Sun Aug  9 14:37:51 2009 
 */
 
 #include <sys/select.h>
@@ -32,7 +32,7 @@ network_clean(server_t *server, network_t *network)
 {
   if (server == NULL || network == NULL)
     {
-      ERR_RAISE(EC_NULL_PTR_DIE);
+      ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
     }
   if (network->primary_socket > 0)

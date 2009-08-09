@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 12 17:08:02 2009 Sebastien Rannou
-** Last update Tue Jul 21 11:40:51 2009 sebastien rannou
+** Last update Sun Aug  9 14:48:55 2009 
 */
 
 #include <sys/select.h>
@@ -33,18 +33,12 @@
  */
 
 static __inline int
-network_read_from_client_store(server_t *server, network_client_t *client,
-			       char *buffer)
+network_read_from_client_store(network_client_t *client, char *buffer)
 {
   char			*ptr;
   int			off;
   int			len;
 
-  if (server == NULL || client == NULL || buffer == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);      
-    }
   len = strlen(buffer);
   if ((len + client->ibuff.offset) > IBUFF_SIZE)
     {
@@ -77,7 +71,7 @@ network_read_from_client(server_t *server, network_client_t *client)
 
   if (server == NULL || client == NULL)
     {
-      ERR_RAISE(EC_NULL_PTR_DIE);
+      ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
     }
   nb_read = read(client->sock, buffer, NET_READ_SIZE);
@@ -93,5 +87,5 @@ network_read_from_client(server_t *server, network_client_t *client)
       return (SUCCESS);
     }
   buffer[nb_read] = '\0';
-  return (network_read_from_client_store(server, client, buffer));
+  return (network_read_from_client_store(client, buffer));
 }

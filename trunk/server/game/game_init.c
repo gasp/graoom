@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul 17 21:37:06 2009 sebastien rannou
-** Last update Sat Aug  8 14:40:16 2009 
+** Last update Sun Aug  9 14:36:51 2009 
 */
 
 #include "shortcuts.h"
@@ -26,7 +26,7 @@ game_initialize(server_t *server, game_t *game)
 {
   if (server == NULL || game == NULL)
     {
-      ERR_RAISE(EC_NULL_PTR_DIE);
+      ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
     }
   return (SUCCESS);
@@ -40,13 +40,9 @@ game_initialize(server_t *server, game_t *game)
 int
 game_clean(server_t *server, game_t *game)
 {
-  if (server == NULL)
+  if (server == NULL || game == NULL)
     {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);
-    }
-  if (game == NULL)
-    {
+      ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
     }
   return (SUCCESS);

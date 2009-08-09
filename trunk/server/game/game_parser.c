@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul 17 19:32:01 2009 sebastien rannou
-** Last update Sat Aug  8 13:58:24 2009 
+** Last update Sun Aug  9 14:49:37 2009 
 */
 
 #include "shortcuts.h"
@@ -33,16 +33,11 @@
  */
 
 static __inline int
-game_parser_map(game_t *game, server_t *server, ini_section_t *sec)
+game_parser_map(game_t *game, ini_section_t *sec)
 {
   char			*map;
   int			len;
 
-  if (game == NULL || server == NULL || sec == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);
-    }
   if ((map = ini_retrieve_entry_from_section(sec, LOADER_GAME_MAP)) == NULL)
     {
       ERR_RAISE(EC_INI_UNKNOWN_ENTRY, LOADER_GAME_MAP, sec->name);
@@ -69,7 +64,7 @@ game_parser(server_t *server, ini_section_t *conf)
 
   if (server == NULL || conf == NULL)
     {
-      ERR_RAISE(EC_NULL_PTR_DIE);
+      ERR_RAISE(EC_NULL_PTR);
       return (NULL);
     }
   if ((game = malloc(sizeof(*game))) == NULL)
@@ -77,7 +72,7 @@ game_parser(server_t *server, ini_section_t *conf)
       ERR_RAISE(EC_SYS_MALLOC, strerror(errno));
       return (NULL);
     }
-  if (ERROR == game_parser_map(game, server, conf))
+  if (ERROR == game_parser_map(game, conf))
     {
       free(game);
       return (NULL);

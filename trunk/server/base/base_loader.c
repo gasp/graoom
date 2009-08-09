@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Sat Aug  8 14:38:15 2009 
+** Last update Sun Aug  9 14:35:18 2009 
 */
 
 #include "lists.h"
@@ -88,9 +88,9 @@ loader_parser_dispatch(server_t *server, ini_t *ini, ini_section_t *section)
 {
   int		i;
 
-  if (server == NULL || section == NULL || ini == NULL)
+  if (section == NULL)
     {
-      ERR_RAISE(EC_NULL_PTR_DIE);
+      ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
     }
   for (i = 0; global_asso[i].name != NULL; i++)
@@ -106,9 +106,11 @@ loader_parser_dispatch(server_t *server, ini_t *ini, ini_section_t *section)
 	    {
 	      global_asso[i].data = global_asso[i].parser(server, section);
 	      if (global_asso[i].data == NULL)
-		return (ERROR);
+		{
+		  return (ERROR);
+		}
 	    }
-	  return (SUCCESS);	      
+	  return (SUCCESS);
 	}
     }
   ERR_RAISE(EC_INI_UNKNOWN_ENTRY, section->name, ini->name);
@@ -125,11 +127,6 @@ loader_parser_check(ini_t *file)
 {
   int		i;
 
-  if (file == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);
-    }
   for (i = 0; global_asso[i].name != NULL; i++)
     {
       if (global_asso[i].loaded != 1)
@@ -154,11 +151,6 @@ loader_parser(server_t *server)
   ini_t		*primary;
   int		ret;
 
-  if (server == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);
-    }
   if ((primary = ini_parse_file(LOADER_INI_FILE)) != NULL)
     {
       for (cur = primary->sections_is; cur != NULL; cur = cur->li_next)
@@ -218,7 +210,7 @@ loader(server_t *server)
     }
   else
     {
-      ERR_RAISE(EC_NULL_PTR_DIE);
+      ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
     }
   return (SUCCESS);
@@ -237,7 +229,7 @@ cleaner(server_t *server)
 
   if (server == NULL)
     {
-      ERR_RAISE(EC_NULL_PTR_DIE);
+      ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
     }
   for (i = 0; global_asso[i].name != NULL; i++)
@@ -264,7 +256,7 @@ launcher(server_t *server)
 
   if (server == NULL)
     {
-      ERR_RAISE(EC_NULL_PTR_DIE);
+      ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
     }
   for (i = 0; global_asso[i].name != NULL; i++)

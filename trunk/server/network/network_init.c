@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul 17 21:37:06 2009 sebastien rannou
-** Last update Fri Jul 17 23:27:08 2009 sebastien rannou
+** Last update Sun Aug  9 14:43:31 2009 
 */
 
 #include <sys/select.h>
@@ -37,11 +37,6 @@ network_initialize_primary_sock(network_t *network)
   struct sockaddr_in	iost;
   int			sock;
   
-  if (network == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);
-    }
   sock = socket(PF_INET, SOCK_STREAM, 0);
   if (sock == ERROR)
     {
@@ -80,7 +75,7 @@ network_initialize(server_t *server, network_t *network)
 {
   if (server == NULL || network == NULL)
     {
-      ERR_RAISE(EC_NULL_PTR_DIE);
+      ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
     }
   if (network_initialize_primary_sock(network) == ERROR)

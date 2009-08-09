@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 19 13:35:09 2009 sebastien rannou
-** Last update Sat Aug  8 16:29:57 2009 
+** Last update Sun Aug  9 14:36:16 2009 
 */
 
 #include <sys/select.h>
@@ -31,12 +31,7 @@ cmd_map(server_t *server, network_t *network, network_client_t *client)
 {
   game_t		*game;
 
-  if (server == NULL || network == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);
-    }
-  if (client == NULL)
+  if (server == NULL || network == NULL || client == NULL)
     {
       ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
@@ -57,12 +52,7 @@ cmd_map(server_t *server, network_t *network, network_client_t *client)
 int
 cmd_welcome(server_t *server, network_t *network, network_client_t *client)
 {
-  if (server == NULL || network == NULL)
-    {
-      ERR_RAISE(EC_NULL_PTR_DIE);
-      return (ERROR);
-    }
-  if (client == NULL)
+  if (server == NULL || network == NULL || client == NULL)
     {
       ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
