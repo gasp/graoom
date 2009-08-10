@@ -20,8 +20,6 @@ Once the communication has been initialized, the client is connected to the serv
 type:data\n
 }}}
 
-Type can be:
-
 This synthax is used into both ways, that means that the server use it to send informations, here 'type' means the nature of the data, here is an example:
 
 {{{
