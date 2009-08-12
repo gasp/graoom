@@ -23,7 +23,7 @@ BINDIR	=	bin/
 
 # Compilation settings
 
-CFLAGS	+=	-W -Wall -pedantic -ansi -std=c99 -Wstrict-prototypes -Wshadow 
+CFLAGS	+=	-W -Wall -pedantic -ansi -std=c99 -Wstrict-prototypes -Wshadow
 
 # Compilation settings (dev)
 

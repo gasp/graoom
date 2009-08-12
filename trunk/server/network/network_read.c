@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 12 17:08:02 2009 Sebastien Rannou
-** Last update Sun Aug  9 14:48:55 2009 
+** Last update Sun Aug  9 15:30:46 2009 
 */
 
 #include <sys/select.h>
@@ -26,6 +26,9 @@
 #define	NET_READ_SIZE	1024
 #define	NET_WRITE_SIZE	1024
 
+int
+exec_gate(server_t *server, network_client_t *client, char *command);
+
 /**!
  * @author	rannou_s
  * Store data read from socket, and call a function when the content
@@ -33,7 +36,8 @@
  */
 
 static __inline int
-network_read_from_client_store(network_client_t *client, char *buffer)
+network_read_from_client_store(server_t *server, 
+			       network_client_t *client, char *buffer)
 {
   char			*ptr;
   int			off;
@@ -50,7 +54,7 @@ network_read_from_client_store(network_client_t *client, char *buffer)
   if ((ptr = strchr(buffer, '\n')) != NULL)
     {
       *ptr = '\0';
-      LOG("executing command %s", buffer);
+      exec_gate(server, client, buffer);
       off = (buffer + IBUFF_SIZE) - ptr;
       memmove(buffer, ptr + 1, IBUFF_SIZE - off);
       client->ibuff.offset = 0;
@@ -87,5 +91,5 @@ network_read_from_client(server_t *server, network_client_t *client)
       return (SUCCESS);
     }
   buffer[nb_read] = '\0';
-  return (network_read_from_client_store(client, buffer));
+  return (network_read_from_client_store(server, client, buffer));
 }

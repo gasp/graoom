@@ -15,6 +15,7 @@ SOURCES		= 	lists.c				\
 			ini.c				\
 			tools.c				\
 			log.c				\
+			sha1.c				\
 
 CFLAGS		+=	-I../../includes/
 

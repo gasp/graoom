@@ -14,6 +14,7 @@ all:
 	$(MAKE) -C base $@
 	$(MAKE) -C cmd $@
 	$(MAKE) -C game $@
+	$(MAKE) -C exec $@
 
 	$(MAKE) -C build $@
 
@@ -22,6 +23,7 @@ clean:
 	$(MAKE) -C base $@
 	$(MAKE) -C cmd $@
 	$(MAKE) -C game $@
+	$(MAKE) -C exec $@
 
 	$(MAKE) -C build $@
 
@@ -30,6 +32,7 @@ fclean:	clean
 	$(MAKE) -C base $@
 	$(MAKE) -C cmd $@
 	$(MAKE) -C game $@
+	$(MAKE) -C exec $@
 
 	$(MAKE) -C build $@
 

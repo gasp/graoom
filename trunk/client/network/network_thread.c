@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 01:25:00 2009 sebastien rannou
-** Last update Fri Jul 24 01:27:56 2009 sebastien rannou
+** Last update Sat Aug  8 13:41:31 2009 
 */
 
 #include <SDL/SDL.h>
@@ -24,17 +24,20 @@
 int
 network_thread(client_thread_t *holder)
 {
+  int		status;
+
   if (holder == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
-  SDL_mutexP(holder->client->mutex);
-  while (holder->client->state == CLIENT_STATE_ON)
+  status = CLIENT_STATE_ON;
+  while (status == CLIENT_STATE_ON)
     {
+      SDL_mutexP(holder->client->mutex);
+      status = holder->client->state;
       SDL_mutexV(holder->client->mutex);
       SDL_Delay(NETWORK_DELAY);
-      SDL_mutexP(holder->client->mutex);
     }
   holder->client->launched_threads--;
   SDL_mutexV(holder->client->mutex);
