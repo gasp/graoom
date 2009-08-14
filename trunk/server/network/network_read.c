@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 12 17:08:02 2009 Sebastien Rannou
-** Last update Sun Aug  9 15:30:46 2009 
+** Last update Fri Aug 14 22:07:57 2009 
 */
 
 #include <sys/select.h>
@@ -35,7 +35,7 @@ exec_gate(server_t *server, network_client_t *client, char *command);
  * from a query is entierely fetched
  */
 
-static __inline int
+static int
 network_read_from_client_store(server_t *server, 
 			       network_client_t *client, char *buffer)
 {

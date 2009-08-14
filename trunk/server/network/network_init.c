@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul 17 21:37:06 2009 sebastien rannou
-** Last update Sun Aug  9 14:43:31 2009 
+** Last update Fri Aug 14 22:07:13 2009 
 */
 
 #include <sys/select.h>
@@ -31,7 +31,7 @@
  * initialize the primary network socket, which will accept new connections
  */
 
-static __inline int
+static int
 network_initialize_primary_sock(network_t *network)
 {
   struct sockaddr_in	iost;

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul 17 19:32:01 2009 sebastien rannou
-** Last update Sun Aug  9 14:49:37 2009 
+** Last update Fri Aug 14 22:06:32 2009 
 */
 
 #include "shortcuts.h"
@@ -32,7 +32,7 @@
  * Let's load a map
  */
 
-static __inline int
+static int
 game_parser_map(game_t *game, ini_section_t *sec)
 {
   char			*map;

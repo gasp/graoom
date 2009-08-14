@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul 17 23:27:33 2009 sebastien rannou
-** Last update Sun Aug  9 14:43:08 2009 
+** Last update Fri Aug 14 22:07:04 2009 
 */
 
 #include <sys/select.h>
@@ -35,7 +35,7 @@
  * If the fd's value is too high, let's get rid of it
  */
 
-static __inline int
+static int
 network_accept_new_connection_limit(network_t *network, int sock)
 {
   if (sock >= network->configuration.num_max_connection)
@@ -56,7 +56,7 @@ network_accept_new_connection_limit(network_t *network, int sock)
  * with fnctl
  */
 
-static __inline int
+static int
 network_accept_new_connection_cfg(int sock)
 {
   if (fcntl(sock, F_SETFL, O_NONBLOCK) == ERROR)
@@ -77,7 +77,7 @@ network_accept_new_connection_cfg(int sock)
  * cleans up everything if something goes wrong
  */
 
-static __inline int
+static int
 network_accept_new_connection_push(server_t *server, network_t *network, 
 				   int sock, struct sockaddr_in *addr)
 {

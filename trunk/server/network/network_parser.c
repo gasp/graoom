@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Fri Jul 17 19:32:01 2009 sebastien rannou
-** Last update Sun Aug  9 14:48:06 2009 
+** Last update Fri Aug 14 22:07:49 2009 
 */
 
 #include <sys/select.h>
@@ -39,7 +39,7 @@
  * We use the smallest of these two values
  */
 
-static __inline	int
+static int
 loader_parser_network_max_con(network_t *network, ini_section_t *conf)
 {
   char		*value;

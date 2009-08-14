@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Sun Aug  9 14:35:18 2009 
+** Last update Fri Aug 14 22:05:54 2009 
 */
 
 #include "lists.h"
@@ -83,7 +83,7 @@ loader_asso_t global_asso[] =
  * We dont' allow a section to be defined several times in a file
  */
 
-static __inline	int
+static	int
 loader_parser_dispatch(server_t *server, ini_t *ini, ini_section_t *section)
 {
   int		i;
@@ -122,7 +122,7 @@ loader_parser_dispatch(server_t *server, ini_t *ini, ini_section_t *section)
  * Let's check that everything was correctly loaded
  */
 
-static __inline int
+static int
 loader_parser_check(ini_t *file)
 {
   int		i;
@@ -144,7 +144,7 @@ loader_parser_check(ini_t *file)
  * loader with a dispatcher
  */
 
-static __inline int
+static int
 loader_parser(server_t *server)
 {
   list_t	*cur;

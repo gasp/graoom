@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sun Jul 19 10:24:32 2009 sebastien rannou
-** Last update Sun Jul 19 13:22:27 2009 sebastien rannou
+** Last update Fri Aug 14 22:08:04 2009 
 */
 
 #include <sys/select.h>
@@ -28,7 +28,6 @@
 /**!
  * @author	rannou_s
  * Performs sending of information to a client
-
  * If there's something to read on its socket, we do not send
  * anything (as there's a probability that this client is disconnect) so
  * as to avoid writing on a dead socket.

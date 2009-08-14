@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Thu Aug  6 00:05:59 2009 
+** Last update Fri Aug 14 22:05:17 2009 
 */
 
 #include "errors.h"
@@ -254,7 +254,7 @@ error_handler_log_init(void)
 #define	ERROR_BUFF_SIZE	512
 #define	ERROR_FMT_LOG	"error raised in [%s] on line %d: "
 
-static __inline void
+static void
 error_handler_log(error_t *err, int line, char *file, va_list ap)
 {
   static int	initialized = 0;

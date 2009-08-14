@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Sat Jul 18 18:24:41 2009 sebastien rannou
-** Last update Sun Aug  9 14:46:18 2009 
+** Last update Fri Aug 14 22:07:35 2009 
 */
 
 #include <sys/select.h>
@@ -44,7 +44,7 @@ network_accept_new_connection(server_t *server, network_t *network, int sock);
  * check where it comes from and call the appropriated function
  */
 
-static __inline int
+static int
 network_loop_activity(server_t *server, network_t *network)
 {
   list_t		*cur;
@@ -77,7 +77,7 @@ network_loop_activity(server_t *server, network_t *network)
  * some pointer's modifications
  */
 
-static __inline int
+static int
 network_loop_init_pop(network_t *network, list_t **ptr)
 {
   list_t		*cur;
@@ -122,7 +122,7 @@ network_loop_init_pop(network_t *network, list_t **ptr)
 #define	MAXFD(val)	((val) > network->select.current_fd_max ? (val) : \
 			 network->select.current_fd_max)
 
-static __inline int
+static int
 network_loop_init(network_t *network)
 {
   list_t		*cur;
