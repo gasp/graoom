@@ -68,7 +68,7 @@ graphic_load_image(char *path)
  * doesn't exists yet.
  */
 
-static __inline int
+static  int
 graphic_surface_to_gl_create(SDL_Surface *converted, GLuint *textid)
 {
   if (converted == NULL || textid == NULL)
@@ -217,7 +217,7 @@ graphic_load_texture(char *path, char *name)
  * Let's fetch texture's properties
  */
 
-static __inline int
+static  int
 graphic_load_texture_create(ini_t *config, ini_section_t *section)
 {
   char			*path;

@@ -53,7 +53,7 @@
 
 #define			BUFF_READ_SIZE	1024
 
-static __inline void
+static  void
 ini_free_content(void *ptr)
 {
   ini_content_t		*content;
@@ -72,7 +72,7 @@ ini_free_content(void *ptr)
  * Frees an allocated section structure
  */
 
-static __inline void
+static  void
 ini_free_section(void *ptr)
 {
   ini_section_t		*section;
@@ -111,7 +111,7 @@ ini_free_main(void *ptr)
  * Returns success if it's a new section declaration
  */
 
-static __inline	int
+static 	int
 ini_is_section(char *line, int len)
 {
   if (*line == '[')
@@ -125,7 +125,7 @@ ini_is_section(char *line, int len)
  * Creates a new section and push it into ini
  */
 
-static __inline ini_section_t *
+static  ini_section_t *
 ini_create_section(ini_t *ini, char *line, int len)
 {
   ini_section_t		*section;
@@ -159,7 +159,7 @@ ini_create_section(ini_t *ini, char *line, int len)
  * /!\ section == NULL is not a bug /!\
  */
 
-static __inline	int
+static 	int
 ini_create_content_push(ini_t *ini, ini_section_t *section, 
 			ini_content_t *content)
 {
@@ -189,7 +189,7 @@ ini_create_content_push(ini_t *ini, ini_section_t *section,
  * but accept missing values (set to NULL then)
  */
 
-static __inline	int
+static 	int
 ini_create_content(ini_t *ini, char *line, ini_section_t *section)
 {
   char			*key;
@@ -225,7 +225,7 @@ ini_create_content(ini_t *ini, char *line, ini_section_t *section)
  * Parses an ini line keeping a static reference to the current section
  */
 
-static __inline	int
+static 	int
 ini_parse_line(ini_t *ini, char *line)
 {
   int			line_len;

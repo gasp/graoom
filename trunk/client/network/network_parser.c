@@ -36,7 +36,7 @@
  * some informations into network's structure
  */
 
-static __inline int
+static  int
 network_parser_fetch(network_t *network, ini_section_t *section)
 {
   char			*val;

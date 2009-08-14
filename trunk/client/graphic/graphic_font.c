@@ -53,7 +53,7 @@ global_fonts = NULL;
 /**!
  * @author	rannou_s
  * Close a font, and unallocates memory
- * Not a static __inline because called on the lib (free_list)
+ * Not a static  because called on the lib (free_list)
  */
 
 void
@@ -75,7 +75,7 @@ graphic_clean_font(void *data)
  * from section's content, also check if the size is correct.
  */
 
-static __inline int
+static  int
 graphic_load_ttf_create_init(ini_t *ini, ini_section_t *section, 
 			     font_internal_t *new_elem)
 {
@@ -115,7 +115,7 @@ graphic_load_ttf_create_init(ini_t *ini, ini_section_t *section,
  * Load a font with TTF_OpenFont, and push it to the list
  */
 
-static __inline int
+static  int
 graphic_load_ttf_create_load(ini_t *ini, ini_section_t *section,
 			     font_internal_t *font)
 {
@@ -148,7 +148,7 @@ graphic_load_ttf_create_load(ini_t *ini, ini_section_t *section,
  * Intilialize font's parameters, create a new entry.
  */
 
-static __inline int
+static  int
 graphic_load_ttf_create(ini_t *ini, ini_section_t *section)
 {
   font_internal_t		*new_elem;

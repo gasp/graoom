@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 19:48:00 2009 sebastien rannou
-** Last update Wed Aug  5 02:30:20 2009 
+** Last update Fri Aug 14 22:11:24 2009 
 */
 
 #include <SDL/SDL.h>
@@ -73,7 +73,7 @@ graphic_2d_draw_fpsbox(client_t *client, graphic_t *graphic)
  * This way we can use SDL_Blits without worrying
  */
 
-static __inline int
+static int
 graphic_2d_draw_screen(graphic_t *graphic, GLuint texture)
 {
   if (graphic == NULL)
@@ -120,7 +120,7 @@ graphic_2d_draw_screen(graphic_t *graphic, GLuint texture)
  * Let's draw the console :)
  */
 
-static __inline int
+static int
 graphic_2d_draw_console(client_t *client, graphic_t *graphic)
 {
   if (client == NULL || graphic == NULL)

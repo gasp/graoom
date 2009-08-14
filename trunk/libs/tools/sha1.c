@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Aug 10 12:59:34 2009 sebastien rannou
-** Last update Wed Aug 12 22:47:47 2009 
+** Last update Fri Aug 14 00:02:40 2009 
 */
 
 #ifndef _BSD_SOURCE
@@ -24,24 +24,19 @@
  * document of reference, so let's have a look at it, it's well explained.
  */
 
+typedef unsigned long	ulong;
 typedef unsigned int	uint;
 typedef unsigned char	uchar;
 
-typedef union		uint_u		/* union to access directly to a bit */
-{
-  uint			i;
-  uchar			bit[4];
-}			uint_u;
-
 typedef struct		sha1_s		/* sha1 structure */
 {
-  uint_u		w[80];		/* 16 + 64, used to compute */
-  uint_u		h[5];		/* contains H0 H1 H2 H3 H4 H5*/
+  uint			w[80];		/* 16 + 64, used to compute */
+  uint			h[5];		/* contains H0 H1 H2 H3 H4 H5*/
   uint			a[5];		/* contains A B C D E */
 }			sha1_t;
 
-#define	W(x)		sha1->w[x].i
-#define	H(x)		sha1.h[x].i
+#define	W(x)		sha1->w[x]
+#define	H(x)		sha1->h[x]
 
 #define	A		sha1->a[0]
 #define	B		sha1->a[1]
@@ -55,7 +50,7 @@ typedef struct		sha1_s		/* sha1 structure */
  * S^n(X)  =  (X << n) OR (X >> 32-n)
  */
 
-static __inline uint
+static  uint
 sha1_op_left_shift(uint n, uint x)
 {
   return (x << n) | (x >> (32 - n));
@@ -66,7 +61,7 @@ sha1_op_left_shift(uint n, uint x)
  * Performs the F function (returns a different bitwise according to t)
  */
 
-static __inline uint
+static  uint
 sha1_f(int t, sha1_t *sha1)
 {
   if (t < 20)
@@ -83,7 +78,7 @@ sha1_f(int t, sha1_t *sha1)
  * Performs the K function (returns a different constant according to t)
  */
 
-static __inline uint
+static  uint
 sha1_k(int t)
 {
   if (t < 20)
@@ -101,7 +96,7 @@ sha1_k(int t)
  * assuming strlen(input) is equal to 64 and padded
  */
 
-static __inline void
+static  void
 sha1_compute_block(uchar *input, sha1_t *sha1)
 {
   int			i, t;
@@ -120,7 +115,7 @@ sha1_compute_block(uchar *input, sha1_t *sha1)
     }
   for (i = 0; i < 5; i++)
     {
-      sha1->a[i] = sha1->h[i].i;
+      sha1->a[i] = sha1->h[i];
     }
   for (t = 0; t < 80; t++)
     {
@@ -133,7 +128,7 @@ sha1_compute_block(uchar *input, sha1_t *sha1)
     }
   for (i = 0; i < 5; i ++)
     {
-      sha1->h[i].i += sha1->a[i];
+      sha1->h[i] += sha1->a[i];
     }
 }
 
@@ -142,14 +137,14 @@ sha1_compute_block(uchar *input, sha1_t *sha1)
  * Let's initialize sha1 structure with some constants
  */
 
-static __inline void
+static  void
 sha1_initialize(sha1_t *sha1)
 {
-  sha1->h[0].i = 0x67452301;
-  sha1->h[1].i = 0xEFCDAB89;
-  sha1->h[2].i = 0x98BADCFE;
-  sha1->h[3].i = 0x10325476;
-  sha1->h[4].i = 0xC3D2E1F0;
+  sha1->h[0] = 0x67452301;
+  sha1->h[1] = 0xEFCDAB89;
+  sha1->h[2] = 0x98BADCFE;
+  sha1->h[3] = 0x10325476;
+  sha1->h[4] = 0xC3D2E1F0;
 }
 
 /**!
@@ -157,7 +152,7 @@ sha1_initialize(sha1_t *sha1)
  * Let's copy the small-len at the end of the word
  */
 
-static __inline void
+static  void
 sha1_set_len(char *word, int len)
 {
   uint			ulen = len & 0xFFFFFFFF;
@@ -166,6 +161,20 @@ sha1_set_len(char *word, int len)
   word[61] = ulen >> 16;
   word[62] = ulen >> 8;
   word[63] = ulen;
+}
+
+/**!
+ * @author	rannou_s
+ * Let's return the hash according to the sha1 structure
+ */
+
+static  char *
+sha1_get_hash(sha1_t *sha1)
+{
+  char			result[140 + 1];
+
+  snprintf(result, 140, "%8x%8x%8x%8x%8x", H(0), H(1), H(2), H(3), H(4));
+  return (strdup(result));
 }
 
 /**!
@@ -179,15 +188,11 @@ char *
 sha1_string(char *input)
 {
   sha1_t		sha1;
-  char			result[140 + 1];
   char			word[64];
-  int			i, len, computed;
-  int			flag;
+  int			i, len, computed, flag;
 
   if (input == NULL)
-    {
-      return (NULL);
-    }
+    return (NULL);
   sha1_initialize(&sha1);
   len = strlen(input);
   flag = 0;
@@ -200,13 +205,9 @@ sha1_string(char *input)
 	  memset(&word[computed], 0, 64 - computed);
 	  word[computed] = (char) 0x80;
 	  if (computed < 56)
-	    {
-	      sha1_set_len(word, len * 8);
-	    }
-	  else
-	    {
-	      ++flag;
-	    }
+	    sha1_set_len(word, len * 8);
+	  else	    
+	    ++flag;
 	}
       sha1_compute_block((uchar *) word, &sha1);
     }
@@ -216,6 +217,60 @@ sha1_string(char *input)
       sha1_set_len(word, len * 8);
       sha1_compute_block((uchar *) word, &sha1);
     }
-  snprintf(result, 140, "%8x%8x%8x%8x%8x", H(0), H(1), H(2), H(3), H(4));
-  return (strdup(result));
+  return (sha1_get_hash(&sha1));
+}
+
+
+
+/**!
+ * @author	rannou_s
+ * Quite the same function as sha1_string with the difference that it 
+ * computes the hash on a file, that may length 2^32 bytes, RFC defines more
+ * but it's not yet handled
+ */
+
+#define	READ_FILE_BUF	1024	/* Must be a multiple of 2 
+				   undefined behavior if not the case */
+
+char *
+sha1_file(char *path)
+{
+  FILE			*handle;
+  sha1_t		sha1;
+  char			buffer[READ_FILE_BUF];
+  char			word[64];
+  int			nb_read, i, computed, len, flag;
+
+  if (path == NULL || (handle = fopen(path, "r")) == NULL)
+    {
+      return (NULL);
+    }
+  sha1_initialize(&sha1);
+  while ((nb_read = fread(buffer, READ_FILE_BUF, 1, handle)) > 0)
+    {
+      len += nb_read;
+      buffer[nb_read] = '\0';
+      for (i = 0; i <= nb_read; i += 64)
+	{
+	  computed = i + 64 > len ? len % 64 : 64;
+	  strncpy(word, &buffer[i], computed);
+	  if (computed != 64)	/* next read will return 0 */
+	    {
+	      memset(&word[computed], 0, 64 - computed);
+	      word[computed] = (char) 0x80;
+	      if (computed < 56)
+		sha1_set_len(word, len * 8);
+	      else	    
+		++flag;
+	    }
+	  sha1_compute_block((uchar *) word, &sha1);
+	}
+    }
+  if (flag > 0)
+    {
+      memset(word, 0, 64);
+      sha1_set_len(word, len * 8);
+      sha1_compute_block((uchar *) word, &sha1);
+    }
+  return (sha1_get_hash(&sha1));
 }

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 22:23:24 2009 sebastien rannou
-** Last update Wed Jul 29 18:55:37 2009 sebastien rannou
+** Last update Fri Aug 14 22:09:15 2009 
 */
 
 #include "errors.h"
@@ -328,7 +328,7 @@ error_handler_log_close(void)
  * log if we can't clean it at exit
  */
 
-static __inline void
+static void
 error_handler_log_init(void)
 {
   global_error_log = fopen(ERR_LOG_FILE, FOP_AP);
@@ -352,7 +352,7 @@ error_handler_log_init(void)
 #define	ERROR_BUFF_SIZE	512
 #define	ERROR_FMT_LOG	"error raised in [%s] on line %d: "
 
-static __inline void
+static void
 error_handler_log(error_t *err, int line, char *file, va_list ap)
 {
   static int	initialized = 0;
@@ -391,7 +391,7 @@ error_handler_log(error_t *err, int line, char *file, va_list ap)
  * We assume ap contains list of arguments to vfprintf
  */
 
-static __inline void
+static void
 error_handler_display(error_t *err, int line, char *file, va_list ap)
 {
   if (err != NULL)

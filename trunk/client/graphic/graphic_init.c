@@ -40,7 +40,7 @@
  * Initialize screens and 2d buffer
  */
 
-static __inline int
+static  int
 graphic_init_video_screen(client_t *client, graphic_t *graphic)
 {
   if (client == NULL || graphic == NULL)
@@ -75,7 +75,7 @@ graphic_init_video_screen(client_t *client, graphic_t *graphic)
  * Initialize video (SDL/OpenGL)
  */
 
-static __inline int
+static  int
 graphic_init_video(client_t *client, graphic_t *graphic)
 {
   if (client == NULL || graphic == NULL)
@@ -103,7 +103,7 @@ graphic_init_video(client_t *client, graphic_t *graphic)
  * a good idea to allow setting it to 16/24, will have to make some searches
  */
 
-static __inline int
+static  int
 graphic_init_sdl(client_t *client, graphic_t *graphic)
 {
   if (client == NULL || graphic == NULL)
@@ -128,7 +128,7 @@ graphic_init_sdl(client_t *client, graphic_t *graphic)
 
 #define	FPSBOX_MARGIN	10
 
-static __inline int
+static  int
 graphic_init_fpsbox(client_t *client, graphic_t *graphic)
 {
   SDL_Color		*color;
@@ -174,7 +174,7 @@ graphic_init_fpsbox(client_t *client, graphic_t *graphic)
 void
 console_command_handler(ConsoleInformation *console, char *command);
 
-static __inline int
+static  int
 graphic_init_console(client_t *client, graphic_t *graphic)
 {
   SDL_Rect			rect;
@@ -210,7 +210,7 @@ graphic_init_console(client_t *client, graphic_t *graphic)
  * Initialize camera's positions
  */
 
-static __inline int
+static  int
 graphic_init_camera(client_t *client, graphic_t *graphic)
 {
   if (client == NULL || graphic == NULL)

@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Wed Jul  8 17:51:59 2009 sebastien rannou
-** Last update Fri Jul 24 01:35:21 2009 sebastien rannou
+** Last update Fri Aug 14 22:09:42 2009 
 */
 
 #include <SDL/SDL.h>
@@ -99,7 +99,7 @@ loader_asso_t global_asso[] =
  * We dont' allow a section to be defined several times in a file
  */
 
-static __inline	int
+static int
 loader_parser_dispatch(client_t *client, ini_t *ini, ini_section_t *section)
 {
   int		i;
@@ -136,7 +136,7 @@ loader_parser_dispatch(client_t *client, ini_t *ini, ini_section_t *section)
  * Let's check that everything was correctly loaded
  */
 
-static __inline int
+static int
 loader_parser_check(ini_t *file)
 {
   int		i;
@@ -163,7 +163,7 @@ loader_parser_check(ini_t *file)
  * loader with a dispatcher
  */
 
-static __inline int
+static int
 loader_parser(client_t *client)
 {
   list_t	*cur;
@@ -276,7 +276,7 @@ cleaner(client_t *client)
  * Initialize a parameter struct to be send to the thread and launch it
  */
 
-static __inline int
+static int
 launcher_thread(client_t *client, loader_asso_t *data, int has_to_thread)
 {
   client_thread_t	*new_thread;
@@ -319,7 +319,7 @@ launcher_thread(client_t *client, loader_asso_t *data, int has_to_thread)
 
 #define	SLEEP_CYCLE	50
 
-static __inline int
+static int
 launcher_wait_threads_to_leave(client_t *client)
 {
   if (client == NULL)

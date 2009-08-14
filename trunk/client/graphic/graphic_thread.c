@@ -28,7 +28,7 @@
  * more of the calculs are done in this function
  */
 
-static __inline int
+static  int
 graphic_thread_computes(client_t *client, graphic_t *graphic)
 {
   if (client == NULL || graphic == NULL)
@@ -49,7 +49,7 @@ graphic_thread_computes(client_t *client, graphic_t *graphic)
 
 #define	MIN_SLEEP_SLOW	1
 
-static __inline int
+static  int
 graphic_thread_sleep(client_t *client)
 {
   int		time_to_sleep;
@@ -92,7 +92,7 @@ graphic_thread_sleep(client_t *client)
  * used to lock/unlock access to client's structure.
  */
 
-static __inline int
+static  int
 graphic_thread_time_refresh(client_t *client)
 {
   Uint32		elapsed_time;

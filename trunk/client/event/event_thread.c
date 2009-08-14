@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Thu Jul 23 01:25:00 2009 sebastien rannou
-** Last update Sat Aug  1 01:59:22 2009 
+** Last update Fri Aug 14 22:10:55 2009 
 */
 
 #include <SDL/SDL.h>
@@ -25,7 +25,7 @@
  * Let's catch events and call the associated binded function
  */
 
-static __inline int
+static int
 event_thread_poll(client_t *client, event_t *event)
 {
   list_t		*cur;

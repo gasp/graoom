@@ -63,7 +63,7 @@ graphic_free_color(void *data)
  * retrieves a color, trim it if it's out of range
  */
 
-static __inline int
+static  int
 graphic_load_colors_create_getval(ini_section_t *section, char *request)
 {
   int			result;
@@ -95,7 +95,7 @@ graphic_load_colors_create_getval(ini_section_t *section, char *request)
  * Creates a new color, check it and push it to global_colors
  */
 
-static __inline int
+static  int
 graphic_load_colors_create(ini_section_t *section)
 {
   color_internal_t		*new_color;

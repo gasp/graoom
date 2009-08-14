@@ -44,7 +44,7 @@
  * Fetch information about window resolution
  */
 
-static __inline int
+static  int
 graphic_parser_fetch_winsize(graphic_t *graphic, ini_section_t *section)
 {
   char		*entry;
@@ -97,7 +97,7 @@ global_formats[] =
     {0,	0}		/* End of array */
   };
 
-static __inline int
+static  int
 graphic_parser_check_winsize(graphic_t *graphic)
 {
   int		i;
@@ -133,7 +133,7 @@ graphic_parser_check_winsize(graphic_t *graphic)
  * Fetch data concerning window (title, resolution, ...)
  */
 
-static __inline int
+static  int
 graphic_parser_fetch_window(graphic_t *graphic, ini_section_t *section)
 {
   char			*entry;
@@ -180,7 +180,7 @@ graphic_parser_fetch_window(graphic_t *graphic, ini_section_t *section)
  * Let's fetch max_fps value
  */
 
-static __inline int
+static  int
 graphic_parser_fetch_gfx(client_t *client, graphic_t *graphic, 
 			 ini_section_t *section)
 {
@@ -213,7 +213,7 @@ graphic_parser_fetch_gfx(client_t *client, graphic_t *graphic,
   * Activates (or not) fpsbox
   */
 
-static __inline int
+static  int
 graphic_parser_fetch_fpsbox(client_t *client, graphic_t *graphic,
 			    ini_section_t *section)
 {
@@ -235,7 +235,7 @@ graphic_parser_fetch_fpsbox(client_t *client, graphic_t *graphic,
  * some informations into graphic's structure
  */
 
-static __inline int
+static  int
 graphic_parser_fetch(client_t *client, graphic_t *graphic, 
 		     ini_section_t *section)
 {

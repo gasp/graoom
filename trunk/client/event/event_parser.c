@@ -5,7 +5,7 @@
 ** Login   <rannou_s@epitech.net>
 ** 
 ** Started on  Mon Jul 20 21:07:00 2009 sebastien rannou
-** Last update Sat Aug  1 01:57:16 2009 
+** Last update Fri Aug 14 22:10:40 2009 
 */
 
 #include <SDL/SDL.h>
@@ -118,7 +118,7 @@ global_entry_default[] =
  * Let's push the key/value entry to event's list
  */
 
-static __inline int
+static int
 event_parser_fetch_push(event_t *event, event_asso_t *action, 
 			event_key_t *key)
 {
@@ -153,7 +153,7 @@ event_parser_fetch_push(event_t *event, event_asso_t *action,
  * Do not leave on error
  */
 
-static __inline int
+static int
 event_parser_fetch(event_t *event, ini_section_t *section)
 {
   ini_content_t		*content;
@@ -199,7 +199,7 @@ event_parser_fetch(event_t *event, ini_section_t *section)
  * Performs a check so as to forbid overload of that events 
  */
 
-static __inline int
+static int
 event_parser_default_locked(client_t *client, event_t *event)
 {
   int			i;

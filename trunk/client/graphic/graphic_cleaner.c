@@ -33,7 +33,7 @@
  * Let's leave SDL
  */
 
-static __inline int
+static  int
 graphic_cleaner_sdl(client_t *client, graphic_t *graphic)
 {
   if (client == NULL)
@@ -56,7 +56,7 @@ graphic_cleaner_sdl(client_t *client, graphic_t *graphic)
  * Cleans window's structure and console
  */
 
-static __inline int
+static  int
 graphic_cleaner_main(graphic_t *graphic)
 {
   if (graphic == NULL)

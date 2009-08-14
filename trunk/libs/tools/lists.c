@@ -118,7 +118,7 @@ list_pop_data(list_t **li_start, void *data)
  * Creates a new listinfo element
  */
 
-static __inline listi_t	*
+static  listi_t	*
 list_create_info(void)
 {
   listi_t	*list_info;

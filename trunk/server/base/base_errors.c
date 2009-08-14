@@ -230,7 +230,7 @@ error_handler_log_close(void)
  * log if we can't clean it at exit
  */
 
-static __inline void
+static  void
 error_handler_log_init(void)
 {
   global_error_log = fopen(ERR_LOG_FILE, FOP_AP);
@@ -293,7 +293,7 @@ error_handler_log(error_t *err, int line, char *file, va_list ap)
  * We assume ap contains list of arguments to vfprintf
  */
 
-static __inline void
+static  void
 error_handler_display(error_t *err, int line, char *file, va_list ap)
 {
   if (err != NULL)
