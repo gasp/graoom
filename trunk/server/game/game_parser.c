@@ -57,7 +57,7 @@ game_parser_map(game_t *game, ini_section_t *sec)
  * Loads game's related settings
  */
 
-void *
+int
 game_parser(server_t *server, ini_section_t *conf)
 {
   game_t	*game;
@@ -65,18 +65,18 @@ game_parser(server_t *server, ini_section_t *conf)
   if (server == NULL || conf == NULL)
     {
       ERR_RAISE(EC_NULL_PTR);
-      return (NULL);
+      return (ERROR);
     }
   if ((game = malloc(sizeof(*game))) == NULL)
     {
       ERR_RAISE(EC_SYS_MALLOC, strerror(errno));
-      return (NULL);
+      return (ERROR);
     }
   if (ERROR == game_parser_map(game, conf))
     {
       free(game);
-      return (NULL);
+      return (ERROR);
     }
   server->holder.game = game;
-  return (game);
+  return (SUCCESS);
 }

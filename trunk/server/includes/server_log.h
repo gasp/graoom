@@ -14,5 +14,9 @@
 #define	LOG_CLIENT_KICK_DEF	"kicking client [%d] (unknow reason)"
 #define	LOG_CLIENT_KICK		"kicking client [%d] (%s)"
 #define	LOG_EXEC_COMMAND	"executing command [%s] from client [%d]"
+#define	LOG_CLIENT_NEW		"new connection accepted from (%s)"
+#define	LOG_CLEAN_MOD		"cleaning module [%s]"
+#define	LOG_LOAD_MOD		"loading module [%s]"
+#define	LOG_LOAD_DONE		"loading completed"
 
 #endif /* GRAOOM_LOG_SERVER_H */

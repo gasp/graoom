@@ -24,4 +24,6 @@ typedef struct		game_s		/* main struct for game module */
   map_t			map;		/* current map */
 }			game_t;
 
+#define	GAME		((game_t *) (server->holder.game))
+
 #endif /* GRAOOM_GAME_H */

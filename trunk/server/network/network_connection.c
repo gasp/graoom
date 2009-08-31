@@ -18,6 +18,7 @@
 #include "log.h"
 #include "client.h"
 #include "cmd.h"
+#include "server_log.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -78,8 +79,8 @@ network_accept_new_connection_cfg(int sock)
  */
 
 static int
-network_accept_new_connection_push(server_t *server, network_t *network, 
-				   int sock, struct sockaddr_in *addr)
+network_accept_new_connection_push(server_t *server, int sock, 
+				   struct sockaddr_in *addr)
 {
   network_client_t	*new_client;
 
@@ -100,7 +101,7 @@ network_accept_new_connection_push(server_t *server, network_t *network,
       free(new_client);
       return (ERROR);
     }
-  if (list_push(&network->clients, new_client) == ERROR)
+  if (list_push(&NETWORK->clients, new_client) == ERROR)
     {
       ERR_RAISE(EC_SYS_MALLOC);
       if (close(sock) == ERROR)
@@ -111,10 +112,10 @@ network_accept_new_connection_push(server_t *server, network_t *network,
       return (ERROR);
     }
   new_client->sock = sock;
-  new_client->id = ++network->last_client_id;
-  cmd_welcome(server, network, new_client);
-  cmd_map(server, network, new_client);
-  LOG("new connection accepted from (%s)", new_client->ip);
+  new_client->id = ++NETWORK->last_client_id;
+  cmd_welcome(server, new_client);
+  cmd_map(server, new_client);
+  LOG(LOG_CLIENT_NEW, new_client->ip);
   return (SUCCESS);
 }
 
@@ -126,13 +127,13 @@ network_accept_new_connection_push(server_t *server, network_t *network,
  */
 
 int
-network_accept_new_connection(server_t *server, network_t *network, int sock)
+network_accept_new_connection(server_t *server, int sock)
 {
   struct sockaddr_in	saddr;
   socklen_t		size;
   int			client_sock;
   
-  if (server == NULL || network == NULL)
+  if (server == NULL || NETWORK == NULL)
     {
       ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
@@ -149,9 +150,9 @@ network_accept_new_connection(server_t *server, network_t *network, int sock)
       ERR_RAISE(EC_SYS_ACCEPT);
       return (ERROR);
     }
-  if (network_accept_new_connection_limit(network, client_sock) ||
+  if (network_accept_new_connection_limit(NETWORK, client_sock) ||
       network_accept_new_connection_cfg(client_sock) ||
-      network_accept_new_connection_push(server, network, client_sock, &saddr))
+      network_accept_new_connection_push(server, client_sock, &saddr))
     {
       return (ERROR);
     }

@@ -28,19 +28,21 @@
  */
 
 int
-network_clean(server_t *server, network_t *network)
+network_clean(server_t *server)
 {
-  if (server == NULL || network == NULL)
+  if (server == NULL || NETWORK == NULL)
     {
       ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
     }
-  if (network->primary_socket > 0)
+  if (NETWORK->primary_socket > 0)
     {
-      if (close(network->primary_socket) == ERROR)
+      if (close(NETWORK->primary_socket) == ERROR)
 	{
 	  ERR_RAISE(EC_SYS_CLOSE);
 	}
     }
+  free(NETWORK);
+  server->holder.network = NULL;
   return (SUCCESS);
 }

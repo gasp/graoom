@@ -12,9 +12,9 @@
 #define GRAOOM_CMD_H
 
 int	/* sends information about the map */
-cmd_map(server_t *server, network_t *network, network_client_t *client);
+cmd_map(server_t *server, network_client_t *client);
 
 int	/* called when a new client is connected */
-cmd_welcome(server_t *server, network_t *network, network_client_t *client);
+cmd_welcome(server_t *server, network_client_t *client);
 
 #endif /* GRAOOM_CMD_H */

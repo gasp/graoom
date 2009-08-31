@@ -22,9 +22,9 @@
  */
 
 int
-game_initialize(server_t *server, game_t *game)
+game_initialize(server_t *server)
 {
-  if (server == NULL || game == NULL)
+  if (server == NULL || GAME == NULL)
     {
       ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
@@ -38,12 +38,14 @@ game_initialize(server_t *server, game_t *game)
  */
 
 int
-game_clean(server_t *server, game_t *game)
+game_clean(server_t *server)
 {
-  if (server == NULL || game == NULL)
+  if (server == NULL || GAME == NULL)
     {
       ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
     }
+  free(GAME);
+  server->holder.game = NULL;
   return (SUCCESS);
 }

@@ -27,11 +27,11 @@
  */
 
 int
-cmd_map(server_t *server, network_t *network, network_client_t *client)
+cmd_map(server_t *server, network_client_t *client)
 {
   game_t		*game;
 
-  if (server == NULL || network == NULL || client == NULL)
+  if (server == NULL || client == NULL)
     {
       ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
@@ -50,9 +50,9 @@ cmd_map(server_t *server, network_t *network, network_client_t *client)
  */
 
 int
-cmd_welcome(server_t *server, network_t *network, network_client_t *client)
+cmd_welcome(server_t *server, network_client_t *client)
 {
-  if (server == NULL || network == NULL || client == NULL)
+  if (server == NULL || client == NULL)
     {
       ERR_RAISE(EC_NULL_PTR);
       return (ERROR);

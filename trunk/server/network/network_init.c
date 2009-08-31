@@ -71,14 +71,14 @@ network_initialize_primary_sock(network_t *network)
  */
 
 int
-network_initialize(server_t *server, network_t *network)
+network_initialize(server_t *server)
 {
-  if (server == NULL || network == NULL)
+  if (server == NULL || server->holder.network == NULL)
     {
       ERR_RAISE(EC_NULL_PTR);
       return (ERROR);
     }
-  if (network_initialize_primary_sock(network) == ERROR)
+  if (network_initialize_primary_sock(server->holder.network) == ERROR)
     {
       return (ERROR);
     }

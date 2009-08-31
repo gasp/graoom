@@ -34,12 +34,11 @@
  */
 
 int
-network_client_send(server_t *server, network_t *network, 
-		    network_client_t *client)
+network_client_send(server_t *server, network_client_t *client)
 {
   int		res;
 
-  if (server == NULL || network == NULL || client == NULL)
+  if (server == NULL || client == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);

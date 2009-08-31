@@ -17,6 +17,7 @@
 #include "network_prototypes.h"
 #include "game_prototypes.h"
 #include "log.h"
+#include "server_log.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -24,7 +25,7 @@
 #include <sys/select.h>
 
 int	/* server's main loop */
-network_loop(server_t *server, void *network);
+network_loop(server_t *server);
 
 #define	LOADER_INI_FILE		"public/settings.ini"
 #define	LOADER_NETWORK_S	"network"
@@ -40,11 +41,10 @@ network_loop(server_t *server, void *network);
 typedef struct	loader_asso_s /* associates an entry with a loader */
 {
   char		*name;					/* module's name */
-  void		*(*parser)(server_t*, ini_section_t*);	/* parsers's pointer */
-  int		(*init)(server_t *, void *);		/* init's pointer */
-  int		(*clean)(server_t *, void *);		/* cleaner's pointer */
+  int		(*parser)(server_t*, ini_section_t*);	/* parsers's pointer */
+  int		(*init)(server_t *);			/* init's pointer */
+  int		(*clean)(server_t *);			/* cleaner's pointer */
   int		loaded;					/* > 0 when true */
-  void		*data;					/* module's data */
 }		loader_asso_t;
 
 static
@@ -58,7 +58,6 @@ loader_asso_t global_asso[] =
       .init	=	&network_initialize, 
       .clean	=	&network_clean,
       .loaded	=	0,
-      .data	=	NULL
     },
 
     /* game's module */
@@ -68,11 +67,10 @@ loader_asso_t global_asso[] =
       .init	=	&game_initialize,
       .clean	=	&game_clean,
       .loaded	=	0,
-      .data	=	NULL
     },
 
     /* End of array */
-    {NULL, NULL, NULL, NULL, 0, NULL}
+    {NULL, NULL, NULL, NULL, 0}
 
   };
 
@@ -104,8 +102,7 @@ loader_parser_dispatch(server_t *server, ini_t *ini, ini_section_t *section)
 	    }
 	  if (global_asso[i].parser != NULL)
 	    {
-	      global_asso[i].data = global_asso[i].parser(server, section);
-	      if (global_asso[i].data == NULL)
+	      if (global_asso[i].parser(server, section) == ERROR)
 		{
 		  return (ERROR);
 		}
@@ -196,17 +193,16 @@ loader(server_t *server)
 	return (ERROR);
       for (i = 0; global_asso[i].name != NULL; i++)
 	{
-	  LOG("loading module [%s]", global_asso[i].name);
+	  LOG(LOG_LOAD_MOD, global_asso[i].name);
 	  if (global_asso[i].init != NULL)
 	    {
-	      if (global_asso[i].init(server,
-				      global_asso[i].data) == ERROR)
+	      if (global_asso[i].init(server) == ERROR)
 		{
 		  return (ERROR);
 		}
 	    }
 	}
-      LOG("loading completed");
+      LOG(LOG_LOAD_DONE);
     }
   else
     {
@@ -236,9 +232,9 @@ cleaner(server_t *server)
     {
       if (global_asso[i].loaded > 0)
 	{
-	  LOG("cleaning module [%s]", global_asso[i].name);
+	  LOG(LOG_CLEAN_MOD, global_asso[i].name);
 	  if (global_asso[i].clean != NULL)
-	    global_asso[i].clean(server, global_asso[i].data);
+	    global_asso[i].clean(server);
 	}
     }
   return (SUCCESS);
@@ -263,7 +259,7 @@ launcher(server_t *server)
     {
       if (strcmp(global_asso[i].name, LOADER_NETWORK_S) == 0)
 	{
-	  return (network_loop(server, global_asso[i].data));
+	  return (network_loop(server));
 	}
     }
   ERR_RAISE(EC_NETWORK_NODATA, LOADER_NETWORK_S);

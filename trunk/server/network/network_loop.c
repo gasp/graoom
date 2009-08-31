@@ -29,14 +29,13 @@
  */
 
 int	/* let's send data */
-network_client_send(server_t *server, network_t *network, 
-		    network_client_t *client);
+network_client_send(server_t *server, network_client_t *client);
 
 int	/* let's read incoming data */
 network_read_from_client(server_t *server, network_client_t *client);
 
 int	/* let's accept a new connection */
-network_accept_new_connection(server_t *server, network_t *network, int sock);
+network_accept_new_connection(server_t *server, int sock);
 
 /**!
  * @author	rannou_s
@@ -45,26 +44,26 @@ network_accept_new_connection(server_t *server, network_t *network, int sock);
  */
 
 static int
-network_loop_activity(server_t *server, network_t *network)
+network_loop_activity(server_t *server)
 {
   list_t		*cur;
   network_client_t	*client;
 
-  if (FD_ISSET(network->primary_socket, &network->select.readfs))
+  if (FD_ISSET(NETWORK->primary_socket, &NETWORK->select.readfs))
     {
-      network_accept_new_connection(server, network, network->primary_socket);
+      network_accept_new_connection(server, NETWORK->primary_socket);
     }
-  for (cur = network->clients; cur != NULL; cur = cur->li_next)
+  for (cur = NETWORK->clients; cur != NULL; cur = cur->li_next)
     {
       if ((client = (network_client_t *) cur->data) != NULL)
 	{
-	  if (FD_ISSET(client->sock, &network->select.readfs))
+	  if (FD_ISSET(client->sock, &NETWORK->select.readfs))
 	    {
 	      network_read_from_client(server, client);
 	    }
 	  else if (client->obuff.offset > 0)
 	    {
-	      network_client_send(server, network, client);
+	      network_client_send(server, client);
 	    }
 	}
     }
@@ -157,25 +156,25 @@ network_loop_init(network_t *network)
  */
 
 int
-network_loop(server_t *server, network_t *network)
+network_loop(server_t *server)
 {
   int		res;
   
-  if (server == NULL || network == NULL)
+  if (server == NULL || NETWORK == NULL)
     {
       ERR_RAISE(EC_NULL_PTR_DIE);
       return (ERROR);
     }
   while (server->state == SERVER_STATE_ON)
     {
-      network_loop_init(network);
-      res = select(network->select.current_fd_max + 1, 
-		   &network->select.readfs,
+      network_loop_init(NETWORK);
+      res = select(NETWORK->select.current_fd_max + 1, 
+		   &NETWORK->select.readfs,
 		   NULL, NULL, NULL);
       if (ERROR == res)
 	ERR_RAISE(EC_SYS_SELECT);
       else if (res > 0)
-	network_loop_activity(server, network);
+	network_loop_activity(server);
     }
   return (SUCCESS);
 }

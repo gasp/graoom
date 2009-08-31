@@ -66,48 +66,49 @@ loader_parser_network_max_con(network_t *network, ini_section_t *conf)
  * with FD_SETSIZE or getrlimit
  */
 
-void *
+int
 network_parser(server_t *server, ini_section_t *conf)
 {
-  network_t	*network;
   char		*value;
+  network_t	*network;
   int		num;
 
   if (server == NULL || conf == NULL)
     {
       ERR_RAISE(EC_NULL_PTR);
-      return (NULL);
+      return (ERROR);
     }
   if ((network = malloc(sizeof(*network))) == NULL)
     {
       ERR_RAISE(EC_SYS_MALLOC, strerror(errno));
-      return (NULL);
+      return (ERROR);
     }
   if (!(value = ini_retrieve_entry_from_section(conf, LOADER_NET_PORT)))
     {
       ERR_RAISE(EC_INI_UNKNOWN_ENTRY, LOADER_NET_PORT, conf->name);
       free(network);
-      return (NULL);
+      return (ERROR);
     }
   num = atoi(value);
   if (!(num > 0 && num < 65536))
     {
       ERR_RAISE(EC_LOADER_PORT, num);
       free(network);
-      return (NULL);
+      return (ERROR);
     }
   network->configuration.port = num;
   if (!(value = ini_retrieve_entry_from_section(conf, LOADER_NET_NAME)))
     {
       ERR_RAISE(EC_INI_UNKNOWN_ENTRY, LOADER_NET_NAME, conf->name);
       free(network);
-      return (NULL);
+      return (ERROR);
     }
   strncpy(server->name, value, MIN(strlen(value), SERVER_NAME_LEN));
   if (loader_parser_network_max_con(network, conf) == ERROR)
     {
       free(network);
-      return (NULL);
+      return (ERROR);
     }
-  return (network);
+  server->holder.network = network;
+  return (SUCCESS);
 }

@@ -11,13 +11,13 @@
 #ifndef GRAOOM_NETWORK_PROTOTYPES_H
 #define GRAOOM_NETWORK_PROTOTYPES_H
 
-void *	/* parser which allocates network's structure */
+int	/* parser which allocates network's structure */
 network_parser(server_t *server, ini_section_t *conf);
 
 int	/* initialize the previously allocated area, start sockets, ... */
-network_initialize(server_t *server, void *data);
+network_initialize(server_t *server);
 
 int	/* cleans up everything from that module */
-network_clean(server_t *server, void *data);
+network_clean(server_t *server);
 
 #endif /* GRAOOM_NETWORK_PROTOTYPES_H */

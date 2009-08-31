@@ -12,6 +12,7 @@
 #define	GRAOOM_NETWORK_H
 
 #define	IBUFF_SIZE	4096			/* input buffer max size */
+#define	NETWORK		((network_t *) (server->holder.network))
 
 typedef struct		network_buff_s		/* input buffer */
 {
