@@ -1,6 +1,0 @@
-optimization:
-	-> each thread has a loop where it checks the client's state
-	we lock/unlock it to check, that's probably long, let's check
-	it in the loop where we do the main job?
-	nevermind if there's 10 ms of latence to leave if it's to win
-	several FPS.
