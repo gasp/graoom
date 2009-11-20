@@ -12,14 +12,17 @@ include ../Makefile.inc
 # There's probably a cleaner way to do this
 
 all:
+	$(MAKE) -C models $@
 	$(MAKE) -C tools $@
 	$(MAKE) -C sdlconsole $@
 
 clean:
+	$(MAKE) -C models $@
 	$(MAKE) -C tools $@
 	$(MAKE) -C sdlconsole $@
 
 fclean:
+	$(MAKE) -C models $@
 	$(MAKE) -C tools $@
 	$(MAKE) -C sdlconsole $@
 
